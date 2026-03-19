@@ -4,32 +4,37 @@ import TefModal from './TefModal';
 // Sub-componente extraído: Resumo Financeiro
 // Melhora a legibilidade do código e isola a renderização do painel da esquerda.
 const FinancialSummary = ({ total, remaining, change, paymentMethods, onRemovePayment }) => (
-  <div className="flex-col justify-between" style={{ flex: 1.5, padding: '48px 64px', backgroundColor: 'var(--surface-100)', color: 'var(--text-primary)', overflowY: 'auto' }}>
-    <div className="flex-col gap-6">
-      <div>
-        <h1 style={{ fontSize: '3rem', marginBottom: '8px', color: 'var(--text-primary)' }}>Resumo Financeiro</h1>
-        <div style={{ color: 'var(--text-secondary)', fontSize: '1.5rem', marginBottom: '8px' }}>Total da Compra</div>
-        <div className="flex items-center">
-          <span style={{ fontSize: '2.5rem', color: 'var(--text-secondary)', marginRight: '16px', fontWeight: '500' }}>R$</span>
-          <span style={{ fontSize: '6rem', fontWeight: '800', color: 'var(--text-primary)', lineHeight: 1 }}>{total.toFixed(2).replace('.', ',')}</span>
+  <div className="flex-col" style={{ flex: 1.5, padding: '48px', backgroundColor: 'var(--surface-100)', color: 'var(--text-primary)', overflowY: 'auto', borderRight: '1px solid var(--border-light)' }}>
+    <div className="flex-col gap-8 h-full">
+      
+      {/* Total Section */}
+      <div className="flex-col items-center justify-center p-8 border-radius-lg" style={{ backgroundColor: 'var(--surface-200)', borderRadius: 'var(--radius-lg)', padding: '48px 32px', textAlign: 'center', boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)' }}>
+        <h2 style={{ fontSize: '1.5rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: '600', marginBottom: '16px' }}>Total a Pagar</h2>
+        <div className="flex items-center justify-center" style={{ color: 'var(--primary)' }}>
+          <span style={{ fontSize: '2.5rem', marginRight: '12px', fontWeight: '600', opacity: 0.8 }}>R$</span>
+          <span style={{ fontSize: '6rem', fontWeight: '900', lineHeight: 1, letterSpacing: '-3px' }}>{total.toFixed(2).replace('.', ',')}</span>
         </div>
       </div>
       
-      <div style={{ padding: '32px 0', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
-        <div style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', marginBottom: '24px' }}>Pagamentos Realizados</div>
+      {/* Métodos Aplicados */}
+      <div className="flex-col gap-4 flex-1">
+        <h3 style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '1px' }}>Valores Recebidos</h3>
         {paymentMethods.length === 0 ? (
-          <div style={{ color: 'var(--text-tertiary)', fontSize: '1.2rem', fontStyle: 'italic' }}>Aguardando pagamento do cliente...</div>
+          <div className="flex items-center justify-center" style={{ flex: 1, backgroundColor: 'var(--surface-200)', borderRadius: 'var(--radius-md)', border: '2px dashed var(--border)', color: 'var(--text-tertiary)', fontSize: '1.2rem', fontStyle: 'italic', padding: '32px' }}>
+            Nenhum pagamento registrado
+          </div>
         ) : (
-          <div className="flex-col gap-4">
+          <div className="flex-col gap-3">
             {paymentMethods.map(p => (
-              <div key={p.id} className="flex justify-between items-center" style={{ fontSize: '1.5rem', borderBottom: '1px dashed var(--border)', paddingBottom: '12px', color: 'var(--text-primary)' }}>
-                <span>{p.method}</span>
-                <div className="flex items-center gap-4">
-                  <span style={{ color: 'var(--success)', fontWeight: 'bold' }}>R$ {p.amount.toFixed(2).replace('.', ',')}</span>
+              <div key={p.id} className="flex justify-between items-center card glass" style={{ padding: '24px 32px', borderLeft: '6px solid var(--success)', borderRadius: 'var(--radius-md)', animation: 'slideIn 0.2s ease-out' }}>
+                <span style={{ fontSize: '1.4rem', fontWeight: '600', color: 'var(--text-primary)' }}>{p.method}</span>
+                <div className="flex items-center gap-6">
+                  <span style={{ fontSize: '1.6rem', color: 'var(--success)', fontWeight: '800' }}>R$ {p.amount.toFixed(2).replace('.', ',')}</span>
                   <button 
                     onClick={() => onRemovePayment(p.id)} 
-                    aria-label="Remover pagamento" 
-                    style={{ background: 'transparent', border: 'none', color: 'var(--danger)', cursor: 'pointer', fontSize: '1.5rem', padding: '0 8px' }}
+                    style={{ background: 'transparent', border: 'none', color: 'var(--danger)', cursor: 'pointer', fontSize: '1.5rem', padding: '8px', borderRadius: '50%', transition: 'background 0.2s' }}
+                    onMouseEnter={e => e.currentTarget.style.backgroundColor = 'rgba(218,30,40,0.1)'} 
+                    onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
                   >
                     🗑️
                   </button>
@@ -40,18 +45,36 @@ const FinancialSummary = ({ total, remaining, change, paymentMethods, onRemovePa
         )}
       </div>
 
-      <div className="flex justify-between items-center" style={{ fontSize: '2rem', marginTop: '16px' }}>
-        <span style={{ color: remaining > 0 ? 'var(--warning)' : 'var(--text-secondary)' }}>Falta Pagar</span>
-        <span style={{ color: remaining > 0 ? 'var(--warning)' : 'var(--text-secondary)', fontWeight: 'bold' }}>R$ {remaining.toFixed(2).replace('.', ',')}</span>
+      {/* Footer Restante/Troco */}
+      <div className="flex justify-between items-center" style={{ padding: '32px', backgroundColor: remaining > 0 ? 'rgba(241, 194, 27, 0.1)' : 'rgba(36, 161, 72, 0.1)', borderRadius: 'var(--radius-lg)', border: `2px solid ${remaining > 0 ? 'var(--warning)' : 'var(--success)'}` }}>
+        <div className="flex-col">
+          <span style={{ fontSize: '1.2rem', color: remaining > 0 ? 'var(--warning)' : 'var(--success)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '1px' }}>
+            {remaining > 0 ? 'Falta Pagar' : 'Troco Gerado'}
+          </span>
+          <span style={{ fontSize: '3rem', fontWeight: '900', color: remaining > 0 ? 'var(--warning)' : 'var(--success)', letterSpacing: '-1px' }}>
+            R$ {(remaining > 0 ? remaining : change).toFixed(2).replace('.', ',')}
+          </span>
+        </div>
+        <div style={{ opacity: 0.2, color: remaining > 0 ? 'var(--warning)' : 'var(--success)' }}>
+          {remaining > 0 ? (
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          ) : (
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          )}
+        </div>
       </div>
 
-      <div className="flex justify-between items-center" style={{ fontSize: '2rem' }}>
-        <span style={{ color: change > 0 ? 'var(--success)' : 'var(--text-secondary)' }}>Troco Gerado</span>
-        <span style={{ color: change > 0 ? 'var(--success)' : 'var(--text-secondary)', fontWeight: 'bold' }}>R$ {change.toFixed(2).replace('.', ',')}</span>
-      </div>
     </div>
   </div>
 );
+
+const getMethodIcon = (method) => {
+  if (method.includes('Dinheiro')) return <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="20" height="12" rx="2" /><circle cx="12" cy="12" r="2" /><path d="M6 12h.01M18 12h.01" /></svg>;
+  if (method.includes('Crédito') || method.includes('Débito')) return <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>;
+  if (method.includes('Pix')) return <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h7v7h-7z"/><path d="M14 14v1h1v-1h-1z"/><path d="M17 17v1h1v-1h-1z"/></svg>;
+  if (method.includes('Vale')) return <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>;
+  return <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>;
+};
 
 // Sub-componente extraído: Área Interativa (Pagamentos e Ações)
 const PaymentMethodsControls = ({ 
@@ -64,64 +87,76 @@ const PaymentMethodsControls = ({
   onAction, 
   onCancel 
 }) => (
-  <div className="flex-col" style={{ flex: 1, padding: '48px', backgroundColor: 'var(--surface-200)', borderLeft: '1px solid var(--border)', display: 'flex' }}>
-    <h2 style={{ fontSize: '2rem', marginBottom: '32px', color: 'var(--text-primary)' }}>Método de Pagamento</h2>
+  <div className="flex-col" style={{ flex: 1, padding: '48px', backgroundColor: 'var(--surface-200)', display: 'flex' }}>
+    <h2 style={{ fontSize: '1.5rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: '600', marginBottom: '32px' }}>Modo de Pagamento</h2>
     
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px', marginBottom: '48px' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '48px' }}>
       {methods.map(m => (
         <button 
           key={m} 
           className="btn" 
           onClick={() => onSelectMethod(m)}
           style={{
-            padding: '24px 20px',
+            padding: '24px 16px',
             border: '2px solid',
             borderColor: selectedMethod === m ? 'var(--primary)' : 'var(--border)',
             backgroundColor: selectedMethod === m ? 'var(--primary)' : 'var(--surface-100)',
-            color: selectedMethod === m ? 'var(--text-white)' : 'var(--text-primary)',
+            color: selectedMethod === m ? '#fff' : 'var(--text-primary)',
             fontSize: '1.2rem',
+            fontWeight: '600',
             borderRadius: 'var(--radius-lg)',
-            textAlign: 'left',
-            justifyContent: 'flex-start',
-            transition: 'all 0.15s ease'
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '12px',
+            transition: 'all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+            transform: selectedMethod === m ? 'scale(1.02)' : 'scale(1)',
+            boxShadow: selectedMethod === m ? '0 8px 16px rgba(15, 98, 254, 0.2)' : 'var(--shadow-sm)'
           }}
         >
-          {m}
+          <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{getMethodIcon(m)}</span>
+          <span style={{ textAlign: 'center' }}>{m}</span>
         </button>
       ))}
     </div>
 
     {remaining > 0 ? (
       <div className="flex-col gap-4" style={{ marginTop: 'auto', marginBottom: '32px' }}>
-        <label style={{ color: 'var(--primary)', marginBottom: '8px', fontSize: '1.2rem', fontWeight: 'bold' }}>Valor em {selectedMethod}</label>
-        <div className="flex items-center" style={{ backgroundColor: 'var(--surface-100)', color: 'var(--text-primary)', borderRadius: 'var(--radius-md)', padding: '0 24px', border: '3px solid var(--border-focus)', boxShadow: 'var(--shadow-sm)' }}>
-          <span style={{ fontSize: '1.5rem', fontWeight: 'bold', marginRight: '16px', color: 'var(--text-secondary)' }}>R$</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <label style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '1px' }}>Valor a receber</label>
+          <span style={{ color: 'var(--primary)', fontWeight: 'bold' }}>{selectedMethod}</span>
+        </div>
+        <div className="flex items-center" style={{ backgroundColor: 'var(--surface-100)', borderRadius: 'var(--radius-lg)', padding: '8px 24px', border: '3px solid var(--primary)', boxShadow: '0 4px 12px rgba(15, 98, 254, 0.15)' }}>
+          <span style={{ fontSize: '2.5rem', fontWeight: '600', marginRight: '16px', color: 'var(--primary)', opacity: 0.8 }}>R$</span>
           <input 
             autoFocus
             type="text" 
             value={amountInput}
             onChange={(e) => onAmountChange(e.target.value)}
-            style={{ width: '100%', padding: '20px 0', fontSize: '2.5rem', fontWeight: '800', border: 'none', background: 'transparent', outline: 'none', color: 'var(--text-primary)' }}
+            style={{ width: '100%', padding: '16px 0', fontSize: '3.5rem', fontWeight: '900', border: 'none', background: 'transparent', outline: 'none', color: 'var(--text-primary)', textAlign: 'right', letterSpacing: '-1px' }}
           />
         </div>
       </div>
     ) : (
-      <div style={{ marginTop: 'auto', marginBottom: '32px', textAlign: 'center', color: 'var(--success)', fontSize: '1.2rem', fontWeight: 'bold' }}>
-        Pagamento completamente coberto.
+      <div className="flex-col items-center justify-center p-8" style={{ marginTop: 'auto', marginBottom: '32px', backgroundColor: 'rgba(36, 161, 72, 0.1)', borderRadius: 'var(--radius-lg)' }}>
+        <div style={{ textAlign: 'center', color: 'var(--success)', fontSize: '1.3rem', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1px' }}>
+          Pagamento Coberto
+        </div>
       </div>
     )}
 
     <div className="flex-col gap-4">
       <button 
         className="btn btn-success" 
-        style={{ width: '100%', padding: '24px', fontSize: '1.5rem', transition: 'all 0.2s', boxShadow: 'var(--shadow-sm)' }} 
+        style={{ width: '100%', padding: '24px', fontSize: '1.4rem', fontWeight: 'bold', borderRadius: 'var(--radius-lg)', transition: 'all 0.2s', boxShadow: '0 8px 24px rgba(36, 161, 72, 0.3)' }} 
         disabled={remaining > 0 && !(parseFloat(amountInput.replace(',', '.')) > 0)}
         onClick={onAction}
       >
-        CONFIRMAR [ENTER]
+        CONFIRMAR PAGAMENTO [ENTER]
       </button>
-      <button className="btn btn-outline" style={{ color: 'var(--danger)', borderColor: 'var(--danger)', padding: '20px', fontSize: '1.2rem', backgroundColor: 'var(--surface-100)' }} onClick={onCancel}>
-        Voltar para Venda [ESC]
+      <button className="btn btn-outline" style={{ color: 'var(--danger)', borderColor: 'var(--danger)', padding: '20px', fontSize: '1.2rem', fontWeight: '600', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--surface-100)' }} onClick={onCancel}>
+        VOLTAR PARA VENDA [ESC]
       </button>
     </div>
   </div>

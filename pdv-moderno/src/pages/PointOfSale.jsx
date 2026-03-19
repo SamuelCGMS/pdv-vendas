@@ -33,7 +33,7 @@ export default function PointOfSale({ operator, onLogout }) {
   };
   const parsed = parseBarcode(barcodeInput);
 
-  const filteredProducts = products.filter(p => 
+  const filteredProducts = products.filter(p =>
     parsed.query && (p.id.includes(parsed.query) || p.name.toLowerCase().includes(parsed.query.toLowerCase()))
   );
 
@@ -121,34 +121,34 @@ export default function PointOfSale({ operator, onLogout }) {
   return (
     <div className="flex h-full w-full">
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} onLogout={onLogout} />
-      
+
       <div className="flex-col w-full" style={{ backgroundColor: 'var(--surface-200)', height: '100vh', overflow: 'hidden' }}>
         <Header operator={operator} />
-        
+
         {activeTab === 'vendas' && (
           <div className="flex w-full" style={{ height: 'calc(100vh - 64px)', padding: '16px', gap: '16px' }}>
             {/* Lado Esquerdo - Busca e Cupom */}
             <div className="flex-col w-full card glass" style={{ flex: 2, padding: '32px', gap: '24px', overflow: 'hidden', boxShadow: 'var(--shadow-lg)', borderTop: '4px solid var(--primary)' }}>
-              
+
               <div style={{ position: 'relative' }} className="w-full">
                 <form onSubmit={handleBarcodeSubmit} className="flex gap-4 w-full">
                   <div style={{ flex: 1, position: 'relative' }}>
                     <span style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', fontSize: '1.5rem', opacity: 0.5 }}>🔎</span>
-                    <input 
+                    <input
                       autoFocus
-                      type="text" 
+                      type="text"
                       value={barcodeInput}
                       onChange={(e) => {
                         setBarcodeInput(e.target.value);
                         setShowDropdown(e.target.value.trim().length > 0);
                       }}
                       onFocus={(e) => { e.target.style.borderColor = 'var(--primary)'; e.target.style.boxShadow = '0 0 0 4px rgba(15, 98, 254, 0.1)'; if (barcodeInput.length > 0) setShowDropdown(true); }}
-                      onBlur={(e) => { 
-                        e.target.style.borderColor = 'var(--border)'; 
+                      onBlur={(e) => {
+                        e.target.style.borderColor = 'var(--border)';
                         e.target.style.boxShadow = 'none';
                         setTimeout(() => setShowDropdown(false), 200);
                       }}
-                      placeholder="Código de barras ou nome do produto..." 
+                      placeholder="Código de barras ou nome do produto..."
                       style={{ width: '100%', padding: '20px 20px 20px 60px', fontSize: '1.2rem', borderRadius: 'var(--radius-lg)', border: '2px solid var(--border)', outline: 'none', transition: 'all 0.3s', backgroundColor: 'var(--surface-100)', boxSizing: 'border-box' }}
                     />
                   </div>
@@ -158,8 +158,8 @@ export default function PointOfSale({ operator, onLogout }) {
                 {showDropdown && filteredProducts.length > 0 && (
                   <div style={{ position: 'absolute', top: '100%', left: 0, right: '230px', backgroundColor: 'var(--surface-100)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-lg)', zIndex: 20, maxHeight: '300px', overflowY: 'auto', marginTop: '8px' }}>
                     {filteredProducts.map(p => (
-                      <div 
-                        key={p.id} 
+                      <div
+                        key={p.id}
                         className="flex justify-between items-center"
                         style={{ padding: '16px 24px', borderBottom: '1px solid var(--border-light)', cursor: 'pointer', transition: '0.1s' }}
                         onClick={() => handleProductSelect(p, parsed.qty)}
@@ -178,125 +178,139 @@ export default function PointOfSale({ operator, onLogout }) {
               </div>
 
               <div id="cart-table-container" className="flex-col" style={{ flex: 1, overflowY: 'auto', backgroundColor: 'var(--surface-100)', borderRadius: 'var(--radius-lg)', padding: '16px', border: '1px solid var(--border-light)', scrollBehavior: 'smooth' }}>
-                 {cart.length === 0 ? (
-                    <div className="flex-col items-center justify-center" style={{ height: '100%', color: 'var(--text-tertiary)', opacity: 0.7, padding: '64px' }}>
-                      <div style={{ fontSize: '4rem', marginBottom: '16px' }}>🛒</div>
-                      <h3 style={{ fontSize: '1.5rem', fontWeight: '500' }}>Caixa Livre</h3>
-                      <p>Passe o leitor de código de barras para iniciar</p>
+                {cart.length === 0 ? (
+                  <div className="flex-col items-center justify-center" style={{ height: '100%', color: 'var(--text-tertiary)', opacity: 0.7, padding: '64px' }}>
+                    <div style={{ fontSize: '4rem', marginBottom: '16px' }}>🛒</div>
+                    <h3 style={{ fontSize: '1.5rem', fontWeight: '500' }}>Caixa Livre</h3>
+                    <p>Passe o leitor de código de barras para iniciar</p>
+                  </div>
+                ) : (
+                  <div className="flex-col gap-3">
+                    <div style={{ display: 'grid', gridTemplateColumns: '40px 1fr 100px 120px 120px 40px', gap: '16px', padding: '0 24px 8px 24px', color: 'var(--text-tertiary)', fontWeight: 'bold', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid var(--border-light)', marginBottom: '4px' }}>
+                      <div style={{ textAlign: 'center' }}>Nº</div>
+                      <div>Produto</div>
+                      <div style={{ textAlign: 'center' }}>QTD</div>
+                      <div style={{ textAlign: 'right' }}>V. Unit</div>
+                      <div style={{ textAlign: 'right' }}>Subtotal</div>
+                      <div style={{ textAlign: 'center' }}></div>
                     </div>
-                 ) : (
-                    <div className="flex-col gap-3">
-                      {cart.map((item, idx) => (
-                        <div key={item.cartId} className="flex justify-between items-center" style={{ padding: '16px 24px', backgroundColor: 'var(--surface-200)', borderRadius: 'var(--radius-md)', borderLeft: '4px solid var(--primary)', transition: 'transform 0.2s', animation: 'slideIn 0.2s ease-out' }}>
-                          <div className="flex items-center gap-4">
-                            <div style={{ fontWeight: 'bold', color: 'var(--text-tertiary)', width: '30px' }}>{String(idx + 1).padStart(3, '0')}</div>
-                            <div className="flex-col">
-                              <span style={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--text-primary)' }}>{item.name}</span>
-                              <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Cód: {item.id} • R$ {item.price.toFixed(2).replace('.', ',')}</span>
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-6">
-                            <div style={{ backgroundColor: 'var(--surface-100)', padding: '4px 12px', borderRadius: '20px', fontWeight: 'bold', color: 'var(--primary)' }}>
-                              {item.quantity} {item.unit}
-                            </div>
-                            <div style={{ fontWeight: '900', fontSize: '1.2rem', color: 'var(--text-primary)', width: '100px', textAlign: 'right' }}>
-                              R$ {(item.price * item.quantity).toFixed(2).replace('.', ',')}
-                            </div>
-                            <button onClick={() => handleRemoveItem(item.cartId)} style={{ background: 'transparent', border: 'none', color: 'var(--danger)', cursor: 'pointer', padding: '8px', borderRadius: '50%', transition: 'background 0.2s' }} aria-label="Remover item" title="Excluir Item" onMouseEnter={e => e.currentTarget.style.backgroundColor = 'rgba(218,30,40,0.1)'} onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}>
-                              ✖
-                            </button>
-                          </div>
+                    {cart.map((item, idx) => (
+                      <div key={item.cartId} style={{ display: 'grid', gridTemplateColumns: '40px 1fr 100px 120px 120px 40px', gap: '16px', alignItems: 'center', padding: '16px 24px', backgroundColor: 'var(--surface-200)', borderRadius: 'var(--radius-md)', borderLeft: '4px solid var(--primary)', transition: 'transform 0.2s', animation: 'slideIn 0.2s ease-out' }}>
+                        <div style={{ fontWeight: 'bold', color: 'var(--text-tertiary)', textAlign: 'center' }}>{String(idx + 1).padStart(3, '0')}</div>
+                        
+                        <div className="flex-col">
+                          <span style={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--text-primary)' }}>{item.name}</span>
+                          <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Cód: {item.id}</span>
                         </div>
-                      ))}
-                    </div>
-                 )}
+                        
+                        <div style={{ fontWeight: '500', color: 'var(--text-secondary)', textAlign: 'center', fontSize: '1.1rem' }}>
+                          {item.quantity} {item.unit}
+                        </div>
+                        
+                        <div style={{ textAlign: 'right', color: 'var(--text-secondary)', fontWeight: '500', fontSize: '1.1rem' }}>
+                          R$ {item.price.toFixed(2).replace('.', ',')}
+                        </div>
+
+                        <div style={{ fontWeight: '900', fontSize: '1.25rem', color: 'var(--primary)', textAlign: 'right' }}>
+                          R$ {(item.price * item.quantity).toFixed(2).replace('.', ',')}
+                        </div>
+
+                        <div style={{ textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
+                          <button onClick={() => handleRemoveItem(item.cartId)} style={{ background: 'transparent', border: 'none', color: 'var(--danger)', fontSize: '1.2rem', cursor: 'pointer', padding: '8px', borderRadius: '50%', transition: 'background 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center' }} aria-label="Remover item" title="Excluir Item" onMouseEnter={e => e.currentTarget.style.backgroundColor = 'rgba(218,30,40,0.1)'} onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}>
+                            🗑️
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 
             {/* Lado Direito - Totais e Pagamento */}
-            <div className="flex-col card glass" style={{ width: '400px', padding: '32px 24px', backgroundColor: 'var(--surface-100)', justifyContent: 'space-between', borderTop: '8px solid var(--primary)', boxShadow: 'var(--shadow-lg)' }}>
-               <div className="flex-col gap-6">
-                 <h2 style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: '600', borderBottom: '2px solid var(--border-light)', paddingBottom: '16px', margin: 0 }}>
-                   Resumo da Venda
-                 </h2>
-                 <div className="flex-col gap-3">
-                   <div className="flex justify-between items-end" style={{ borderBottom: '1px dashed var(--border-light)', paddingBottom: '12px' }}>
-                     <span style={{ fontSize: '1.1rem', color: 'var(--text-secondary)' }}>Itens</span>
-                     <span style={{ fontSize: '1.2rem', fontWeight: '600', color: 'var(--text-primary)' }}>{cart.length}</span>
-                   </div>
-                   <div className="flex justify-between items-end" style={{ borderBottom: '1px dashed var(--border-light)', paddingBottom: '12px' }}>
-                     <span style={{ fontSize: '1.1rem', color: 'var(--text-secondary)' }}>Subtotal</span>
-                     <span style={{ fontSize: '1.2rem', fontWeight: '600', color: 'var(--text-primary)' }}>R$ {total.toFixed(2).replace('.', ',')}</span>
-                   </div>
-                   <div className="flex justify-between items-end" style={{ borderBottom: '1px dashed var(--border-light)', paddingBottom: '12px' }}>
-                     <span style={{ fontSize: '1.1rem', color: 'var(--text-secondary)' }}>Descontos</span>
-                     <span style={{ fontSize: '1.2rem', fontWeight: '600', color: 'var(--danger)' }}>R$ 0,00</span>
-                   </div>
-                 </div>
-                 
-                 <div className="flex-col items-center justify-center" style={{ marginTop: '16px', padding: '32px 0', backgroundColor: 'var(--surface-200)', borderRadius: 'var(--radius-lg)', boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.05)' }}>
-                   <span style={{ fontSize: '1.1rem', fontWeight: '600', color: 'var(--text-secondary)', marginBottom: '8px', letterSpacing: '1px' }}>TOTAL A PAGAR</span>
-                   <span style={{ fontSize: '3.5rem', fontWeight: '900', color: 'var(--success)', lineHeight: 1, letterSpacing: '-2px' }}>
-                     <span style={{ fontSize: '1.5rem', marginRight: '8px', opacity: 0.8, fontWeight: '600' }}>R$</span>
-                     {total.toFixed(2).replace('.', ',')}
-                   </span>
-                 </div>
-               </div>
+            <div className="flex-col card glass" style={{ width: '480px', minWidth: '480px', padding: '32px 24px', backgroundColor: 'var(--surface-100)', justifyContent: 'space-between', borderTop: '8px solid var(--primary)', boxShadow: 'var(--shadow-lg)' }}>
+              <div className="flex-col gap-6">
+                <h2 style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: '600', borderBottom: '2px solid var(--border-light)', paddingBottom: '16px', margin: 0 }}>
+                  Resumo da Venda
+                </h2>
+                <div className="flex-col gap-3">
+                  <div className="flex justify-between items-end" style={{ borderBottom: '1px dashed var(--border-light)', paddingBottom: '12px' }}>
+                    <span style={{ fontSize: '1.1rem', color: 'var(--text-secondary)' }}>Itens</span>
+                    <span style={{ fontSize: '1.2rem', fontWeight: '600', color: 'var(--text-primary)' }}>{cart.length}</span>
+                  </div>
+                  <div className="flex justify-between items-end" style={{ borderBottom: '1px dashed var(--border-light)', paddingBottom: '12px' }}>
+                    <span style={{ fontSize: '1.1rem', color: 'var(--text-secondary)' }}>Subtotal</span>
+                    <span style={{ fontSize: '1.2rem', fontWeight: '600', color: 'var(--text-primary)' }}>R$ {total.toFixed(2).replace('.', ',')}</span>
+                  </div>
+                  <div className="flex justify-between items-end" style={{ borderBottom: '1px dashed var(--border-light)', paddingBottom: '12px' }}>
+                    <span style={{ fontSize: '1.1rem', color: 'var(--text-secondary)' }}>Descontos</span>
+                    <span style={{ fontSize: '1.2rem', fontWeight: '600', color: 'var(--danger)' }}>R$ 0,00</span>
+                  </div>
+                </div>
 
-               <div className="flex-col gap-4" style={{ marginBottom: '16px' }}>
-                 <div className="flex gap-4">
-                   {parkedSales.length > 0 && (
-                     <button 
-                       className="btn btn-warning flex justify-between items-center"
-                       style={{ flex: 1, padding: '16px', backgroundColor: 'var(--warning)', color: '#000', borderRadius: 'var(--radius-md)', fontWeight: 'bold' }}
-                       onClick={() => setShowParkedModal(true)}
-                     >
-                       <span>Espera ({parkedSales.length})</span>
-                       <span style={{ backgroundColor: 'rgba(0,0,0,0.2)', padding: '4px 8px', borderRadius: '4px', fontSize: '0.8rem' }}>[F5]</span>
-                     </button>
-                   )}
-                   <button 
-                     className="btn btn-outline flex justify-between items-center"
-                     style={{ flex: 1, padding: '16px', borderRadius: 'var(--radius-md)' }}
-                     disabled={cart.length === 0}
-                     onClick={parkCurrentSale}
-                   >
-                     <span>Estacionar</span>
-                     <span style={{ backgroundColor: 'rgba(0,0,0,0.1)', padding: '4px 8px', borderRadius: '4px', fontSize: '0.8rem' }}>[F4]</span>
-                   </button>
-                 </div>
-               </div>
-               
-               <div className="flex-col gap-4">
-                 <button 
-                   className="btn btn-success flex justify-between items-center" 
-                   style={{ width: '100%', fontSize: '1.3rem', padding: '24px', borderRadius: 'var(--radius-lg)', fontWeight: 'bold', boxShadow: '0 8px 16px rgba(36, 161, 72, 0.2)' }} 
-                   disabled={cart.length === 0}
-                   onClick={() => setShowPaymentModal(true)}
-                 >
-                   <span>RECEBER PAGAMENTO</span>
-                   <span style={{ backgroundColor: 'rgba(0,0,0,0.2)', padding: '4px 8px', borderRadius: '4px', fontSize: '0.9rem' }}>★</span>
-                 </button>
-                 <div className="flex gap-4">
-                   <button 
-                     className="btn btn-primary flex justify-between items-center" 
-                     style={{ flex: 1, padding: '16px', borderRadius: 'var(--radius-md)' }}
-                     onClick={() => setShowCpfModal(true)}
-                   >
-                     <span>{customerCpf ? 'CPF ✓' : 'Cpf na Nota'}</span>
-                     <span style={{ backgroundColor: 'rgba(0,0,0,0.2)', padding: '4px 8px', borderRadius: '4px', fontSize: '0.8rem' }}>[F2]</span>
-                   </button>
-                   <button 
-                     className="btn btn-danger flex justify-between items-center"
-                     style={{ flex: 1, padding: '16px', borderRadius: 'var(--radius-md)' }} 
-                     onClick={() => setCart([])} 
-                     disabled={cart.length === 0}
-                   >
-                     <span>Cancelar Compra</span>
-                     <span style={{ backgroundColor: 'rgba(0,0,0,0.2)', padding: '4px 8px', borderRadius: '4px', fontSize: '0.8rem' }}>[ESC]</span>
-                   </button>
-                 </div>
-               </div>
+                <div className="flex-col items-center justify-center" style={{ marginTop: '16px', padding: '32px 0', backgroundColor: 'var(--surface-200)', borderRadius: 'var(--radius-lg)', boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.05)' }}>
+                  <span style={{ fontSize: '1.1rem', fontWeight: '600', color: 'var(--text-secondary)', marginBottom: '8px', letterSpacing: '1px' }}>TOTAL A PAGAR</span>
+                  <span style={{ fontSize: '3.5rem', fontWeight: '900', color: 'var(--success)', lineHeight: 1, letterSpacing: '-2px' }}>
+                    <span style={{ fontSize: '1.5rem', marginRight: '8px', opacity: 0.8, fontWeight: '600' }}>R$</span>
+                    {total.toFixed(2).replace('.', ',')}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex-col gap-4" style={{ marginBottom: '16px' }}>
+                <div className="flex gap-4">
+                  {parkedSales.length > 0 && (
+                    <button
+                      className="btn btn-warning flex justify-between items-center"
+                      style={{ flex: 1, padding: '16px', backgroundColor: 'var(--warning)', color: '#000', borderRadius: 'var(--radius-md)', fontWeight: 'bold' }}
+                      onClick={() => setShowParkedModal(true)}
+                    >
+                      <span>Espera ({parkedSales.length})</span>
+                      <span style={{ backgroundColor: 'rgba(0,0,0,0.2)', padding: '4px 8px', borderRadius: '4px', fontSize: '0.8rem' }}>[F5]</span>
+                    </button>
+                  )}
+                  <button
+                    className="btn btn-outline flex justify-between items-center"
+                    style={{ flex: 1, padding: '16px', borderRadius: 'var(--radius-md)' }}
+                    disabled={cart.length === 0}
+                    onClick={parkCurrentSale}
+                  >
+                    <span>Estacionar</span>
+                    <span style={{ backgroundColor: 'rgba(0,0,0,0.1)', padding: '4px 8px', borderRadius: '4px', fontSize: '0.8rem' }}>[F4]</span>
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex-col gap-4">
+                <button
+                  className="btn btn-success flex justify-between items-center"
+                  style={{ width: '100%', fontSize: '1.3rem', padding: '24px', borderRadius: 'var(--radius-lg)', fontWeight: 'bold', boxShadow: '0 8px 16px rgba(36, 161, 72, 0.2)' }}
+                  disabled={cart.length === 0}
+                  onClick={() => setShowPaymentModal(true)}
+                >
+                  <span>RECEBER PAGAMENTO</span>
+                  <span style={{ backgroundColor: 'rgba(0,0,0,0.2)', padding: '4px 8px', borderRadius: '4px', fontSize: '0.9rem' }}>★</span>
+                </button>
+                <div className="flex gap-4">
+                  <button
+                    className="btn btn-primary flex justify-between items-center"
+                    style={{ flex: 1, padding: '16px', borderRadius: 'var(--radius-md)' }}
+                    onClick={() => setShowCpfModal(true)}
+                  >
+                    <span>{customerCpf ? 'CPF ✓' : 'Cpf na Nota'}</span>
+                    <span style={{ backgroundColor: 'rgba(0,0,0,0.2)', padding: '4px 8px', borderRadius: '4px', fontSize: '0.8rem' }}>[F2]</span>
+                  </button>
+                  <button
+                    className="btn btn-danger flex justify-between items-center"
+                    style={{ flex: 1, padding: '16px', borderRadius: 'var(--radius-md)' }}
+                    onClick={() => setCart([])}
+                    disabled={cart.length === 0}
+                  >
+                    <span>Cancelar Compra</span>
+                    <span style={{ backgroundColor: 'rgba(0,0,0,0.2)', padding: '4px 8px', borderRadius: '4px', fontSize: '0.8rem' }}>[ESC]</span>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         )}
@@ -307,10 +321,10 @@ export default function PointOfSale({ operator, onLogout }) {
         {activeTab === 'catalogo' && <Catalog />}
         {activeTab === 'caixa' && <CashManagement operator={operator} shiftSales={shiftSales} movements={movements} onAddMovement={m => setMovements([...movements, m])} onCloseRegister={onLogout} />}
         {activeTab === 'configuracoes' && <Settings />}
-        
+
         {/* Modais flutuantes */}
         {showCpfModal && (
-          <CpfModal 
+          <CpfModal
             currentCpf={customerCpf}
             onConfirm={(cpf) => { setCustomerCpf(cpf); setShowCpfModal(false); }}
             onCancel={() => setShowCpfModal(false)}
@@ -319,8 +333,8 @@ export default function PointOfSale({ operator, onLogout }) {
 
         {/* Modal de Pagamento */}
         {showPaymentModal && (
-          <PaymentModal 
-            total={total} 
+          <PaymentModal
+            total={total}
             onCancel={() => setShowPaymentModal(false)}
             onConfirm={(payments) => {
               const changeAmount = Math.max(0, payments.reduce((a, p) => a + p.amount, 0) - total);
@@ -335,12 +349,12 @@ export default function PointOfSale({ operator, onLogout }) {
 
         {/* Modal da Impressão do Recibo / Cupom Fical */}
         {completedSaleData && (
-          <ReceiptModal 
-            data={completedSaleData} 
+          <ReceiptModal
+            data={completedSaleData}
             onClose={() => {
               setCompletedSaleData(null);
               setCart([]);
-            }} 
+            }}
           />
         )}
 
@@ -350,15 +364,15 @@ export default function PointOfSale({ operator, onLogout }) {
             <div className="card glass flex-col" style={{ width: '600px', padding: '32px' }}>
               <h2 style={{ color: 'var(--text-primary)', marginBottom: '8px', fontSize: '2rem' }}>Vendas em Espera</h2>
               <p style={{ color: 'var(--text-secondary)', marginBottom: '24px' }}>Clique em uma venda para retomar o atendimento.</p>
-              
+
               <div className="flex-col gap-4" style={{ maxHeight: '400px', overflowY: 'auto', paddingRight: '8px' }}>
                 {parkedSales.map(p => (
-                  <div 
-                    key={p.id} 
-                    className="flex justify-between items-center card" 
+                  <div
+                    key={p.id}
+                    className="flex justify-between items-center card"
                     style={{ padding: '16px', backgroundColor: 'var(--surface-100)', cursor: 'pointer', border: '2px solid transparent', transition: '0.2s' }}
-                    onClick={() => resumeParkedSale(p)} 
-                    onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--primary)'} 
+                    onClick={() => resumeParkedSale(p)}
+                    onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--primary)'}
                     onMouseLeave={(e) => e.currentTarget.style.borderColor = 'transparent'}
                   >
                     <div>
