@@ -14,6 +14,9 @@ export const products = [
   { id: '7891010101015', name: 'Café Torrado 500g', price: 15.90, unit: 'un', category: 'Mercearia' },
   { id: '7891010101016', name: 'Pão de Forma', price: 8.49, unit: 'un', category: 'Padaria' },
   { id: '7891010101017', name: 'Refrigerante Cola 2L', price: 8.90, unit: 'un', category: 'Bebidas' },
+  { id: '7891010101018', name: 'Tomate Italiano', price: 8.49, unit: 'kg', category: 'Hortifruti' },
+  { id: '7891010101019', name: 'Queijo Minas Frescal', price: 39.90, unit: 'kg', category: 'Laticínios' },
+  { id: '7891010101020', name: 'Uva Itália', price: 12.90, unit: 'kg', category: 'Hortifruti' },
 ];
 
 // Transações mockadas

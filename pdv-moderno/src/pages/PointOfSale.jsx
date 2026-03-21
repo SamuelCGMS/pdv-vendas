@@ -5,11 +5,13 @@ import Reports from './Reports';
 import PaymentModal from '../components/PaymentModal';
 import ReceiptModal from '../components/ReceiptModal';
 import CpfModal from '../components/CpfModal';
+import ScaleWeighModal from '../components/ScaleWeighModal';
 import Catalog from '../pages/Catalog';
 import HistoricalReports from '../pages/HistoricalReports';
 import CashManagement from '../pages/CashManagement';
 import { products } from '../data/mock';
 import Settings from '../pages/Settings';
+import scaleService from '../services/scaleService';
 
 export default function PointOfSale({ operator, onLogout }) {
   const [activeTab, setActiveTab] = useState('vendas'); // vendas, relatorios
@@ -25,6 +27,19 @@ export default function PointOfSale({ operator, onLogout }) {
   const [parkedSales, setParkedSales] = useState([]);
   const [showParkedModal, setShowParkedModal] = useState(false);
 
+  // Scale state
+  const [pendingWeighProduct, setPendingWeighProduct] = useState(null);
+  const [showWeighModal, setShowWeighModal] = useState(false);
+  const [scaleConnected, setScaleConnected] = useState(scaleService.isConnected());
+
+  // Listen for scale connection changes
+  useEffect(() => {
+    const unsub = scaleService.onStatusChange((status) => {
+      setScaleConnected(status === 'connected');
+    });
+    return unsub;
+  }, []);
+
   // Parse multiplier (e.g. 5*codigo)
   const parseBarcode = (input) => {
     const match = input.match(/^(\d+(?:\.\d+)?)\*(.+)$/);
@@ -38,9 +53,35 @@ export default function PointOfSale({ operator, onLogout }) {
   );
 
   const handleProductSelect = useCallback((product, quantity) => {
+    // If product is sold by weight (kg), open weighing modal
+    if (product.unit === 'kg') {
+      setPendingWeighProduct({ ...product, requestedQty: quantity });
+      setShowWeighModal(true);
+      setBarcodeInput('');
+      setShowDropdown(false);
+      return;
+    }
     setCart(prev => [...prev, { ...product, quantity, cartId: Date.now() }]);
     setBarcodeInput('');
     setShowDropdown(false);
+  }, []);
+
+  // Handle confirmed weight from scale modal
+  const handleWeighConfirm = useCallback((weight) => {
+    if (pendingWeighProduct && weight > 0) {
+      setCart(prev => [...prev, {
+        ...pendingWeighProduct,
+        quantity: weight,
+        cartId: Date.now(),
+      }]);
+    }
+    setPendingWeighProduct(null);
+    setShowWeighModal(false);
+  }, [pendingWeighProduct]);
+
+  const handleWeighCancel = useCallback(() => {
+    setPendingWeighProduct(null);
+    setShowWeighModal(false);
   }, []);
 
   const handleRemoveItem = useCallback((cartId) => {
@@ -116,7 +157,7 @@ export default function PointOfSale({ operator, onLogout }) {
     };
     window.addEventListener('keydown', handleGlobalKey);
     return () => window.removeEventListener('keydown', handleGlobalKey);
-  }, [activeTab, showPaymentModal, showCpfModal, cart.length, parkedSales.length, showParkedModal, parkCurrentSale]);
+  }, [activeTab, showPaymentModal, showCpfModal, cart.length, parkedSales.length, showParkedModal, parkCurrentSale, showWeighModal]);
 
   return (
     <div className="flex h-full w-full">
@@ -153,6 +194,14 @@ export default function PointOfSale({ operator, onLogout }) {
                     />
                   </div>
                   <button type="submit" className="btn btn-primary" style={{ padding: '0 40px', fontSize: '1.1rem', borderRadius: 'var(--radius-lg)' }}>✚ INSERIR [ENTER]</button>
+                  
+                  {/* Scale connection badge */}
+                  <div className={`scale-status-badge ${scaleConnected ? 'connected' : 'disconnected'}`}
+                    title={scaleConnected ? 'Balança conectada' : 'Balança desconectada — configure em Configurações'}
+                  >
+                    <span className="scale-status-dot" />
+                    ⚖️ {scaleConnected ? 'Balança' : 'Sem Balança'}
+                  </div>
                 </form>
 
                 {showDropdown && filteredProducts.length > 0 && (
@@ -355,6 +404,15 @@ export default function PointOfSale({ operator, onLogout }) {
               setCompletedSaleData(null);
               setCart([]);
             }}
+          />
+        )}
+
+        {/* Modal de Pesagem */}
+        {showWeighModal && pendingWeighProduct && (
+          <ScaleWeighModal
+            product={pendingWeighProduct}
+            onConfirm={handleWeighConfirm}
+            onCancel={handleWeighCancel}
           />
         )}
 
