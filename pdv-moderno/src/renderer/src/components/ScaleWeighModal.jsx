@@ -1,4 +1,10 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useRef,
+} from 'react';
 import scaleService from '../services/scaleService';
 
 /**
@@ -16,18 +22,6 @@ export default function ScaleWeighModal({ product, onConfirm, onCancel }) {
   const manualInputRef = useRef(null);
 
   const subtotal = weight * product.price;
-
-  // Auto-read weight on mount
-  useEffect(() => {
-    readWeight();
-  }, []);
-
-  // Focus manual input when switching to manual mode
-  useEffect(() => {
-    if (state === 'manual' && manualInputRef.current) {
-      manualInputRef.current.focus();
-    }
-  }, [state]);
 
   const readWeight = useCallback(async () => {
     if (!scaleService.isConnected()) {
@@ -55,9 +49,23 @@ export default function ScaleWeighModal({ product, onConfirm, onCancel }) {
       }
     } catch (error) {
       setState('error');
-      setErrorMsg(error.message);
+      setErrorMsg(error instanceof Error ? error.message : 'Falha ao ler o peso da balança.');
     }
   }, []);
+
+  const requestInitialWeight = useEffectEvent(() => {
+    void readWeight();
+  });
+
+  useEffect(() => {
+    requestInitialWeight();
+  }, []);
+
+  useEffect(() => {
+    if (state === 'manual' && manualInputRef.current) {
+      manualInputRef.current.focus();
+    }
+  }, [state]);
 
   const handleConfirm = useCallback(() => {
     if (state === 'manual') {

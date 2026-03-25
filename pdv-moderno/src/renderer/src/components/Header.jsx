@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
-export default function Header({ operator }) {
+export default function Header({ operator, runtime }) {
   const [time, setTime] = useState(new Date());
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
+
+  const runtimeLabel = runtime?.isElectron
+    ? `Desktop ${runtime.version}`
+    : 'Prévia local';
 
   return (
     <div className="flex justify-between items-center" style={{ 
@@ -24,6 +28,9 @@ export default function Header({ operator }) {
       </div>
 
       <div className="flex items-center gap-6">
+        <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: '600' }}>
+          {runtimeLabel}
+        </span>
         <div className="flex items-center gap-2">
           <img src={operator.avatar} alt={operator.name} style={{ width: '32px', height: '32px', borderRadius: '50%' }} />
           <span style={{ fontWeight: '600' }}>{operator.name}</span>

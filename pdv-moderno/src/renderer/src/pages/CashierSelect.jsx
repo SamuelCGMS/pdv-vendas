@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { operators } from '../data/mock';
 
-export default function CashierSelect({ onSelect }) {
+export default function CashierSelect({ onSelect, runtime }) {
   const [initialCash, setInitialCash] = useState('100.00');
+  const footerLabel = runtime?.isElectron
+    ? `Desktop ${runtime.version} • ${runtime.platform}`
+    : 'Prévia local';
 
   return (
     <div className="flex-col items-center justify-center h-full w-full" style={{ padding: '2rem', backgroundImage: 'radial-gradient(circle at top right, var(--surface-300), var(--surface-200))' }}>
@@ -64,7 +67,7 @@ export default function CashierSelect({ onSelect }) {
       </div>
       
       <div style={{ position: 'absolute', bottom: '2rem', color: 'var(--text-tertiary)', fontSize: '0.9rem' }}>
-        Versão de Protótipo • {new Date().toLocaleDateString('pt-BR')}
+        {footerLabel} • {new Date().toLocaleDateString('pt-BR')}
       </div>
     </div>
   );

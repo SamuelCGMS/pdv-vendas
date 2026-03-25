@@ -1,11 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import {
+  formatCurrency,
+  formatQuantity,
+  getItemTotal,
+  getSaleSummary,
+} from '../../../shared/sales';
 
-export default function ReceiptModal({ data, onClose }) {
+export default function ReceiptModal({ data, onClose, onPrint }) {
   const [receiptType, setReceiptType] = useState('fiscal'); // 'fiscal', 'nao-fiscal'
-  const { cart, payments, total, change, operator, customerCpf } = data;
+  const {
+    cart,
+    payments,
+    total,
+    change,
+    operator,
+    customerCpf,
+    summary,
+    saleDiscount,
+  } = data;
+
+  const saleSummary = useMemo(() => {
+    return summary ?? getSaleSummary(cart, saleDiscount ?? null);
+  }, [cart, saleDiscount, summary]);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   const handlePrint = () => {
-    alert("Simulando impressão na bobina térmica (COM1)...");
+    onPrint?.();
     onClose();
   };
 
@@ -69,11 +100,11 @@ export default function ReceiptModal({ data, onClose }) {
                 </tr>
               </thead>
               <tbody>
-                {cart.map((item, i) => (
-                  <tr key={i}>
-                    <td>{item.quantity}</td>
+                {cart.map((item) => (
+                  <tr key={item.cartId}>
+                    <td>{formatQuantity(item.quantity, item.unit)}</td>
                     <td>{item.name.substring(0, 18)}</td>
-                    <td style={{ textAlign: 'right' }}>{(item.price * item.quantity).toFixed(2)}</td>
+                    <td style={{ textAlign: 'right' }}>{formatCurrency(getItemTotal(item))}</td>
                   </tr>
                 ))}
               </tbody>
@@ -85,22 +116,34 @@ export default function ReceiptModal({ data, onClose }) {
               </div>
             )}
             <div style={{ borderTop: '1px dashed #000', margin: '16px 0', paddingTop: '16px' }}>
+              {saleSummary.itemDiscountTotal > 0 && (
+                <div className="flex justify-between" style={{ marginBottom: '4px' }}>
+                  <span>DESC. ITENS</span>
+                  <span>-{formatCurrency(saleSummary.itemDiscountTotal)}</span>
+                </div>
+              )}
+              {saleSummary.saleDiscountTotal > 0 && (
+                <div className="flex justify-between" style={{ marginBottom: '8px' }}>
+                  <span>DESC. VENDA</span>
+                  <span>-{formatCurrency(saleSummary.saleDiscountTotal)}</span>
+                </div>
+              )}
               <div className="flex justify-between" style={{ fontWeight: 'bold', fontSize: '1.2rem', marginBottom: '12px' }}>
                 <span>TOTAL R$</span>
-                <span>{total.toFixed(2)}</span>
+                <span>{formatCurrency(total)}</span>
               </div>
               <div style={{ marginTop: '8px', marginBottom: '12px', color: '#333' }}>
                 {payments.map(p => (
                   <div key={p.id} className="flex justify-between">
                     <span>{p.method}</span>
-                    <span>{p.amount.toFixed(2)}</span>
+                    <span>{formatCurrency(p.amount)}</span>
                   </div>
                 ))}
               </div>
               {change > 0 && (
                 <div className="flex justify-between" style={{ marginTop: '4px', fontWeight: 'bold' }}>
                   <span>TROCO R$</span>
-                  <span>{change.toFixed(2)}</span>
+                  <span>{formatCurrency(change)}</span>
                 </div>
               )}
             </div>

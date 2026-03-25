@@ -170,27 +170,18 @@ export default function PaymentModal({ total, onCancel, onConfirm }) {
   const [showTef, setShowTef] = useState(false);
   const [tefData, setTefData] = useState(null);
 
-  // Utilizando useMemo para cálculos derivados (Performance gain em listas grandes)
   const totalPaid = useMemo(() => paymentMethods.reduce((acc, p) => acc + p.amount, 0), [paymentMethods]);
   const remaining = Math.max(0, total - totalPaid);
   const change = Math.max(0, totalPaid - total);
+  const suggestedAmount = remaining > 0 ? remaining.toFixed(2) : '';
+  const displayedAmount = amountInput === '' ? suggestedAmount : amountInput;
 
-  // Efeito isolado para auto-fill
-  useEffect(() => {
-    if (remaining > 0) {
-      setAmountInput(remaining.toFixed(2));
-    } else {
-      setAmountInput('');
-    }
-  }, [remaining]);
-
-  // Funções estabilizadas com useCallback previnem re-renderizações filhas desnecessárias
   const handleRemovePayment = useCallback((id) => {
+    setAmountInput('');
     setPaymentMethods(prev => prev.filter(p => p.id !== id));
   }, []);
 
   const handleAction = useCallback(() => {
-    // Se não há mais valor, ou seja completou o total
     if (remaining === 0) {
       const requiresPinpad = paymentMethods.find(p => p.method.includes('Cartão') || p.method === 'Pix');
       if (requiresPinpad) {
@@ -201,15 +192,17 @@ export default function PaymentModal({ total, onCancel, onConfirm }) {
       }
       return;
     }
-    const val = parseFloat(amountInput.replace(',', '.'));
+
+    const val = parseFloat(displayedAmount.replace(',', '.'));
+
     if (val > 0) {
+      setAmountInput('');
       setPaymentMethods(prev => [...prev, { method: selectedMethod, amount: val, id: Date.now() }]);
     }
-  }, [amountInput, remaining, selectedMethod, paymentMethods, onConfirm]);
+  }, [displayedAmount, remaining, selectedMethod, paymentMethods, onConfirm]);
 
   const methods = useMemo(() => ['Dinheiro', 'Cartão de Crédito', 'Cartão de Débito', 'Pix', 'Vale Alimentação'], []);
 
-  // Keyboard events wrapper
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onCancel();
@@ -240,7 +233,7 @@ export default function PaymentModal({ total, onCancel, onConfirm }) {
         selectedMethod={selectedMethod}
         onSelectMethod={setSelectedMethod}
         remaining={remaining}
-        amountInput={amountInput}
+        amountInput={displayedAmount}
         onAmountChange={setAmountInput}
         onAction={handleAction}
         onCancel={onCancel}
