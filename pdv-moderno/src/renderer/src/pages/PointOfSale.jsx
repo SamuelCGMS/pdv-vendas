@@ -10,10 +10,13 @@ import Settings from './Settings';
 import SalesModals from '../features/sales/SalesModals';
 import SalesWorkspace from '../features/sales/SalesWorkspace';
 import { usePointOfSaleController } from '../features/sales/usePointOfSaleController';
+import { useCatalogController } from '../features/catalog/useCatalogController.ts';
 
 export default function PointOfSale({ operator, runtime, onLogout }) {
   const [activeTab, setActiveTab] = useState('vendas');
+  const catalogController = useCatalogController(operator.name);
   const salesController = usePointOfSaleController({
+    catalogProducts: catalogController.salesCatalogProducts,
     operator,
     isSalesTabActive: activeTab === 'vendas',
   });
@@ -37,7 +40,7 @@ export default function PointOfSale({ operator, runtime, onLogout }) {
           <Reports operator={operator} shiftSales={salesController.shiftSales} />
         )}
         {activeTab === 'historico' && <HistoricalReports />}
-        {activeTab === 'catalogo' && <Catalog />}
+        {activeTab === 'catalogo' && <Catalog controller={catalogController} />}
         {activeTab === 'caixa' && (
           <CashManagement
             operator={operator}
