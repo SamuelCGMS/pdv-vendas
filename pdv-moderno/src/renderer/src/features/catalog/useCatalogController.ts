@@ -6,8 +6,9 @@ import {
   calculateSuggestedMargin,
   createEmptyProductDraft,
   createProductDraft,
+  filterCatalogProducts,
+  getInventoryProducts,
   getStockStatus,
-  matchCatalogProducts,
   upsertCatalogProduct,
   toSalesCatalogProducts,
 } from './catalogModel.ts';
@@ -79,6 +80,7 @@ export interface CatalogController {
   adjustmentDraft: ManualAdjustmentDraft;
   filteredMovements: StockMovement[];
   filteredProducts: CatalogProductRecord[];
+  inventoryProducts: CatalogProductRecord[];
   inventoryDraft: InventoryCountDraft;
   isProductModalOpen: boolean;
   movementKindFilter: StockMovement['kind'] | 'all';
@@ -164,27 +166,16 @@ export function useCatalogController(operatorName: string): CatalogController {
   }, [products]);
 
   const filteredProducts = useMemo(() => {
-    const baseProducts = deferredProductSearch
-      ? matchCatalogProducts(products, deferredProductSearch)
-      : products;
-
-    return baseProducts
-      .filter((product) => {
-        if (statusFilter === 'all') {
-          return true;
-        }
-
-        return getStockStatus(product) === statusFilter;
-      })
-      .filter((product) => {
-        if (productModeFilter === 'all') {
-          return true;
-        }
-
-        return product.saleMode === productModeFilter;
-      })
-      .toSorted((leftProduct, rightProduct) => leftProduct.name.localeCompare(rightProduct.name));
+    return filterCatalogProducts(products, {
+      search: deferredProductSearch,
+      saleMode: productModeFilter,
+      status: statusFilter,
+    });
   }, [deferredProductSearch, productModeFilter, products, statusFilter]);
+
+  const inventoryProducts = useMemo(() => {
+    return getInventoryProducts(products);
+  }, [products]);
 
   const filteredMovements = useMemo(() => {
     const normalizedQuery = deferredMovementSearch.trim().toLowerCase();
@@ -412,6 +403,7 @@ export function useCatalogController(operatorName: string): CatalogController {
     adjustmentDraft,
     filteredMovements,
     filteredProducts,
+    inventoryProducts,
     inventoryDraft,
     isProductModalOpen,
     movementKindFilter,

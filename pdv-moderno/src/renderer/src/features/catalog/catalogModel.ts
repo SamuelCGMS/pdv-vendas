@@ -4,9 +4,11 @@ import type {
   CatalogProductRecord,
   InventoryCountDraft,
   ManualAdjustmentDraft,
+  ProductModeFilter,
   ProductFormDraft,
   StockMovement,
   StockStatus,
+  StockStatusFilter,
 } from './types.ts';
 
 const PRODUCT_ID_PREFIX = 'prd-';
@@ -24,6 +26,14 @@ function parseNumberInput(rawValue: string): number {
   }
 
   return Number(value.replace(',', '.'));
+}
+
+function hasInvalidNumberInput(rawValue: string): boolean {
+  return rawValue.trim().length > 0 && !Number.isFinite(parseNumberInput(rawValue));
+}
+
+function sortCatalogProductsByName(products: readonly CatalogProductRecord[]): CatalogProductRecord[] {
+  return products.toSorted((leftProduct, rightProduct) => leftProduct.name.localeCompare(rightProduct.name));
 }
 
 function normalizeBarcodeList(primaryBarcode: string, extraBarcodesText: string): string[] {
@@ -149,6 +159,7 @@ export function validateProductDraft(
   const category = draft.category.trim();
   const costPrice = parseNumberInput(draft.costPrice);
   const salePrice = parseNumberInput(draft.salePrice);
+  const suggestedMargin = parseNumberInput(draft.suggestedMargin);
   const stockMinimum = parseNumberInput(draft.stockMinimum);
   const candidateBarcodes = normalizeBarcodeList(primaryBarcode, draft.extraBarcodesText);
 
@@ -164,15 +175,25 @@ export function validateProductDraft(
     errors.push('Informe a categoria do produto.');
   }
 
-  if (costPrice < 0) {
+  if (hasInvalidNumberInput(draft.costPrice)) {
+    errors.push('Informe um preço de custo válido.');
+  } else if (costPrice < 0) {
     errors.push('O preço de custo não pode ser negativo.');
   }
 
-  if (salePrice <= 0) {
+  if (hasInvalidNumberInput(draft.salePrice)) {
+    errors.push('Informe um preço de venda válido.');
+  } else if (salePrice <= 0) {
     errors.push('O preço de venda deve ser maior que zero.');
   }
 
-  if (stockMinimum < 0) {
+  if (draft.suggestedMargin.trim().length > 0 && !Number.isFinite(suggestedMargin)) {
+    errors.push('Informe uma margem sugerida válida.');
+  }
+
+  if (hasInvalidNumberInput(draft.stockMinimum)) {
+    errors.push('Informe um estoque mínimo válido.');
+  } else if (stockMinimum < 0) {
     errors.push('O estoque mínimo não pode ser negativo.');
   }
 
@@ -314,7 +335,17 @@ export function applyInventoryCount(
       return product;
     }
 
-    const countedQuantity = normalizeStockQuantity(parseNumberInput(rawCount), product.unit);
+    const parsedCount = parseNumberInput(rawCount);
+
+    if (!Number.isFinite(parsedCount)) {
+      throw new Error(`Informe uma quantidade válida para ${product.name}.`);
+    }
+
+    if (parsedCount < 0) {
+      throw new Error(`A contagem de ${product.name} não pode ser negativa.`);
+    }
+
+    const countedQuantity = normalizeStockQuantity(parsedCount, product.unit);
     const stockBefore = product.stockQuantity;
 
     if (countedQuantity === stockBefore) {
@@ -365,6 +396,55 @@ export function matchCatalogProducts(
       || product.id.includes(normalizedQuery)
       || product.barcodes.some((barcode) => barcode.includes(normalizedQuery));
   });
+}
+
+export interface CatalogProductFilters {
+  saleMode: ProductModeFilter;
+  search: string;
+  status: StockStatusFilter;
+}
+
+export function filterCatalogProducts(
+  products: readonly CatalogProductRecord[],
+  filters: CatalogProductFilters,
+): CatalogProductRecord[] {
+  const baseProducts = filters.search
+    ? matchCatalogProducts(products, filters.search)
+    : products;
+
+  return sortCatalogProductsByName(baseProducts)
+    .filter((product) => {
+      if (filters.status === 'all') {
+        return true;
+      }
+
+      return getStockStatus(product) === filters.status;
+    })
+    .filter((product) => {
+      if (filters.saleMode === 'all') {
+        return true;
+      }
+
+      return product.saleMode === filters.saleMode;
+    });
+}
+
+export function getInventoryProducts(products: readonly CatalogProductRecord[]): CatalogProductRecord[] {
+  return sortCatalogProductsByName(products);
+}
+
+export function formatStockQuantity(quantity: number, unit: string): string {
+  const safeQuantity = Number.isFinite(quantity) ? quantity : 0;
+
+  if (unit === 'kg') {
+    return `${roundCurrency(safeQuantity).toFixed(3).replace('.', ',')} ${unit}`;
+  }
+
+  if (Number.isInteger(safeQuantity)) {
+    return `${safeQuantity} ${unit}`;
+  }
+
+  return `${roundCurrency(safeQuantity).toFixed(2).replace('.', ',')} ${unit}`;
 }
 
 export function getStockStatus(product: Pick<CatalogProductRecord, 'stockMinimum' | 'stockQuantity'>): StockStatus {

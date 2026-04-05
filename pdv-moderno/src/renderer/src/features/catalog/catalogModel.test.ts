@@ -3,6 +3,9 @@ import assert from 'node:assert/strict';
 import {
   applyInventoryCount,
   applyManualAdjustment,
+  filterCatalogProducts,
+  formatStockQuantity,
+  getInventoryProducts,
   matchCatalogProducts,
   upsertCatalogProduct,
 } from './catalogModel.ts';
@@ -98,6 +101,69 @@ test('applyInventoryCount reconcilia contagens e gera movimentacoes apenas para 
   assert.equal(result.movements.length, 1);
   assert.equal(result.movements[0]?.quantityDelta, -2);
   assert.equal(result.movements[0]?.kind, 'inventory');
+});
+
+test('upsertCatalogProduct rejeita campos numericos invalidos no cadastro', () => {
+  assert.throws(() => {
+    upsertCatalogProduct(sampleProducts, {
+      productId: null,
+      primaryBarcode: '789100000099',
+      extraBarcodesText: '',
+      name: 'Produto Inválido',
+      category: 'Mercearia',
+      unit: 'un',
+      costPrice: 'abc',
+      salePrice: '10,00',
+      suggestedMargin: 'x',
+      saleMode: 'unit',
+      stockMinimum: '1',
+    }, 'Helena Costa', '2026-03-29T12:00:00.000Z');
+  }, /preço de custo/i);
+});
+
+test('applyInventoryCount rejeita contagens invalidas ou negativas', () => {
+  assert.throws(() => {
+    applyInventoryCount(sampleProducts, {
+      counts: {
+        'prd-001': '-5',
+      },
+      operator: 'Ana Silva',
+      reason: 'Inventario semanal',
+    }, '2026-03-29T12:10:00.000Z');
+  }, /não pode ser negativa/i);
+
+  assert.throws(() => {
+    applyInventoryCount(sampleProducts, {
+      counts: {
+        'prd-002': 'abc',
+      },
+      operator: 'Ana Silva',
+      reason: 'Inventario semanal',
+    }, '2026-03-29T12:10:00.000Z');
+  }, /quantidade válida/i);
+});
+
+test('formatStockQuantity preserva saldo zero e negativo no estoque', () => {
+  assert.equal(formatStockQuantity(0, 'un'), '0 un');
+  assert.equal(formatStockQuantity(-2, 'un'), '-2 un');
+  assert.equal(formatStockQuantity(0, 'kg'), '0,000 kg');
+});
+
+test('getInventoryProducts mantem o inventario desacoplado dos filtros de produtos', () => {
+  const filteredProducts = filterCatalogProducts(sampleProducts, {
+    search: 'banana',
+    saleMode: 'all',
+    status: 'all',
+  });
+
+  const inventoryProducts = getInventoryProducts(sampleProducts);
+
+  assert.equal(filteredProducts.length, 1);
+  assert.equal(inventoryProducts.length, 2);
+  assert.deepEqual(
+    inventoryProducts.map((product) => product.productId),
+    ['prd-001', 'prd-002'],
+  );
 });
 
 test('matchCatalogProducts encontra produto por nome, codigo principal e codigo adicional', () => {

@@ -1,5 +1,5 @@
-import { formatCurrency, formatQuantity } from '../../../../shared/sales.ts';
-import { getStockStatus } from './catalogModel.ts';
+import { formatCurrency } from '../../../../shared/sales.ts';
+import { formatStockQuantity, getStockStatus } from './catalogModel.ts';
 import CatalogProductModal from './CatalogProductModal.tsx';
 import type { CatalogController } from './useCatalogController.ts';
 import type { AdjustmentMode, CatalogProductRecord, StockMovement } from './types.ts';
@@ -72,7 +72,7 @@ function formatTimestamp(timestamp: string): string {
 function getInventoryDelta(product: CatalogProductRecord, counts: Record<string, string>): number | null {
   const countedValue = parseNumericInput(counts[product.productId] ?? '');
 
-  if (countedValue === null || !Number.isFinite(countedValue)) {
+  if (countedValue === null || !Number.isFinite(countedValue) || countedValue < 0) {
     return null;
   }
 
@@ -166,7 +166,7 @@ function ProductTable({ controller }: { controller: CatalogController }) {
                 <td style={{ padding: '14px' }}>
                   <div style={{ fontWeight: 700 }}>{product.name}</div>
                   <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
-                    mínimo {formatQuantity(product.stockMinimum, product.unit)}
+                    mínimo {formatStockQuantity(product.stockMinimum, product.unit)}
                   </div>
                 </td>
                 <td style={{ padding: '14px' }}>{product.category}</td>
@@ -191,7 +191,7 @@ function ProductTable({ controller }: { controller: CatalogController }) {
                   </span>
                 </td>
                 <td style={{ padding: '14px', textAlign: 'center', fontWeight: 700 }}>
-                  {formatQuantity(product.stockQuantity, product.unit)}
+                  {formatStockQuantity(product.stockQuantity, product.unit)}
                 </td>
                 <td style={{ padding: '14px', textAlign: 'center' }}>{renderStatusBadge(product)}</td>
                 <td style={{ padding: '14px', textAlign: 'right' }}>
@@ -312,6 +312,9 @@ function InventoryPanel({ controller }: { controller: CatalogController }) {
           <p style={{ color: 'var(--text-secondary)', maxWidth: '720px' }}>
             Digite apenas os itens contados. O sistema compara com o saldo atual e gera movimentação de reconciliação só onde houver divergência.
           </p>
+          <p style={{ color: 'var(--text-secondary)', marginTop: '8px' }}>
+            Esta tela sempre mostra o catálogo completo, sem reaproveitar os filtros da aba de produtos.
+          </p>
         </div>
 
         <button className="btn btn-success" type="button" onClick={controller.handleApplyInventory}>
@@ -346,14 +349,16 @@ function InventoryPanel({ controller }: { controller: CatalogController }) {
             </tr>
           </thead>
           <tbody>
-            {controller.filteredProducts.map((product) => {
+            {controller.inventoryProducts.map((product) => {
               const delta = getInventoryDelta(product, controller.inventoryDraft.counts);
+              const rawCount = controller.inventoryDraft.counts[product.productId] ?? '';
+              const hasCount = rawCount.trim().length > 0;
 
               return (
                 <tr key={product.productId} style={{ borderBottom: '1px solid var(--border-light)' }}>
                   <td style={{ padding: '14px', fontWeight: 700 }}>{product.name}</td>
                   <td style={{ padding: '14px', fontFamily: 'monospace' }}>{product.id}</td>
-                  <td style={{ padding: '14px', textAlign: 'right' }}>{formatQuantity(product.stockQuantity, product.unit)}</td>
+                  <td style={{ padding: '14px', textAlign: 'right' }}>{formatStockQuantity(product.stockQuantity, product.unit)}</td>
                   <td style={{ padding: '14px', textAlign: 'right' }}>
                     <input
                       style={{ width: '120px', padding: '10px 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', textAlign: 'right' }}
@@ -371,7 +376,9 @@ function InventoryPanel({ controller }: { controller: CatalogController }) {
                       color: delta === null ? 'var(--text-tertiary)' : delta >= 0 ? 'var(--success)' : 'var(--danger)',
                     }}
                   >
-                    {delta === null ? 'Sem contagem' : `${delta > 0 ? '+' : ''}${delta.toFixed(product.unit === 'kg' ? 3 : 0).replace('.', ',')}`}
+                    {delta === null
+                      ? hasCount ? 'Contagem inválida' : 'Sem contagem'
+                      : `${delta > 0 ? '+' : ''}${delta.toFixed(product.unit === 'kg' ? 3 : 0).replace('.', ',')}`}
                   </td>
                   <td style={{ padding: '14px', textAlign: 'center' }}>{renderStatusBadge(product)}</td>
                 </tr>
@@ -473,7 +480,7 @@ function AdjustmentPanel({ controller }: { controller: CatalogController }) {
               </div>
               <div className="card" style={{ padding: '18px' }}>
                 <div style={{ color: 'var(--text-secondary)', fontSize: '0.82rem' }}>Saldo atual</div>
-                <div style={{ marginTop: '8px', fontWeight: 700 }}>{formatQuantity(selectedProduct.stockQuantity, selectedProduct.unit)}</div>
+                <div style={{ marginTop: '8px', fontWeight: 700 }}>{formatStockQuantity(selectedProduct.stockQuantity, selectedProduct.unit)}</div>
               </div>
               <div className="card" style={{ padding: '18px' }}>
                 <div style={{ color: 'var(--text-secondary)', fontSize: '0.82rem' }}>Indicador</div>
