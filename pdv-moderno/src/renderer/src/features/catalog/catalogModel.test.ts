@@ -143,6 +143,30 @@ test('applyInventoryCount rejeita contagens invalidas ou negativas', () => {
   }, /quantidade válida/i);
 });
 
+test('applyManualAdjustment rejeita quantidade fracionaria para produto por unidade', () => {
+  assert.throws(() => {
+    applyManualAdjustment(sampleProducts, {
+      productId: 'prd-002',
+      mode: 'increase',
+      quantity: '1,6',
+      reason: 'Acerto',
+      operator: 'Samuel Gomes',
+    }, '2026-03-29T12:05:00.000Z');
+  }, /inteira/i);
+});
+
+test('applyInventoryCount rejeita contagem fracionaria para produto por unidade', () => {
+  assert.throws(() => {
+    applyInventoryCount(sampleProducts, {
+      counts: {
+        'prd-002': '1,4',
+      },
+      operator: 'Ana Silva',
+      reason: 'Inventario semanal',
+    }, '2026-03-29T12:10:00.000Z');
+  }, /inteira/i);
+});
+
 test('formatStockQuantity preserva saldo zero e negativo no estoque', () => {
   assert.equal(formatStockQuantity(0, 'un'), '0 un');
   assert.equal(formatStockQuantity(-2, 'un'), '-2 un');
@@ -164,6 +188,16 @@ test('getInventoryProducts mantem o inventario desacoplado dos filtros de produt
     inventoryProducts.map((product) => product.productId),
     ['prd-001', 'prd-002'],
   );
+});
+
+test('filterCatalogProducts trata busca com apenas espacos como filtro vazio', () => {
+  const filteredProducts = filterCatalogProducts(sampleProducts, {
+    search: '   ',
+    saleMode: 'all',
+    status: 'all',
+  });
+
+  assert.equal(filteredProducts.length, sampleProducts.length);
 });
 
 test('matchCatalogProducts encontra produto por nome, codigo principal e codigo adicional', () => {

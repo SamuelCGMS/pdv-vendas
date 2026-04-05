@@ -72,7 +72,12 @@ function formatTimestamp(timestamp: string): string {
 function getInventoryDelta(product: CatalogProductRecord, counts: Record<string, string>): number | null {
   const countedValue = parseNumericInput(counts[product.productId] ?? '');
 
-  if (countedValue === null || !Number.isFinite(countedValue) || countedValue < 0) {
+  if (
+    countedValue === null
+    || !Number.isFinite(countedValue)
+    || countedValue < 0
+    || (product.unit !== 'kg' && !Number.isInteger(countedValue))
+  ) {
     return null;
   }
 
@@ -444,7 +449,7 @@ function AdjustmentPanel({ controller }: { controller: CatalogController }) {
             value={controller.adjustmentDraft.quantity}
             onChange={(event) => controller.handleAdjustmentFieldChange('quantity', event.target.value)}
             placeholder="0"
-            inputMode="decimal"
+            inputMode={selectedProduct?.unit === 'kg' ? 'decimal' : 'numeric'}
           />
         </div>
 

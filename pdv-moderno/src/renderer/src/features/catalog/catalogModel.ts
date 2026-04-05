@@ -69,6 +69,10 @@ function normalizeStockQuantity(value: number, unit: string): number {
   return Math.round(value);
 }
 
+function isFractionalUnitQuantity(value: number, unit: string): boolean {
+  return unit !== 'kg' && !Number.isInteger(value);
+}
+
 function applyAdjustmentMode(before: number, quantity: number, mode: AdjustmentMode): number {
   if (mode === 'set') {
     return quantity;
@@ -291,6 +295,11 @@ export function applyManualAdjustment(
   }
 
   const rawQuantity = parseNumberInput(draft.quantity);
+
+  if (isFractionalUnitQuantity(Math.abs(rawQuantity), targetProduct.unit)) {
+    throw new Error(`Informe uma quantidade inteira para ${targetProduct.name}.`);
+  }
+
   const normalizedQuantity = normalizeStockQuantity(Math.abs(rawQuantity), targetProduct.unit);
 
   if (normalizedQuantity <= 0) {
@@ -343,6 +352,10 @@ export function applyInventoryCount(
 
     if (parsedCount < 0) {
       throw new Error(`A contagem de ${product.name} não pode ser negativa.`);
+    }
+
+    if (isFractionalUnitQuantity(parsedCount, product.unit)) {
+      throw new Error(`Informe uma quantidade inteira para ${product.name}.`);
     }
 
     const countedQuantity = normalizeStockQuantity(parsedCount, product.unit);
@@ -408,8 +421,9 @@ export function filterCatalogProducts(
   products: readonly CatalogProductRecord[],
   filters: CatalogProductFilters,
 ): CatalogProductRecord[] {
-  const baseProducts = filters.search
-    ? matchCatalogProducts(products, filters.search)
+  const trimmedSearch = filters.search.trim();
+  const baseProducts = trimmedSearch
+    ? matchCatalogProducts(products, trimmedSearch)
     : products;
 
   return sortCatalogProductsByName(baseProducts)
