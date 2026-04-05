@@ -16,6 +16,7 @@ out
 
 #Agents
 /.agents
+.agents
 
 # Editor directories and files
 .vscode/*

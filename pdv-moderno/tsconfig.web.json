@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "allowImportingTsExtensions": true,
     "allowJs": true,
     "checkJs": false,
     "composite": true,
@@ -19,6 +20,7 @@
   ],
   "exclude": [
     "src/renderer/dist",
-    "out"
+    "out",
+    "src/renderer/**/*.test.ts"
   ]
 }

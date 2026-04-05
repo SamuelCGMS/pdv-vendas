@@ -7,6 +7,7 @@ export type DiscountDefinition = {
 
 export interface CatalogProduct {
   id: string;
+  barcodes?: readonly string[];
   name: string;
   price: number;
   unit: string;

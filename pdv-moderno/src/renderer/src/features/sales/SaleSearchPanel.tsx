@@ -18,6 +18,19 @@ interface SaleSearchPanelProps {
   onSelectProduct: (product: CatalogProduct, quantity: number) => void;
 }
 
+function getProductPresentation(product: CatalogProduct) {
+  const barcodes = product.barcodes?.filter(Boolean) ?? [];
+  const primaryBarcode = barcodes[0] ?? product.id;
+  const additionalBarcodes = Math.max(0, barcodes.length - 1);
+
+  return {
+    additionalBarcodes,
+    categoryLabel: product.category?.trim() || 'Sem categoria',
+    primaryBarcode,
+    unitLabel: product.unit === 'kg' ? 'Pesável' : product.unit.toUpperCase(),
+  };
+}
+
 function SaleSearchPanelComponent({
   barcodeInput,
   highlightedProductIndex,
@@ -53,6 +66,7 @@ function SaleSearchPanelComponent({
       <form onSubmit={onBarcodeSubmit} className="flex gap-4 w-full">
         <div style={{ flex: 1, position: 'relative' }}>
           <span
+            aria-hidden="true"
             style={{
               position: 'absolute',
               left: '20px',
@@ -72,6 +86,7 @@ function SaleSearchPanelComponent({
             onFocus={handleFocus}
             onBlur={handleBlur}
             placeholder="Código de barras ou nome do produto..."
+            autoComplete="off"
             style={{
               width: '100%',
               padding: '20px 20px 20px 60px',
@@ -98,7 +113,7 @@ function SaleSearchPanelComponent({
           title={
             scaleConnected
               ? 'Balança conectada'
-              : 'Balança desconectada — configure em Configurações'
+              : 'Balança desconectada - configure em Configurações'
           }
         >
           <span className="scale-status-dot" />
@@ -107,63 +122,57 @@ function SaleSearchPanelComponent({
       </form>
 
       {showDropdown && filteredProducts.length > 0 && (
-        <div
-          style={{
-            position: 'absolute',
-            top: '100%',
-            left: 0,
-            right: '230px',
-            backgroundColor: 'var(--surface-100)',
-            border: '1px solid var(--border)',
-            borderRadius: 'var(--radius-md)',
-            boxShadow: 'var(--shadow-lg)',
-            zIndex: 20,
-            maxHeight: '300px',
-            overflowY: 'auto',
-            marginTop: '8px',
-          }}
-        >
+        <div className="pos-search-dropdown">
+          <div className="pos-search-dropdown-header">
+            <span>
+              {filteredProducts.length} resultado{filteredProducts.length > 1 ? 's' : ''}
+            </span>
+            <span>Enter para inserir</span>
+          </div>
+
           {filteredProducts.map((product, index) => {
             const isHighlighted = index === highlightedProductIndex;
+            const presentation = getProductPresentation(product);
 
             return (
               <button
                 key={product.id}
                 type="button"
-                className="flex justify-between items-center"
-                style={{
-                  width: '100%',
-                  padding: '16px 24px',
-                  borderBottom: '1px solid var(--border-light)',
-                  cursor: 'pointer',
-                  transition: 'background-color 0.1s',
-                  backgroundColor: isHighlighted ? 'var(--surface-200)' : 'transparent',
-                }}
+                className={`pos-search-result ${isHighlighted ? 'highlighted' : ''}`}
                 onMouseEnter={() => onHighlightProduct(index)}
                 onClick={() => onSelectProduct(product, parsedQuantity)}
               >
-                <div>
-                  <div
-                    style={{
-                      fontWeight: 'bold',
-                      fontSize: '1.1rem',
-                      color: 'var(--text-primary)',
-                    }}
-                  >
-                    {product.name}
-                  </div>
-                  <div style={{ fontSize: '0.9rem', color: 'var(--text-tertiary)' }}>
-                    Cód: {product.id}
+                <div className="pos-search-result-main">
+                  <div className="pos-search-result-title">{product.name}</div>
+
+                  <div className="pos-search-result-meta">
+                    <span className="pos-search-result-code">
+                      Cód: {presentation.primaryBarcode}
+                    </span>
+                    <span className="pos-search-result-tag">
+                      {presentation.categoryLabel}
+                    </span>
+                    <span
+                      className={`pos-search-result-tag ${
+                        product.unit === 'kg' ? 'weighed' : ''
+                      }`}
+                    >
+                      {presentation.unitLabel}
+                    </span>
+                    {presentation.additionalBarcodes > 0 && (
+                      <span className="pos-search-result-tag">
+                        +{presentation.additionalBarcodes} código
+                        {presentation.additionalBarcodes > 1 ? 's' : ''}
+                      </span>
+                    )}
                   </div>
                 </div>
-                <div
-                  style={{
-                    fontWeight: 'bold',
-                    color: 'var(--primary)',
-                    fontSize: '1.2rem',
-                  }}
-                >
-                  R$ {formatCurrency(product.price)}
+
+                <div className="pos-search-result-price">
+                  <span className="pos-search-result-price-value">
+                    R$ {formatCurrency(product.price)}
+                  </span>
+                  <span className="pos-search-result-price-unit">por {product.unit}</span>
                 </div>
               </button>
             );

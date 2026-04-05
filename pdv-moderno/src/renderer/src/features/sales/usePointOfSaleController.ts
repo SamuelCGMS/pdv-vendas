@@ -15,7 +15,6 @@ import {
   type CatalogProduct,
   type DiscountDefinition,
 } from '../../../../shared/sales';
-import { products } from '../../data/mock';
 import scaleService from '../../services/scaleService';
 import { createCartId, createWeighableProduct, parseBarcodeInput } from './saleHelpers';
 import { useSearchInputFocus } from './useSearchInputFocus';
@@ -32,11 +31,13 @@ import type {
 type ScaleConnectionStatus = 'connected' | 'disconnected';
 
 interface UsePointOfSaleControllerOptions {
+  catalogProducts: readonly CatalogProduct[];
   isSalesTabActive: boolean;
   operator: OperatorSession;
 }
 
 export function usePointOfSaleController({
+  catalogProducts,
   isSalesTabActive,
   operator,
 }: UsePointOfSaleControllerOptions): PointOfSaleController {
@@ -77,13 +78,16 @@ export function usePointOfSaleController({
 
     const normalizedQuery = deferredQuery.toLowerCase();
 
-    return products.filter((product) => {
+    return catalogProducts.filter((product) => {
+      const productBarcodes = product.barcodes ?? [product.id];
+
       return (
-        product.id.includes(deferredQuery)
+        productBarcodes.some((barcode) => barcode.includes(deferredQuery))
         || product.name.toLowerCase().includes(normalizedQuery)
+        || (product.category?.toLowerCase().includes(normalizedQuery) ?? false)
       );
     });
-  }, [deferredQuery]);
+  }, [catalogProducts, deferredQuery]);
 
   const resolvedHighlightedProductIndex = filteredProducts.length === 0
     ? 0
