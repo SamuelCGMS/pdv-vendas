@@ -89,6 +89,48 @@ Conclusao:
 - podem ser criados como quiser nesta fase
 - depois voce pode trocar para o padrao do sistema de referencia
 
+## Status Atual Das Prioridades
+
+Esta secao consolida o que foi decidido como prioridade real para a fase atual do frontend.
+
+### PENDENTE
+
+- navegacao 100 por cento por teclado
+- ajuste fino para telas menores
+
+### EM ESPERA
+
+- detalhamento por venda
+- detalhamento por produto
+- resumo por operador
+- resumo por caixa
+- tela gerencial de auditoria de movimentos, caso a visao atual de estoque nao cubra a necessidade
+- separacao futura entre telas operacionais e telas gerenciais para deixar o app mais leve
+
+Observacoes:
+
+- a auditoria operacional de estoque ja existe parcialmente no modulo de catalogo, com movimentacao, inventario e ajuste manual
+- os relatorios gerenciais ficam para depois, junto com a futura separacao entre operacao e gestao
+
+### EM BLOQUEIO
+
+- troca/devolucao
+- cancelamento formal por item
+- melhorias adicionais no fluxo formal de cancelamento da compra inteira
+- consulta de preco dedicada
+- identificar caixa/terminal
+- tela para escolher modo do sistema
+- modo servidor
+- modo cliente
+- modo servidor + caixa
+- area visual para impressora
+- area visual para TEF
+- configuracao visual do cupom/rodape
+- backup
+- exportacao
+- usuarios
+- permissoes
+
 ## Tudo O Que Ainda Falta No Frontend
 
 ## 1. Frente de Caixa / Vendas
