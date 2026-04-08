@@ -41,15 +41,81 @@ The user must approve merges. Do not merge without manual user approval.
 
 If a PR needs changes, update the same PR with new commits. Do not create a new PR for each feedback round.
 
+## Triage Workflow
+
+Use this flow when the user brings a new idea, missing feature, bug, or product question:
+
+1. Discuss the request with the user.
+2. Clarify the goal, scope, and priority.
+3. Ask or confirm whether the user wants it registered as a Linear issue.
+4. If the user does not approve, keep refining the idea and do not create a Linear issue.
+5. If the user approves, create or update the Linear issue.
+6. Assign sprint, status, and labels when the information is clear.
+7. Treat the result as backlog organization, not immediate execution.
+8. Registering a Linear issue does not imply immediate implementation.
+9. When the user wants a clean context, implementation should start from the Linear issue in a new chat.
+10. Start implementation only when the user explicitly triggers execution.
+
+When creating a Linear issue, include enough context for another Codex session or another developer to implement it without relying on the current chat.
+
+Minimum Linear issue content:
+
+- context
+- objective
+- scope
+- acceptance criteria
+- priority, status, and labels
+
+Add when useful:
+
+- references
+- user decision
+
 ## Subagents
 
 Subagents are optional.
 
-Use subagents only when the user asks for `nivel 2`, `subagents`, or when the task is large enough to justify delegation.
+Default to single-agent execution.
+
+Use subagents only when the user explicitly says `use subagents`, `use nivel 2`, or `execute with pipeline`.
+
+Do not infer subagent usage from task size alone.
 
 When subagents are used, the main Codex agent remains the orchestrator and must integrate, review, and validate the result.
 
 Do not use subagents for small fixes, simple documentation edits, or changes in a single small file.
+
+## Relevant Skills
+
+Use matching skills when they clearly fit the task. Do not load every skill by default.
+
+| Skill | What it is for |
+|---|---|
+| `brainstorming` | Use for new ideas, unclear requests, scope discovery, and product/workflow discussions before implementation. |
+| `architecture` | Use for architecture decisions, trade-off analysis, and structural changes that affect the project beyond a single task. |
+| `linear:linear` | Use for reading, creating, and updating Linear issues, projects, and workflow state. |
+| `electron-best-practices` | Use for Electron app structure, IPC, security boundaries, packaging concerns, and Electron + React decisions. |
+| `frontend-design` | Use for UI/UX design work, visual improvements, layout refinements, and higher-quality frontend implementation. |
+| `vercel-react-best-practices` | Use for React implementation and refactors, especially performance, rendering, and maintainability concerns. |
+| `vercel-composition-patterns` | Use when React components are getting too coupled, too large, or need cleaner composition patterns. |
+| `typescript-advanced-types` | Use for complex typing, reusable type utilities, stricter type safety, and advanced TypeScript refactors. |
+| `clean-code` | Use to keep implementations direct, pragmatic, and free of unnecessary complexity or comments. |
+| `simplify` | Use after implementation to reduce complexity and improve readability without changing behavior. |
+| `test-driven-development` | Use for new features and bug fixes when the work should start from a failing test first. |
+| `testing-patterns` | Use for deciding test strategy, scope, mocking, and the right mix of unit, integration, and end-to-end coverage. |
+| `systematic-debugging` | Use when behavior is broken, unclear, or failing and the cause must be isolated before fixing. |
+| `lint-and-validate` | Use after code changes to run the right validation steps and avoid finishing with broken code. |
+| `code-review-checklist` | Use for technical review, correctness, edge cases, and risk scanning before considering work complete. |
+| `react-doctor` | Use after React changes to catch correctness, performance, and architecture issues. |
+| `playwright` | Use for browser automation, UI flow checks, screenshots, and validating interactive frontend behavior. |
+| `api-patterns` | Use when backend/API work begins and decisions are needed around REST, GraphQL, contracts, and response design. |
+| `nodejs-backend-patterns` | Use when implementing backend services, middleware, auth, background jobs, or production Node.js APIs. |
+| `nodejs-best-practices` | Use for backend design choices, runtime patterns, security, and Node.js architecture decisions. |
+| `database-design` | Use when database work begins and schema, indexing, or ORM choices must be made. |
+| `postgresql-table-design` | Use when designing or reviewing PostgreSQL tables, constraints, and indexing strategy. |
+| `supabase-postgres-best-practices` | Use when PostgreSQL work specifically involves Supabase patterns, performance, and operational guidance. |
+| `powershell-windows` | Use when command-line work in this Windows environment needs safer PowerShell syntax and patterns. |
+| `openai-docs` | Use when the task involves OpenAI or Codex behavior and current official documentation should be the source of truth. |
 
 ## Execution Workflow
 
