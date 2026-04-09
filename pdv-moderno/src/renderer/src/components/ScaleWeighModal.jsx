@@ -105,7 +105,16 @@ export default function ScaleWeighModal({ product, onConfirm, onCancel }) {
 
   return (
     <div className="scale-modal-overlay">
-      <div className="scale-modal card glass" style={{ width: '560px', padding: '0', overflow: 'hidden' }}>
+      <div
+        className="scale-modal card glass"
+        style={{
+          width: 'min(560px, calc(100vw - 32px))',
+          maxHeight: 'calc(100vh - 32px)',
+          padding: '0',
+          overflowY: 'auto',
+          overflowX: 'hidden',
+        }}
+      >
         
         {/* Header */}
         <div style={{
@@ -203,11 +212,12 @@ export default function ScaleWeighModal({ product, onConfirm, onCancel }) {
           {/* Manual Weight Input */}
           {state === 'manual' && (
             <form onSubmit={handleManualSubmit} className="flex-col" style={{ marginBottom: '24px' }}>
-              <label style={{ fontWeight: '600', color: 'var(--text-secondary)', marginBottom: '8px', fontSize: '1rem' }}>
+              <label htmlFor="manual-weight-input" style={{ fontWeight: '600', color: 'var(--text-secondary)', marginBottom: '8px', fontSize: '1rem' }}>
                 ✏️ Digite o peso em quilogramas:
               </label>
               <div className="flex gap-4 items-center">
                 <input
+                  id="manual-weight-input"
                   ref={manualInputRef}
                   type="text"
                   value={manualWeight}

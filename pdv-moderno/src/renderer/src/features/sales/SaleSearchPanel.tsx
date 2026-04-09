@@ -1,11 +1,13 @@
 import { memo, type FocusEvent, type FormEvent, type RefObject } from 'react';
 import type { CatalogProduct } from '../../../../shared/sales';
 import { formatCurrency } from '../../../../shared/sales';
+import type { SalesLayoutProfile } from './salesLayout.ts';
 
 interface SaleSearchPanelProps {
   barcodeInput: string;
   highlightedProductIndex: number;
   filteredProducts: readonly CatalogProduct[];
+  layout: SalesLayoutProfile;
   parsedQuantity: number;
   scaleConnected: boolean;
   searchInputRef: RefObject<HTMLInputElement | null>;
@@ -35,6 +37,7 @@ function SaleSearchPanelComponent({
   barcodeInput,
   highlightedProductIndex,
   filteredProducts,
+  layout,
   parsedQuantity,
   scaleConnected,
   searchInputRef,
@@ -46,6 +49,8 @@ function SaleSearchPanelComponent({
   onOpenDropdown,
   onSelectProduct,
 }: SaleSearchPanelProps) {
+  const areActionsWrapped = layout.searchActionsMode === 'wrapped';
+
   const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
     event.currentTarget.style.borderColor = 'var(--primary)';
     event.currentTarget.style.boxShadow = '0 0 0 4px rgba(15, 98, 254, 0.1)';
@@ -62,9 +67,17 @@ function SaleSearchPanelComponent({
   };
 
   return (
-    <div style={{ position: 'relative' }} className="w-full">
-      <form onSubmit={onBarcodeSubmit} className="flex gap-4 w-full">
-        <div style={{ flex: 1, position: 'relative' }}>
+    <div className="w-full" style={{ position: 'relative' }}>
+      <form
+        onSubmit={onBarcodeSubmit}
+        className="flex w-full"
+        style={{
+          gap: '16px',
+          flexWrap: areActionsWrapped ? 'wrap' : 'nowrap',
+          alignItems: areActionsWrapped ? 'stretch' : 'center',
+        }}
+      >
+        <div style={{ flex: '1 1 0%', minWidth: 0, position: 'relative' }}>
           <span
             aria-hidden="true"
             style={{
@@ -100,10 +113,18 @@ function SaleSearchPanelComponent({
             }}
           />
         </div>
+
         <button
           type="submit"
           className="btn btn-primary"
-          style={{ padding: '0 40px', fontSize: '1.1rem', borderRadius: 'var(--radius-lg)' }}
+          style={{
+            padding: '0 40px',
+            fontSize: '1.1rem',
+            borderRadius: 'var(--radius-lg)',
+            minHeight: '62px',
+            flex: areActionsWrapped ? '1 1 220px' : '0 0 auto',
+            whiteSpace: 'nowrap',
+          }}
         >
           ✚ INSERIR [ENTER]
         </button>
@@ -115,6 +136,7 @@ function SaleSearchPanelComponent({
               ? 'Balança conectada'
               : 'Balança desconectada - configure em Configurações'
           }
+          style={areActionsWrapped ? { flex: '1 1 180px', justifyContent: 'center' } : undefined}
         >
           <span className="scale-status-dot" />
           ⚖️ {scaleConnected ? 'Balança' : 'Sem Balança'}
@@ -122,7 +144,10 @@ function SaleSearchPanelComponent({
       </form>
 
       {showDropdown && filteredProducts.length > 0 && (
-        <div className="pos-search-dropdown">
+        <div
+          className="pos-search-dropdown"
+          style={{ right: areActionsWrapped ? 0 : undefined }}
+        >
           <div className="pos-search-dropdown-header">
             <span>
               {filteredProducts.length} resultado{filteredProducts.length > 1 ? 's' : ''}
