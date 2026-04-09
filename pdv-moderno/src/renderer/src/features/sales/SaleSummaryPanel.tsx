@@ -37,20 +37,22 @@ function SaleSummaryPanelComponent({
   onParkCurrentSale,
 }: SaleSummaryPanelProps) {
   const isCompact = layout.density === 'compact';
+  const isStacked = layout.workspaceMode === 'stacked';
   const shouldWrapActions = isCompact || layout.summaryWidth < 420;
 
   return (
     <div
       className="flex-col card glass"
       style={{
-        width: `${layout.summaryWidth}px`,
-        minWidth: `${layout.summaryWidth}px`,
+        width: isStacked ? '100%' : `${layout.summaryWidth}px`,
+        minWidth: isStacked ? 0 : `${layout.summaryWidth}px`,
         padding: isCompact ? '24px 18px' : '32px 24px',
         backgroundColor: 'var(--surface-100)',
         justifyContent: 'space-between',
         borderTop: '8px solid var(--primary)',
         boxShadow: 'var(--shadow-lg)',
-        overflow: 'hidden',
+        overflowX: 'hidden',
+        overflowY: 'auto',
       }}
     >
       <div className="flex-col gap-6">

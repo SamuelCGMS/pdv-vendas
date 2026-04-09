@@ -37,8 +37,9 @@ export function getSalesLayoutProfile({
   const searchActionsMode = workspaceMode === 'stacked' || contentWidth < 840 ? 'wrapped' : 'inline';
   const cartDensity = density === 'compact' ? 'compact' : 'regular';
   const modalDensity = density === 'compact' ? 'compact' : 'regular';
+  const workspacePadding = workspaceMode === 'stacked' ? 12 : density === 'compact' ? 12 : 16;
   const summaryWidth = workspaceMode === 'stacked'
-    ? contentWidth
+    ? Math.max(0, contentWidth - (workspacePadding * 2))
     : contentWidth < 980
       ? 360
       : contentWidth < 1240
@@ -52,7 +53,7 @@ export function getSalesLayoutProfile({
     cartDensity,
     modalDensity,
     contentWidth,
-    workspacePadding: workspaceMode === 'stacked' ? 12 : density === 'compact' ? 12 : 16,
+    workspacePadding,
     workspaceGap: density === 'compact' ? 12 : 16,
     mainPanelPadding: density === 'compact' ? 24 : 32,
     mainPanelGap: density === 'compact' ? 16 : 24,

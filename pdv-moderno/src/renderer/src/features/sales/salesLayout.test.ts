@@ -54,3 +54,15 @@ test('continua confortavel em viewport amplo sem expandir desnecessariamente o r
   assert.equal(layout.density, 'comfortable');
   assert.equal(layout.summaryWidth, 480);
 });
+
+test('usa a largura interna do workspace no modo empilhado para evitar corte lateral', () => {
+  const layout = getSalesLayoutProfile({
+    width: 960,
+    height: 768,
+  });
+
+  assert.equal(layout.workspaceMode, 'stacked');
+  assert.equal(layout.searchActionsMode, 'wrapped');
+  assert.equal(layout.workspacePadding, 12);
+  assert.equal(layout.summaryWidth, 836);
+});

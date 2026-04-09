@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { useViewportSize } from '../../hooks/useViewportSize.ts';
 import SaleCartPanel from './SaleCartPanel';
 import { getSalesLayoutProfile } from './salesLayout.ts';
@@ -12,7 +12,15 @@ interface SalesWorkspaceProps {
 
 function SalesWorkspaceComponent({ controller }: SalesWorkspaceProps) {
   const viewport = useViewportSize();
-  const layout = getSalesLayoutProfile(viewport);
+  const viewportHeight = viewport.height;
+  const viewportWidth = viewport.width;
+  const layout = useMemo(() => {
+    return getSalesLayoutProfile({
+      height: viewportHeight,
+      width: viewportWidth,
+    });
+  }, [viewportHeight, viewportWidth]);
+  const isStacked = layout.workspaceMode === 'stacked';
 
   return (
     <div
@@ -21,14 +29,16 @@ function SalesWorkspaceComponent({ controller }: SalesWorkspaceProps) {
         height: 'calc(100vh - 64px)',
         padding: `${layout.workspacePadding}px`,
         gap: `${layout.workspaceGap}px`,
-        flexDirection: layout.workspaceMode === 'stacked' ? 'column' : 'row',
-        overflow: 'hidden',
+        flexDirection: isStacked ? 'column' : 'row',
+        overflowX: 'hidden',
+        overflowY: isStacked ? 'auto' : 'hidden',
       }}
     >
       <div
         className="flex-col w-full card glass"
         style={{
           flex: 1,
+          minHeight: 0,
           minWidth: 0,
           padding: `${layout.mainPanelPadding}px`,
           gap: `${layout.mainPanelGap}px`,

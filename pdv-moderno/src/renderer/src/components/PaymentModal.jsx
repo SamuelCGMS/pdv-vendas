@@ -394,7 +394,12 @@ const PaymentMethodsControls = ({
 
 export default function PaymentModal({ total, onCancel, onConfirm }) {
   const viewport = useViewportSize();
-  const layout = getSalesLayoutProfile(viewport);
+  const viewportHeight = viewport.height;
+  const viewportWidth = viewport.width;
+  const layout = useMemo(() => getSalesLayoutProfile({
+    height: viewportHeight,
+    width: viewportWidth,
+  }), [viewportHeight, viewportWidth]);
   const compact = layout.modalDensity === 'compact';
   const amountInputRef = useRef(null);
   const [paymentMethods, setPaymentMethods] = useState([]);
