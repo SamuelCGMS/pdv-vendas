@@ -117,6 +117,15 @@ Use matching skills when they clearly fit the task. Do not load every skill by d
 | `powershell-windows` | Use when command-line work in this Windows environment needs safer PowerShell syntax and patterns. |
 | `openai-docs` | Use when the task involves OpenAI or Codex behavior and current official documentation should be the source of truth. |
 
+## MCP Preferences
+
+Use MCP tools when they clearly reduce ambiguity or provide the source of truth for the task.
+
+- Use `Linear` MCP for issue status, issue content, project state, and workflow updates.
+- Use `Context7` for current framework, library, and package documentation when implementation depends on external APIs or current library behavior.
+- Use `Playwright` MCP when frontend work needs browser validation, UI flow checks, screenshots, or real interaction testing.
+- Use official documentation as the preferred source when the task depends on external platform behavior or current APIs.
+
 ## Execution Workflow
 
 Expected flow for relevant issues:
