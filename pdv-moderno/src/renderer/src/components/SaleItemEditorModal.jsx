@@ -72,7 +72,7 @@ export default function SaleItemEditorModal({ item, onConfirm, onCancel }) {
     <div className="pos-modal-overlay">
       <div
         className="pos-modal-card card glass flex-col"
-        style={{ width: '620px', padding: '32px', gap: '24px' }}
+        style={{ width: 'min(620px, calc(100vw - 32px))', maxHeight: 'calc(100vh - 32px)', overflowY: 'auto', padding: '32px', gap: '24px' }}
       >
         <div className="flex-col gap-2">
           <h2 style={{ fontSize: '1.9rem', color: 'var(--text-primary)' }}>

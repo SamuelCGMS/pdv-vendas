@@ -17,7 +17,7 @@ export default function ShortcutHelpModal({ shortcuts, onClose }) {
     <div className="pos-modal-overlay">
       <div
         className="pos-modal-card card glass flex-col"
-        style={{ width: '720px', maxHeight: '80vh', padding: '32px', gap: '24px' }}
+        style={{ width: 'min(720px, calc(100vw - 32px))', maxHeight: '80vh', padding: '32px', gap: '24px' }}
       >
         <div className="flex justify-between items-center">
           <div className="flex-col gap-2">

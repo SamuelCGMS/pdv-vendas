@@ -1,5 +1,7 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
+import { useViewportSize } from '../../hooks/useViewportSize.ts';
 import SaleCartPanel from './SaleCartPanel';
+import { getSalesLayoutProfile } from './salesLayout.ts';
 import SaleSearchPanel from './SaleSearchPanel';
 import SaleSummaryPanel from './SaleSummaryPanel';
 import type { PointOfSaleController } from './types';
@@ -9,17 +11,37 @@ interface SalesWorkspaceProps {
 }
 
 function SalesWorkspaceComponent({ controller }: SalesWorkspaceProps) {
+  const viewport = useViewportSize();
+  const viewportHeight = viewport.height;
+  const viewportWidth = viewport.width;
+  const layout = useMemo(() => {
+    return getSalesLayoutProfile({
+      height: viewportHeight,
+      width: viewportWidth,
+    });
+  }, [viewportHeight, viewportWidth]);
+  const isStacked = layout.workspaceMode === 'stacked';
+
   return (
     <div
       className="flex w-full"
-      style={{ height: 'calc(100vh - 64px)', padding: '16px', gap: '16px' }}
+      style={{
+        height: 'calc(100vh - 64px)',
+        padding: `${layout.workspacePadding}px`,
+        gap: `${layout.workspaceGap}px`,
+        flexDirection: isStacked ? 'column' : 'row',
+        overflowX: 'hidden',
+        overflowY: isStacked ? 'auto' : 'hidden',
+      }}
     >
       <div
         className="flex-col w-full card glass"
         style={{
-          flex: 2,
-          padding: '32px',
-          gap: '24px',
+          flex: 1,
+          minHeight: 0,
+          minWidth: 0,
+          padding: `${layout.mainPanelPadding}px`,
+          gap: `${layout.mainPanelGap}px`,
           overflow: 'hidden',
           boxShadow: 'var(--shadow-lg)',
           borderTop: '4px solid var(--primary)',
@@ -29,6 +51,7 @@ function SalesWorkspaceComponent({ controller }: SalesWorkspaceProps) {
           barcodeInput={controller.barcodeInput}
           highlightedProductIndex={controller.highlightedProductIndex}
           filteredProducts={controller.filteredProducts}
+          layout={layout}
           parsedQuantity={controller.parsedQuantity}
           scaleConnected={controller.scaleConnected}
           searchInputRef={controller.searchInputRef}
@@ -43,6 +66,7 @@ function SalesWorkspaceComponent({ controller }: SalesWorkspaceProps) {
 
         <SaleCartPanel
           cart={controller.cart}
+          layout={layout}
           selectedCartId={controller.selectedCartId}
           onEditItem={controller.handleOpenCartItemEditor}
           onRemoveItem={controller.handleRemoveItem}
@@ -54,6 +78,7 @@ function SalesWorkspaceComponent({ controller }: SalesWorkspaceProps) {
         customerCpf={controller.customerCpf}
         hasCartItems={controller.cart.length > 0}
         hasSelectedCartItem={Boolean(controller.selectedCartItem)}
+        layout={layout}
         parkedSalesCount={controller.parkedSales.length}
         summary={controller.saleSummary}
         onConfirmCancelSale={controller.handleOpenCancelSaleConfirm}

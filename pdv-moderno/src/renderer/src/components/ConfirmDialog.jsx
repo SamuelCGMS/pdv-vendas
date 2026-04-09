@@ -47,7 +47,13 @@ export default function ConfirmDialog({
     <div className="pos-modal-overlay">
       <div
         className="pos-modal-card card glass flex-col"
-        style={{ width: '520px', padding: '32px', gap: '24px' }}
+        style={{
+          width: 'min(520px, calc(100vw - 32px))',
+          maxHeight: 'calc(100vh - 32px)',
+          overflowY: 'auto',
+          padding: '32px',
+          gap: '24px',
+        }}
       >
         <div
           style={{
