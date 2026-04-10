@@ -39,7 +39,9 @@ export default function PointOfSale({ operator, runtime, onLogout }) {
         {activeTab === 'relatorios' && (
           <Reports operator={operator} shiftSales={salesController.shiftSales} />
         )}
-        {activeTab === 'historico' && <HistoricalReports />}
+        {activeTab === 'historico' && (
+          <HistoricalReports operator={operator} shiftSales={salesController.shiftSales} />
+        )}
         {activeTab === 'catalogo' && <Catalog controller={catalogController} />}
         {activeTab === 'caixa' && (
           <CashManagement
