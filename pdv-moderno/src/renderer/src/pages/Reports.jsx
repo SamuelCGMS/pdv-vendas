@@ -1,21 +1,17 @@
-import React from 'react';
-import { recentTransactions } from '../data/mock';
+import React, { useMemo } from 'react';
+import { operationalTransactions } from '../data/mock';
+import { buildTurnReport } from '../features/reports/turnReport.ts';
 
 export default function Reports({ operator, shiftSales = [] }) {
-  const realTransactions = shiftSales.map((sale) => ({
-    id: `TRX-${sale.id.toString().slice(-4)}`,
-    items: sale.cart.reduce((accumulator, item) => accumulator + item.quantity, 0),
-    status: 'CONCLUIDO',
-    time: new Date(sale.id).toLocaleTimeString(),
-    total: sale.total,
-  })).reverse();
-
-  const allTransactions = [...realTransactions, ...recentTransactions];
-  const totalSales = allTransactions.reduce((accumulator, transaction) => {
-    return accumulator + transaction.total;
-  }, 0);
-  const avgTicket = totalSales / (allTransactions.length || 1);
   const workstationLabel = operator.workstation?.name ?? 'Caixa principal';
+  const workstationId = operator.workstation?.id ?? '';
+  const report = useMemo(() => {
+    return buildTurnReport({
+      liveSales: shiftSales,
+      workstationId,
+      workstationTransactions: operationalTransactions,
+    });
+  }, [shiftSales, workstationId]);
 
   return (
     <div
@@ -64,7 +60,7 @@ export default function Reports({ operator, shiftSales = [] }) {
             >
               R$
             </span>
-            {totalSales.toFixed(2).replace('.', ',')}
+            {report.totalRevenue.toFixed(2).replace('.', ',')}
           </div>
         </div>
         <div className="card glass" style={{ padding: '32px' }}>
@@ -88,7 +84,7 @@ export default function Reports({ operator, shiftSales = [] }) {
             >
               R$
             </span>
-            {avgTicket.toFixed(2).replace('.', ',')}
+            {report.averageTicket.toFixed(2).replace('.', ',')}
           </div>
         </div>
         <div className="card glass" style={{ padding: '32px' }}>
@@ -102,7 +98,7 @@ export default function Reports({ operator, shiftSales = [] }) {
             Transacoes Emitidas
           </h3>
           <div style={{ fontSize: '3rem', fontWeight: '800', color: 'var(--success)' }}>
-            {allTransactions.length}{' '}
+            {report.totalTransactions}{' '}
             <span
               style={{
                 fontSize: '1.2rem',
@@ -135,9 +131,9 @@ export default function Reports({ operator, shiftSales = [] }) {
             </tr>
           </thead>
           <tbody>
-            {allTransactions.map((transaction, index) => (
+            {report.transactions.map((transaction) => (
               <tr
-                key={`${transaction.id}-${index}`}
+                key={transaction.rowId}
                 style={{
                   borderBottom: '1px solid var(--border-light)',
                   transition: 'all 0.2s',
@@ -149,7 +145,7 @@ export default function Reports({ operator, shiftSales = [] }) {
                   event.currentTarget.style.backgroundColor = 'transparent';
                 }}
               >
-                <td style={{ padding: '24px 8px', fontWeight: '600' }}>{transaction.id}</td>
+                <td style={{ padding: '24px 8px', fontWeight: '600' }}>{transaction.displayId}</td>
                 <td style={{ padding: '24px 8px', color: 'var(--text-secondary)' }}>
                   {transaction.time}
                 </td>
