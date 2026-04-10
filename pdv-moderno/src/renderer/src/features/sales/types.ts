@@ -14,6 +14,13 @@ export interface OperatorSession {
   role: string;
   avatar: string;
   initialCash: number;
+  workstation: WorkstationSession;
+}
+
+export interface WorkstationSession {
+  id: string;
+  name: string;
+  zone: string;
 }
 
 export interface SalePayment {

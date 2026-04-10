@@ -16,6 +16,9 @@ export default function CashierSelect({ onSelect, runtime }) {
         <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '1.2rem' }}>
           Selecione o operador para efetuar a abertura do caixa
         </p>
+        <p style={{ color: 'var(--text-tertiary)', marginBottom: '2.5rem', fontSize: '0.95rem' }}>
+          Cada perfil ja entra vinculado a uma estacao de atendimento para manter o resumo por caixa consistente.
+        </p>
 
         <div className="flex-col items-center" style={{ marginBottom: '3rem' }}>
           <label style={{ fontSize: '1rem', color: 'var(--text-secondary)', marginBottom: '8px' }}>Fundo de Troco Inicial (R$)</label>
@@ -57,8 +60,11 @@ export default function CashierSelect({ onSelect, runtime }) {
                 <strong style={{ display: 'block', fontSize: '1.2rem', color: 'var(--text-primary)', marginBottom: '4px' }}>
                   {op.name}
                 </strong>
-                <span style={{ fontSize: '1rem', color: 'var(--text-secondary)' }}>
+                <span style={{ display: 'block', fontSize: '1rem', color: 'var(--text-secondary)' }}>
                   {op.role}
+                </span>
+                <span style={{ display: 'block', marginTop: '6px', fontSize: '0.85rem', color: 'var(--primary)', fontWeight: '700', letterSpacing: '0.03em', textTransform: 'uppercase' }}>
+                  {op.workstation.name} • {op.workstation.zone}
                 </span>
               </div>
             </button>
