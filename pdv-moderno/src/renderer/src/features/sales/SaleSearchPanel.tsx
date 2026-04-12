@@ -138,8 +138,8 @@ function SaleSearchPanelComponent({
           }
           style={areActionsWrapped ? { flex: '1 1 180px', justifyContent: 'center' } : undefined}
         >
-          <span className="scale-status-dot" />
-          ⚖️ {scaleConnected ? 'Balança' : 'Sem Balança'}
+          <div className={`ios-toggle ${scaleConnected ? 'connected' : ''}`} />
+          {scaleConnected ? 'Com Balança' : 'Sem Balança'}
         </div>
       </form>
 

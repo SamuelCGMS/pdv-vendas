@@ -49,7 +49,7 @@ export default function Reports({ operator, shiftSales = [] }) {
           >
             Vendas Brutas
           </h3>
-          <div style={{ fontSize: '3rem', fontWeight: '800', color: 'var(--text-primary)' }}>
+          <div style={{ fontSize: '3rem', fontWeight: '600', color: 'var(--text-primary)' }}>
             <span
               style={{
                 fontSize: '1.5rem',
@@ -73,7 +73,7 @@ export default function Reports({ operator, shiftSales = [] }) {
           >
             Ticket Medio
           </h3>
-          <div style={{ fontSize: '3rem', fontWeight: '800', color: 'var(--primary)' }}>
+          <div style={{ fontSize: '3rem', fontWeight: '600', color: 'var(--primary)' }}>
             <span
               style={{
                 fontSize: '1.5rem',
@@ -97,7 +97,7 @@ export default function Reports({ operator, shiftSales = [] }) {
           >
             Transacoes Emitidas
           </h3>
-          <div style={{ fontSize: '3rem', fontWeight: '800', color: 'var(--success)' }}>
+          <div style={{ fontSize: '3rem', fontWeight: '600', color: 'var(--success)' }}>
             {report.totalTransactions}{' '}
             <span
               style={{
@@ -154,7 +154,7 @@ export default function Reports({ operator, shiftSales = [] }) {
                   style={{
                     padding: '24px 8px',
                     textAlign: 'right',
-                    fontWeight: 'bold',
+                    fontWeight: '600',
                     fontSize: '1.1rem',
                   }}
                 >
@@ -167,7 +167,7 @@ export default function Reports({ operator, shiftSales = [] }) {
                       padding: '6px 12px',
                       borderRadius: '16px',
                       fontSize: '0.8rem',
-                      fontWeight: 'bold',
+                      fontWeight: '600',
                       color: 'var(--success)',
                     }}
                   >

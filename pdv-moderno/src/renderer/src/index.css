@@ -13,25 +13,25 @@
   --surface-200: #F4F4F4;
   --surface-300: #E0E0E0;
   --surface-400: #C6C6C6;
-  
+
   --text-primary: #161616;
   --text-secondary: #525252;
   --text-tertiary: #A8A8A8;
   --text-white: #FFFFFF;
-  
+
   /* Borders & Shadows */
   --border: #E0E0E0;
   --border-light: #F4F4F4;
   --border-focus: #0F62FE;
-  
+
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
-  
-  --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 8px rgba(0,0,0,0.08);
-  --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
+
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
 
   /* Typography */
   --font-family: "Segoe UI", "Noto Sans", system-ui, sans-serif;
@@ -51,7 +51,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
   width: 100vw;
-  overflow: hidden; /* App should fit strictly on screen like Desktop POS */
+  overflow: hidden;
+  /* App should fit strictly on screen like Desktop POS */
 }
 
 #root {
@@ -59,37 +60,94 @@ body {
 }
 
 /* Utilities */
-.flex { display: flex; }
-.flex-col { display: flex; flex-direction: column; }
-.items-center { align-items: center; }
-.justify-center { justify-content: center; }
-.justify-between { justify-content: space-between; }
-.gap-1 { gap: 4px; }
-.gap-2 { gap: 8px; }
-.gap-3 { gap: 12px; }
-.gap-4 { gap: 16px; }
-.gap-6 { gap: 24px; }
-.gap-8 { gap: 32px; }
-.h-full { height: 100%; }
-.w-full { width: 100%; }
-.grid { display: grid; }
-.text-center { text-align: center; }
-.text-right { text-align: right; }
-.font-bold { font-weight: 700; }
-.font-semibold { font-weight: 600; }
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-1 {
+  gap: 4px;
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.gap-3 {
+  gap: 12px;
+}
+
+.gap-4 {
+  gap: 16px;
+}
+
+.gap-6 {
+  gap: 24px;
+}
+
+.gap-8 {
+  gap: 32px;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
 
 /* Custom Scrollbar for the table */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--surface-300);
   border-radius: var(--radius-md);
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-secondary);
 }
@@ -109,9 +167,11 @@ body {
   gap: 8px;
   outline: none;
 }
+
 .btn:focus-visible {
   box-shadow: 0 0 0 3px var(--border-focus);
 }
+
 .btn:disabled {
   opacity: 0.55;
   cursor: not-allowed;
@@ -124,6 +184,7 @@ body {
   color: var(--text-white);
   box-shadow: var(--shadow-sm);
 }
+
 .btn-primary:hover {
   background-color: var(--primary-hover);
   transform: translateY(-1px);
@@ -134,6 +195,7 @@ body {
   background-color: var(--success);
   color: var(--text-white);
 }
+
 .btn-success:hover {
   background-color: var(--success-hover);
   transform: translateY(-1px);
@@ -143,6 +205,7 @@ body {
   background-color: var(--danger);
   color: var(--text-white);
 }
+
 .btn-danger:hover {
   background-color: var(--danger-hover);
 }
@@ -157,6 +220,7 @@ body {
   border: 1px solid var(--border);
   color: var(--text-primary);
 }
+
 .btn-outline:hover {
   background-color: var(--surface-200);
 }
@@ -460,52 +524,72 @@ body {
 .scale-status-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 0.8rem;
+  gap: 8px;
+  padding: 0;
+  font-size: 0.85rem;
   font-weight: 600;
-  transition: all 0.3s;
   cursor: default;
+  background-color: transparent;
+  border: none;
+  color: var(--text-secondary);
 }
 
 .scale-status-badge.connected {
-  background-color: rgba(25, 128, 56, 0.1);
-  color: var(--success);
-  border: 1px solid rgba(25, 128, 56, 0.2);
+  color: var(--text-primary);
 }
 
-.scale-status-badge.disconnected {
-  background-color: rgba(168, 168, 168, 0.1);
-  color: var(--text-tertiary);
-  border: 1px solid rgba(168, 168, 168, 0.2);
+.ios-toggle {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  border-radius: 20px;
+  background-color: var(--surface-300);
+  transition: background-color 0.3s ease;
+  flex-shrink: 0;
 }
 
-.scale-status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.scale-status-badge.connected .scale-status-dot {
+.ios-toggle.connected {
   background-color: var(--success);
-  animation: statusPulse 2s infinite;
 }
 
-.scale-status-badge.disconnected .scale-status-dot {
-  background-color: var(--text-tertiary);
+.ios-toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.ios-toggle.connected::after {
+  transform: translateX(16px);
 }
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes scaleIn {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes slideIn {
@@ -513,6 +597,7 @@ body {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -520,8 +605,15 @@ body {
 }
 
 @keyframes statusPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
 }
 
 .scale-pulse {
@@ -529,8 +621,15 @@ body {
 }
 
 @keyframes scalePulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
 }
 
 /* Loading dots animation */
@@ -556,11 +655,28 @@ body {
 }
 
 @keyframes dotBounce {
-  0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
-  40% { opacity: 1; transform: scale(1.2); }
+
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+
+  40% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
 }
 
 @keyframes slideIn {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

@@ -26,7 +26,7 @@ export default function CashierSelect({ onSelect, runtime }) {
             type="number" 
             value={initialCash} 
             onChange={e => setInitialCash(e.target.value)} 
-            style={{ padding: '16px', fontSize: '1.5rem', textAlign: 'center', width: '200px', borderRadius: 'var(--radius-md)', border: '2px solid var(--border)', outline: 'none', backgroundColor: 'var(--surface-100)', color: 'var(--text-primary)', fontWeight: 'bold' }} 
+            style={{ padding: '16px', fontSize: '1.5rem', textAlign: 'center', width: '200px', borderRadius: 'var(--radius-md)', border: '2px solid var(--border)', outline: 'none', backgroundColor: 'var(--surface-100)', color: 'var(--text-primary)', fontWeight: '600' }} 
             min="0"
             step="0.01"
           />

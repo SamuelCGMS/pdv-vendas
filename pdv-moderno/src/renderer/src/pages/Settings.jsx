@@ -91,17 +91,17 @@ export default function Settings() {
            <h2 style={{ color: 'var(--primary)', fontSize: '1.5rem', marginBottom: '8px' }}>🏪 Dados da Empresa</h2>
            
            <div className="flex-col gap-2">
-             <label style={{ color: 'var(--text-secondary)', fontWeight: 'bold' }}>Razão Social / Nome Fantasia</label>
+             <label style={{ color: 'var(--text-secondary)', fontWeight: '600' }}>Razão Social / Nome Fantasia</label>
              <input type="text" style={inputStyle} value={storeName} onChange={e => setStoreName(e.target.value)} />
            </div>
 
            <div className="flex-col gap-2">
-             <label style={{ color: 'var(--text-secondary)', fontWeight: 'bold' }}>CNPJ Emissor da Nota</label>
+             <label style={{ color: 'var(--text-secondary)', fontWeight: '600' }}>CNPJ Emissor da Nota</label>
              <input type="text" style={inputStyle} value={cnpj} onChange={e => setCnpj(e.target.value)} />
            </div>
 
            <div className="flex-col gap-2">
-             <label style={{ color: 'var(--text-secondary)', fontWeight: 'bold' }}>Endereço Padrão do Cupom</label>
+             <label style={{ color: 'var(--text-secondary)', fontWeight: '600' }}>Endereço Padrão do Cupom</label>
              <input type="text" style={inputStyle} value={address} onChange={e => setAddress(e.target.value)} />
            </div>
         </div>
@@ -111,7 +111,7 @@ export default function Settings() {
            <h2 style={{ color: 'var(--primary)', fontSize: '1.5rem', marginBottom: '8px' }}>🖌️ Preferências Visuais e Contábeis</h2>
            
            <div className="flex-col gap-2">
-             <label style={{ color: 'var(--text-secondary)', fontWeight: 'bold' }}>Cor da Marca (Substitui o Azul Global)</label>
+             <label style={{ color: 'var(--text-secondary)', fontWeight: '600' }}>Cor da Marca (Substitui o Azul Global)</label>
              <div className="flex gap-4">
                <input 
                  type="color" 
@@ -125,7 +125,7 @@ export default function Settings() {
            </div>
 
            <div className="flex-col gap-2" style={{ marginTop: '16px' }}>
-             <label style={{ color: 'var(--text-secondary)', fontWeight: 'bold' }}>Margem de Lucro Padrão Global (%)</label>
+             <label style={{ color: 'var(--text-secondary)', fontWeight: '600' }}>Margem de Lucro Padrão Global (%)</label>
              <div className="flex items-center gap-4">
                <input type="number" style={{...inputStyle, width: '120px'}} value={defaultMargin} onChange={e => setDefaultMargin(e.target.value)} />
                <span style={{ color: 'var(--text-tertiary)' }}>Aplicada auto para novos produtos cadastrados</span>
@@ -146,7 +146,7 @@ export default function Settings() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '24px' }}>
             {/* Protocol */}
             <div className="flex-col gap-2">
-              <label style={{ color: 'var(--text-secondary)', fontWeight: 'bold' }}>Protocolo</label>
+              <label style={{ color: 'var(--text-secondary)', fontWeight: '600' }}>Protocolo</label>
               <select
                 style={selectStyle}
                 value={scaleConfig.protocol}
@@ -163,7 +163,7 @@ export default function Settings() {
 
             {/* Baud Rate */}
             <div className="flex-col gap-2">
-              <label style={{ color: 'var(--text-secondary)', fontWeight: 'bold' }}>Baud Rate (Velocidade)</label>
+              <label style={{ color: 'var(--text-secondary)', fontWeight: '600' }}>Baud Rate (Velocidade)</label>
               <select
                 style={selectStyle}
                 value={scaleConfig.baudRate}
@@ -180,7 +180,7 @@ export default function Settings() {
 
             {/* Connect Button */}
             <div className="flex-col gap-2">
-              <label style={{ color: 'var(--text-secondary)', fontWeight: 'bold' }}>Porta Serial</label>
+              <label style={{ color: 'var(--text-secondary)', fontWeight: '600' }}>Porta Serial</label>
               <button
                 className={`btn ${scaleConnected ? 'btn-danger' : 'btn-primary'}`}
                 style={{ width: '100%', padding: '12px', fontSize: '1.05rem' }}
