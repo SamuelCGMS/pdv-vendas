@@ -2,21 +2,30 @@
   "name": "pdv-moderno",
   "productName": "Gravity PDV",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
-  "main": "out/main/index.js",
+  "main": "out/sales/main/main.js",
   "scripts": {
-    "dev": "electron-vite dev",
-    "dev:desktop": "electron-vite dev",
-    "dev:web": "vite --config vite.renderer.config.js",
-    "build": "npm run typecheck && electron-vite build",
-    "build:web": "vite build --config vite.renderer.config.js",
+    "dev": "npm run dev:sales",
+    "dev:sales": "electron-vite dev --config electron.sales.config.ts",
+    "dev:management": "electron-vite dev --config electron.management.config.ts",
+    "dev:web:sales": "vite --config vite.sales.config.ts",
+    "dev:web:management": "vite --config vite.management.config.ts",
+    "build": "npm run typecheck && npm run build:sales && npm run build:management",
+    "build:sales": "electron-vite build --config electron.sales.config.ts",
+    "build:management": "electron-vite build --config electron.management.config.ts",
+    "build:web:sales": "vite build --config vite.sales.config.ts",
+    "build:web:management": "vite build --config vite.management.config.ts",
     "lint": "eslint .",
-    "preview": "electron-vite preview",
-    "preview:web": "vite preview --config vite.renderer.config.js",
+    "test": "node --experimental-strip-types --experimental-test-isolation=none --test src/shared/**/*.test.ts apps/**/*.test.ts",
+    "preview:sales": "electron-vite preview --config electron.sales.config.ts",
+    "preview:management": "electron-vite preview --config electron.management.config.ts",
     "typecheck": "tsc -p tsconfig.node.json --noEmit && tsc -p tsconfig.web.json --noEmit"
   },
   "dependencies": {
+    "@fontsource/manrope": "^5.0.18",
+    "lucide-react": "^0.468.0",
+    "material-symbols": "^0.29.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "recharts": "^3.8.0"
@@ -34,6 +43,7 @@
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.4.0",
     "typescript": "^6.0.2",
+    "typescript-eslint": "^8.59.1",
     "vite": "^7.3.1"
   }
 }

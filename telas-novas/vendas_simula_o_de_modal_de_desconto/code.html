@@ -1,0 +1,360 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Ethereal Harvest POS - Checkout</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-dim": "#305e00",
+                        "on-primary-fixed-variant": "#366700",
+                        "on-primary": "#edffd8",
+                        "surface-container-highest": "#dde4e1",
+                        "surface-bright": "#f8faf8",
+                        "secondary-container": "#cfeaca",
+                        "on-error": "#fff7f6",
+                        "surface-variant": "#dde4e1",
+                        "surface-container": "#eaefec",
+                        "surface-container-low": "#f1f4f2",
+                        "tertiary-dim": "#4a564d",
+                        "surface-tint": "#386b02",
+                        "primary-fixed-dim": "#a9e575",
+                        "on-secondary-fixed": "#2e452e",
+                        "outline-variant": "#acb3b1",
+                        "inverse-surface": "#0b0f0e",
+                        "surface-container-high": "#e4e9e7",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#59615f",
+                        "primary": "#386b02",
+                        "on-secondary": "#eaffe4",
+                        "inverse-on-surface": "#9b9d9c",
+                        "error-container": "#fa746f",
+                        "tertiary-fixed-dim": "#d9e6da",
+                        "on-tertiary-fixed": "#3f4b42",
+                        "on-surface": "#2d3432",
+                        "on-tertiary-fixed-variant": "#5b675e",
+                        "on-tertiary": "#effcf0",
+                        "tertiary": "#566259",
+                        "surface-dim": "#d4dcd9",
+                        "secondary-fixed": "#cfeaca",
+                        "secondary": "#4e654c",
+                        "on-primary-fixed": "#244800",
+                        "surface": "#f8faf8",
+                        "inverse-primary": "#bffd89",
+                        "secondary-dim": "#425941",
+                        "tertiary-container": "#e7f4e8",
+                        "secondary-fixed-dim": "#c1dcbc",
+                        "on-secondary-container": "#40573f",
+                        "primary-fixed": "#b7f481",
+                        "on-secondary-fixed-variant": "#4a6148",
+                        "error": "#a83836",
+                        "on-primary-container": "#2f5c00",
+                        "on-error-container": "#6e0a12",
+                        "error-dim": "#67040d",
+                        "primary-container": "#b7f481",
+                        "background": "#f8faf8",
+                        "tertiary-fixed": "#e7f4e8",
+                        "outline": "#757c7a",
+                        "on-tertiary-container": "#515d54",
+                        "on-background": "#2d3432"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .editorial-shadow {
+            box-shadow: 0 40px 40px -20px rgba(45, 52, 50, 0.04);
+        }
+        .glass-panel {
+            background: rgba(248, 250, 248, 0.7);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container overflow-hidden h-screen flex">
+<!-- SideNavBar (Authority: JSON) -->
+<aside class="hidden md:flex flex-col h-full py-8 px-4 gap-6 bg-[#f1f4f2] dark:bg-[#232927] h-screen w-64 left-0 font-manrope font-medium text-sm">
+<div class="flex items-center gap-3 px-2">
+<div class="w-10 h-10 rounded-xl bg-surface-container-lowest flex items-center justify-center overflow-hidden">
+<img alt="Store Logo" class="w-full h-full object-cover" data-alt="minimalist botanical logo design of a single green leaf on a clean white background, high-end editorial style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFJa8IhNiIT4alxHDuFaR6hnGFfhYJ5BMT-IeJ_Eqc8ov2SmVkomqqSgErzr7uZYIIhVMeeeIR1wgyblAvOnfpOjP0SCZpoq2T5gtvZuoJGZjGk70CNAc6k4RRIuhuLEJGfU3SRP2l--Sv-PdmI0DKUj6s8kxjWMdN1X0cGQirhbGSlI49D_j3XLd4Xu1673kOEgrLgKf-sWlB5wYXpcgfwRurBQyhYdlmywl6Ie3xxrR0CzFrZRrkZC5n_b9XvVe_QD000EpGCqRu" style="">
+</div>
+<div>
+<p class="text-lg font-medium text-[#2d3432]" style="">BonsFrutos</p>
+<p class="text-xs font-light text-on-surface-variant" style="">Caixa 01</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-4 py-3 text-[#386b02] dark:text-[#b7f481] font-medium hover:bg-[#dde4e1] dark:hover:bg-[#2d3432] rounded-lg transition-all duration-300" href="#" style="">
+<span class="material-symbols-outlined" data-icon="point_of_sale" style="">point_of_sale</span>
+<span class="" style="">Caixa</span>
+</a><a class="flex items-center gap-3 px-4 py-3 text-[#2d3432] dark:text-[#acb3b1] font-light hover:bg-[#dde4e1] dark:hover:bg-[#2d3432] rounded-lg transition-all duration-300" href="#" style="">
+<span class="material-symbols-outlined" data-icon="settings" style="">settings</span>
+<span class="" style="">Configurações</span>
+</a>
+</nav>
+<button class="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-on-primary-container rounded-xl font-medium shadow-sm transition-all active:scale-[0.98]" style="">F12: Nova Venda</button>
+<div class="flex flex-col gap-2 border-t border-outline-variant/10 pt-4">
+<a class="flex items-center gap-3 px-4 py-2 text-[#2d3432] dark:text-[#acb3b1] font-light hover:bg-[#dde4e1] dark:hover:bg-[#2d3432] rounded-lg" href="#" style="">
+<span class="material-symbols-outlined" data-icon="help" style="">help</span>
+<span class="" style="">Suporte</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-[#2d3432] dark:text-[#acb3b1] font-light hover:bg-[#dde4e1] dark:hover:bg-[#2d3432] rounded-lg" href="#" style="">
+<span class="material-symbols-outlined" data-icon="lock" style="">lock</span>
+<span class="" style="">Fechamento</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 flex flex-col overflow-hidden">
+<!-- TopNavBar (Authority: JSON) -->
+<header class="flex justify-between items-center px-8 py-4 w-full bg-[#f8faf8] dark:bg-[#1a1c1a] font-manrope font-light top-0 border-b-0">
+<div class="flex items-center gap-8">
+<h1 class="text-2xl font-medium text-[#2d3432] dark:text-[#f1f4f2]" style="">PDV Ethereal Harvest</h1>
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-[#386b02] dark:text-[#b7f481] border-b-2 border-[#386b02] pb-1" href="#" style="">F1: Caixa</a>
+<a class="text-[#2d3432] dark:text-[#acb3b1] hover:bg-[#dde4e1] dark:hover:bg-[#3e4a46] transition-colors" href="#" style="">F2: Configurações</a>
+<a class="text-[#2d3432] dark:text-[#acb3b1] hover:bg-[#dde4e1] dark:hover:bg-[#3e4a46] transition-colors" href="#" style="">F3: Cancelar Venda</a></nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#386b02] cursor-pointer" data-icon="wifi" style="">wifi</span>
+<span class="material-symbols-outlined text-[#2d3432] cursor-pointer" data-icon="notifications" style="">notifications</span>
+<span class="text-sm font-medium text-on-surface ml-2" style="">João Silva</span><img alt="Manager Avatar" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBB6a1KQ2aKVT5E-I4a1g6X18UdTr0oaFSpiNB0WeglOShp0BnLirknShkMKPErKi755edoTCplMvDgBbhJ7x2vA8wQbdmfVIC9Iu9KtizRD-cSgRWALqby21P3ztFa46MxSFAeVB-WwOnIXL4KGofHzAuQyItt1DIDACHmVjC5HL__-9PKlmpEnM8DJ9PCWV34lO7la_TrR-rnToUhY4HCM1uiOw6UJyKkj7lsZ0NiU58palib5riaXckwQXbML-3iP7sqAKBd7_T8" style="">
+</div>
+</div>
+</header>
+<!-- POS Canvas -->
+<div class="flex-1 flex overflow-hidden p-6 gap-6">
+<!-- Minimalist Product Selection & Items List -->
+<section class="flex-[1.5] flex flex-col items-center gap-8 bg-surface-container-low/30 rounded-3xl p-12 justify-start pt-8 overflow-hidden">
+<div class="w-full max-w-2xl flex flex-col items-center gap-6 mb-8">
+<div class="w-20 h-20 rounded-full bg-primary-container flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-4xl text-on-primary-container" data-icon="barcode_scanner" style="">barcode_scanner</span>
+</div>
+<div class="relative w-full group">
+<span class="absolute left-6 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary text-2xl" style="">search</span>
+<input autofocus="" class="w-full pl-16 pr-8 py-6 bg-surface-container-lowest border-none rounded-2xl shadow-xl shadow-primary/5 focus:ring-2 focus:ring-primary/20 text-xl font-light outline-none transition-all placeholder:text-outline-variant" placeholder="Bipe o produto ou digite o nome/código" type="text" value="ABACATE"><div class="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-2xl border border-outline-variant/10 z-50 overflow-hidden editorial-shadow hidden">
+<div class="p-2 flex flex-col">
+<!-- Result 1: ABACATE -->
+<div class="flex items-center gap-4 p-3 hover:bg-primary-container/20 rounded-xl cursor-pointer transition-colors group">
+<div class="w-12 h-12 rounded-lg bg-surface flex-shrink-0 overflow-hidden">
+<img alt="Abacate" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtqiGtpRwinZBbNeQ4dJbsIRH54N28j5k1qIOu-Q4nEEsoJkD5bVKBwC7sTtnVvPIiyZqd-os10m2K7nRrOZrVSAdXS-8g9ka7HgN0qxnj2Pg5JIiBRGa4RH4-AcdKfKmiKbxWhZAJGpIf_pLmlbbZFHe9HrBQwgOKJu6hGYKPZtTS15WzKkdY90_iIRkYzX_1zkU7IeNtxZnB6VhlaNI76jkxiR60kfL3ufq5OVqzx3WYBIg23jYVxSGWT3TdMFmDhcScZU8_Bjyk" style="">
+</div>
+<div class="flex-1"><p class="font-medium text-on-surface" style="">Abacate Hass <span class="text-xs font-light text-primary bg-primary/10 px-2 py-0.5 rounded-full ml-2" style="">Melhor Match</span></p><p class="text-xs text-on-surface-variant font-light" style="">Frutas</p></div>
+<div class="text-right pr-2"><p class="text-lg font-bold text-primary-dim" style="">R$ 2,25</p><p class="text-[10px] text-on-surface-variant" style="">por un</p></div><span class="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-opacity" style="">add_circle</span>
+</div>
+<!-- Result 2 -->
+<div class="flex items-center gap-4 p-3 hover:bg-primary-container/20 rounded-xl cursor-pointer transition-colors group">
+<div class="w-12 h-12 rounded-lg bg-surface flex-shrink-0 overflow-hidden">
+<img alt="Abacate Manteiga" class="w-full h-full object-cover opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPsYqCchExyiwhO3XbqeQHfb7ZDPt9FW4J4k3WYeu53t99WGUKZbxhMO8G5dC2wVH3jyUir0Kowqfo6Syk8OuVJueOmqdh7q_p9t2QHQRncoCUKeFWld3GLSUsVYOtNc-d-j444ZMsRAMQqQdwYgKHVdsuboqD6cyZrYGvCpyEBycarLzWdiX9omDtAeg6CgjzYRUwyhZkAUsL7_pTHLD8o-Yi0LvMAgQtlpApiVo8t09JjaescGMkjoad8TXh8DBz5mdsgaUrnCQV" style="">
+</div>
+<div class="flex-1"><p class="font-medium text-on-surface" style="">Abacate Manteiga</p><p class="text-xs text-on-surface-variant font-light" style="">Frutas</p></div>
+<div class="text-right pr-2"><p class="text-lg font-bold text-primary-dim" style="">R$ 4,50</p><p class="text-[10px] text-on-surface-variant" style="">por kg</p></div><span class="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-opacity" style="">add_circle</span>
+</div>
+<!-- Footer / Helper -->
+<div class="mt-2 border-t border-outline-variant/10 p-2 flex justify-between items-center">
+<span class="text-[10px] text-on-surface-variant font-light px-2" style="">3 resultados encontrados</span>
+<button class="text-[10px] text-primary font-medium px-2 py-1 hover:bg-primary/5 rounded" style="">Ver todos (F4)</button>
+</div>
+</div>
+</div>
+<div class="absolute right-6 top-1/2 -translate-y-1/2 flex gap-2">
+<kbd class="px-2 py-1 bg-surface-container-high rounded text-[10px] font-medium text-on-surface-variant">ESC</kbd>
+</div>
+</div>
+</div>
+<!-- Moved Items List -->
+<div class="w-full max-w-2xl flex-1 overflow-y-auto space-y-6 py-4 px-2">
+<!-- Item 1 -->
+<div class="flex items-center gap-6 bg-surface-container-lowest p-4 rounded-2xl shadow-sm">
+<div class="w-16 h-16 rounded-xl bg-surface overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="avocado thumbnail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPsYqCchExyiwhO3XbqeQHfb7ZDPt9FW4J4k3WYeu53t99WGUKZbxhMO8G5dC2wVH3jyUir0Kowqfo6Syk8OuVJueOmqdh7q_p9t2QHQRncoCUKeFWld3GLSUsVYOtNc-d-j444ZMsRAMQqQdwYgKHVdsuboqD6cyZrYGvCpyEBycarLzWdiX9omDtAeg6CgjzYRUwyhZkAUsL7_pTHLD8o-Yi0LvMAgQtlpApiVo8t09JjaescGMkjoad8TXh8DBz5mdsgaUrnCQV" style="">
+</div>
+<div class="flex-1">
+<p class="text-lg font-medium" style="">Hass Avocados</p>
+<p class="text-sm font-light text-on-surface-variant" style="">R$2.25 / un</p>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center bg-surface-container rounded-full px-3 py-1.5">
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors" style=""><span class="material-symbols-outlined text-lg" data-icon="remove" style="">remove</span></button>
+<span class="px-4 text-base font-medium" style="">02</span>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors" style=""><span class="material-symbols-outlined text-lg" data-icon="add" style="">add</span></button>
+</div>
+<p class="text-lg font-medium w-24 text-right" style="">R$4,50</p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex items-center gap-6 bg-surface-container-lowest p-4 rounded-2xl shadow-sm">
+<div class="w-16 h-16 rounded-xl bg-surface overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="grapes thumbnail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6d-r9k7PyyR49ujFWNKr6U01bCm6h9rGhYFXPKhUX-fZmK-I-jp39PRLFIx7MsHzc03JXIDYeSVNF9k2zLAsG5r2FeYOH9NobfRJPYFPXDGptRDZtfSmB_Iw0iTTfQ1GHiLuOT6h28dAdvEq1BLOrac1dctnRBtcI2cfdMuc7diAjXJhOJ2AZQjhlObvGQGJ7SsiVdTQh9NPiObpsAhtX04MhORdnlnihHqBu4k0zckcOJEEVmadMRD_7vGXmdQDmAZTxeuHHUADG" style="">
+</div>
+<div class="flex-1">
+<p class="text-lg font-medium" style="">Purple Grapes</p>
+<p class="text-sm font-light text-on-surface-variant" style="">R$6.90 / 500g</p>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center bg-surface-container rounded-full px-3 py-1.5">
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors" style=""><span class="material-symbols-outlined text-lg" data-icon="remove" style="">remove</span></button>
+<span class="px-4 text-base font-medium" style="">01</span>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors" style=""><span class="material-symbols-outlined text-lg" data-icon="add" style="">add</span></button>
+</div>
+<p class="text-lg font-medium w-24 text-right" style="">R$6,90</p>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="flex items-center gap-6 bg-surface-container-lowest p-4 rounded-2xl shadow-sm">
+<div class="w-16 h-16 rounded-xl bg-surface overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="spinach thumbnail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCd7twUQPRPdtQRxiCWTQHY3LKPorIhnXqP0XLH8yp_SoZzJSBS3mf4X2Ioyk8Qzv6gjTMPLx4vNzHU4TOdeSWTTV92ox8lEXxMV9uZ4yYYp4GEzW_i3GAmZ-T7uihFzZZEdc7L4WW3csf9cKmkHNcF_rY_N7gJKHBws7xnmHdpehtZOOxQpDlFwvEeFiBhC8PHfOyk8XxXl4YmIjbvsvww4WWXETrhrngup4nSt2ePL3aaoi8olzgTqpaGNBDMdjD1FvRJcGwMKIwZ" style="">
+</div>
+<div class="flex-1">
+<p class="text-lg font-medium" style="">Organic Spinach</p>
+<p class="text-sm font-light text-on-surface-variant" style="">R$3.10 / maço</p>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center bg-surface-container rounded-full px-3 py-1.5">
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors" style=""><span class="material-symbols-outlined text-lg" data-icon="remove" style="">remove</span></button>
+<span class="px-4 text-base font-medium" style="">02</span>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors" style=""><span class="material-symbols-outlined text-lg" data-icon="add" style="">add</span></button>
+</div>
+<p class="text-lg font-medium w-24 text-right" style="">R$2,49</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Checkout Summary -->
+<aside class="flex-1 bg-surface-container-lowest rounded-xl flex flex-col editorial-shadow overflow-hidden">
+<!-- Basket Header -->
+<div class="p-6 pb-2">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-lg font-medium" style="">Carrinho Atual</h3>
+<button class="text-xs font-medium text-error flex items-center gap-1" style=""><span class="material-symbols-outlined text-sm" data-icon="delete_sweep" style="">delete_sweep</span> [ESC] Limpar</button>
+</div>
+<!-- Total Amount Due -->
+<div class="bg-surface-container-low rounded-xl p-6 mb-4">
+<p class="text-xs font-medium text-on-surface-variant mb-1" style="">TOTAL A PAGAR</p>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-light text-primary" style="">R$</span>
+<span class="text-6xl font-light tracking-tighter text-on-surface" style="">12,55</span>
+</div>
+</div>
+</div>
+<!-- Resumo da Venda Section -->
+<div class="flex-1 px-6">
+<div class="mt-4 border-t border-outline-variant/10 pt-6">
+<p class="text-xs font-medium text-on-surface-variant mb-4 tracking-wider uppercase" style="">Resumo da Venda</p>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<span class="text-sm font-light text-on-surface-variant" style="">Total de Itens</span>
+<span class="text-base font-medium text-on-surface" style="">3 unid.</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm font-light text-on-surface-variant" style="">Peso Total</span>
+<span class="text-base font-medium text-on-surface" style="">2.150 kg</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm font-light text-on-surface-variant" style="">Descontos</span>
+<span class="text-base font-medium text-primary" style="">- R$ 0,00</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Payment Section -->
+<div class="p-6 bg-surface-container-low/50">
+<p class="text-xs font-medium text-on-surface-variant mb-4 tracking-wider uppercase" style="">SELECIONE O MÉTODO DE PAGAMENTO</p>
+<div class="grid grid-cols-3 gap-3 mb-6">
+<button class="flex flex-col items-center gap-2 p-3 rounded-xl bg-surface-container-lowest border border-primary/20 text-primary" style="">
+<span class="material-symbols-outlined" data-icon="credit_card" style="">credit_card</span>
+<span class="text-xs font-medium" style="">Cartão [F6]</span>
+</button>
+<button class="flex flex-col items-center gap-2 p-3 rounded-xl bg-surface-container-lowest text-on-surface-variant hover:bg-white transition-colors" style="">
+<span class="material-symbols-outlined" data-icon="payments" style="">payments</span>
+<span class="text-xs font-medium" style="">Dinheiro [F7]</span>
+</button>
+<button class="flex flex-col items-center gap-2 p-3 rounded-xl bg-surface-container-lowest text-on-surface-variant hover:bg-white transition-colors" style="">
+<span class="material-symbols-outlined" data-icon="qr_code_2" style="">qr_code_2</span>
+<span class="text-xs font-medium" style="">Pix [F8]</span>
+</button>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col gap-3">
+<button class="w-full py-4 bg-gradient-to-br from-primary to-primary-dim text-on-primary rounded-xl font-medium text-lg flex items-center justify-center gap-2 shadow-lg shadow-primary/10" style="">Finalizar Venda <span class="text-xs font-light opacity-80" style="">[F12]</span></button>
+<div class="flex gap-3">
+<button class="flex-1 py-3 bg-surface-container-high rounded-xl text-on-surface-variant text-sm font-medium flex items-center justify-center gap-2" style=""><span class="material-symbols-outlined text-lg" data-icon="pause_circle" style="">pause_circle</span> Estacionar [F10]</button>
+<button class="flex-1 py-3 bg-surface-container-high rounded-xl text-on-surface-variant text-sm font-medium flex items-center justify-center gap-2" onclick="document.getElementById('discount-modal').classList.remove('hidden')" style=""><span class="material-symbols-outlined text-lg" data-icon="receipt" style="">receipt</span> Desconto[F11]</button>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Bottom Action Bar for Mobile/Tablet -->
+<div class="fixed bottom-0 left-0 right-0 md:hidden bg-surface-container-lowest p-4 flex justify-around border-t-0 shadow-2xl rounded-t-3xl">
+<button class="flex flex-col items-center text-primary" style="">
+<span class="material-symbols-outlined" data-icon="shopping_basket" style="">shopping_basket</span>
+<span class="text-[10px] font-medium" style="">Caixa</span>
+</button>
+<button class="flex flex-col items-center text-on-surface-variant" style="">
+<span class="material-symbols-outlined" data-icon="inventory" style="">inventory</span>
+<span class="text-[10px] font-medium" style="">Estoque</span>
+</button>
+<button class="flex flex-col items-center text-on-surface-variant" style="">
+<span class="material-symbols-outlined" data-icon="person" style="">person</span>
+<span class="text-[10px] font-medium" style="">Cliente</span>
+</button>
+<button class="flex flex-col items-center text-on-surface-variant" style="">
+<span class="material-symbols-outlined" data-icon="menu" style="">menu</span>
+<span class="text-[10px] font-medium" style="">Mais</span>
+</button>
+</div>
+<!-- Discount Modal -->
+<div class="hidden fixed inset-0 bg-black/40 z-[60] flex items-center justify-center" id="discount-modal"><div class="bg-white rounded-xl p-8 w-[32rem] flex flex-col gap-8 shadow-xl border border-outline-variant/20" style="">
+<div class="flex justify-between items-center">
+<h3 class="text-2xl font-display font-medium text-on-surface" style="">Aplicar Desconto</h3>
+<button class="text-on-surface-variant hover:text-on-surface rounded-full p-2 transition-colors" onclick="document.getElementById('discount-modal').classList.add('hidden')" style="">
+<span class="material-symbols-outlined" data-icon="close" style="">close</span>
+</button>
+</div>
+<p class="font-light text-on-surface-variant text-lg" style="">Tipo de Desconto: Item ou Subtotal?</p>
+<div class="flex gap-6">
+<button class="flex-1 py-10 rounded-xl bg-white border-2 border-primary flex flex-col items-center justify-center gap-4 transition-all hover:bg-primary/5 shadow-sm" onclick="document.getElementById('discount-modal').classList.add('hidden')" style="">
+<span class="material-symbols-outlined text-4xl text-primary" data-icon="shopping_basket" style="">shopping_basket</span>
+<span class="font-medium text-on-surface text-lg" style="">Por Item</span>
+</button>
+<button class="flex-1 py-10 rounded-xl bg-white border border-outline-variant/30 flex flex-col items-center justify-center gap-4 transition-all hover:border-primary/50 hover:bg-primary/5 shadow-sm" onclick="document.getElementById('discount-modal').classList.add('hidden')" style="">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant" data-icon="receipt_long" style="">receipt_long</span>
+<span class="font-medium text-on-surface text-lg" style="">No Subtotal</span>
+</button>
+</div>
+</div></div>
+<script>
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F11') {
+            e.preventDefault();
+            document.getElementById('discount-modal').classList.remove('hidden');
+        }
+        if (e.key === 'Escape') {
+            document.getElementById('discount-modal').classList.add('hidden');
+        }
+    });
+</script>
+</body></html>

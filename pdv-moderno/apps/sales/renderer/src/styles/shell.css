@@ -1,0 +1,273 @@
+/* Shell Layout */
+.sales-shell {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* === Sidebar === */
+/* HTML: aside w-64 py-8 px-4 gap-6 bg-[#f1f4f2] font-medium text-sm */
+.sales-sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 256px;
+  flex-shrink: 0;
+  height: 100vh;
+  padding: 32px 16px;
+  gap: 24px;
+  background: #f1f4f2;
+  font-size: 14px;
+  transition: width 300ms cubic-bezier(0.2, 0, 0, 1), padding 300ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.sales-sidebar.collapsed {
+  width: 88px;
+  padding: 32px 12px;
+}
+
+.sidebar-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+}
+
+/* HTML: flex items-center gap-3 px-2 */
+.store-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 8px;
+}
+
+/* HTML: w-10 h-10 rounded-xl bg-surface-container-lowest overflow-hidden */
+.store-logo {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.store-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* HTML: text-lg font-medium */
+.store-head strong {
+  display: block;
+  font-size: 18px;
+  font-weight: 500;
+  color: #2d3432;
+}
+
+/* HTML: text-xs font-light text-on-surface-variant */
+.store-head span {
+  display: block;
+  margin-top: 2px;
+  color: var(--color-on-surface-variant);
+  font-size: 12px;
+  font-weight: 300;
+}
+
+/* HTML: flex-1 flex flex-col gap-2 mt-4 */
+.side-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* HTML: flex items-center gap-3 px-4 py-3 font-light rounded-lg */
+.side-nav button,
+.side-footer button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: #2d3432;
+  text-align: left;
+  background: transparent;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 300;
+  transition: all 300ms;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.sales-sidebar.collapsed .side-nav button,
+.sales-sidebar.collapsed .side-footer button {
+  padding: 12px;
+  justify-content: center;
+}
+
+.nav-label {
+  transition: opacity 300ms ease, width 300ms ease;
+}
+
+.sales-sidebar.collapsed .nav-label {
+  opacity: 0;
+  width: 0;
+  pointer-events: none;
+}
+
+/* HTML: text-[#386b02] font-medium */
+.side-nav button.active {
+  color: #386b02;
+  font-weight: 500;
+}
+
+.side-nav button:hover,
+.side-footer button:hover {
+  background: #dde4e1;
+}
+
+/* HTML: w-full py-4 rounded-xl font-medium shadow-sm */
+.new-sale {
+  width: 100%;
+  padding: 16px 0;
+  color: var(--color-on-primary-container);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-container));
+  border-radius: 12px;
+  font-weight: 500;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: all 300ms cubic-bezier(0.2, 0, 0, 1);
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sales-sidebar.collapsed .new-sale {
+  padding: 16px;
+}
+
+.new-sale:active {
+  transform: scale(0.98);
+}
+
+/* HTML: flex flex-col gap-2 border-t border-outline-variant/10 pt-4 */
+.side-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(172, 179, 177, 0.1);
+}
+
+/* HTML: px-4 py-2 */
+.side-footer button {
+  padding: 8px 16px;
+}
+
+.active-link {
+  color: var(--color-primary);
+}
+
+/* === Topbar === */
+/* HTML: flex justify-between items-center px-8 py-4 bg-[#f8faf8] font-light */
+.sales-topbar {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 16px 32px;
+  background: #f8faf8;
+  font-weight: 300;
+}
+
+.topbar-title-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.topbar-sidebar-toggle {
+  background: transparent;
+  color: #2d3432;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: background 200ms;
+  flex-shrink: 0;
+}
+
+.topbar-sidebar-toggle:hover {
+  background: #dde4e1;
+}
+
+/* HTML: text-2xl font-medium */
+.sales-topbar h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 500;
+  color: #2d3432;
+}
+
+/* HTML: flex items-center gap-6 */
+.sales-topbar nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+/* inherits font-light from topbar */
+.sales-topbar nav button {
+  color: #2d3432;
+  background: transparent;
+  font-weight: 300;
+  transition: color 200ms;
+}
+
+/* HTML: text-[#386b02] border-b-2 border-[#386b02] pb-1 */
+.sales-topbar nav button.active {
+  color: #386b02;
+  border-bottom: 2px solid #386b02;
+  padding-bottom: 4px;
+}
+
+/* HTML: flex items-center gap-4 */
+.topbar-status {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+}
+
+.topbar-wifi {
+  color: #386b02;
+}
+
+/* HTML: text-sm font-medium ml-2 */
+.topbar-status span {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-on-surface);
+  margin-left: 8px;
+}
+
+/* HTML: w-8 h-8 rounded-full */
+.mini-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* === Main area === */
+.sales-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}

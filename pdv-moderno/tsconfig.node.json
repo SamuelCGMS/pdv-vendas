@@ -1,17 +1,17 @@
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
     "composite": true,
-    "lib": ["ESNext"],
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "skipLibCheck": true,
     "types": ["node"],
-    "paths": {
-      "@shared/*": ["./src/shared/*"]
-    }
+    "allowSyntheticDefaultImports": true
   },
   "include": [
-    "electron.vite.config.ts",
-    "src/main/**/*.ts",
-    "src/preload/**/*.ts",
-    "src/shared/**/*.ts"
+    "electron.*.config.ts",
+    "vite.*.config.ts",
+    "apps/*/electron/**/*.ts"
   ]
 }

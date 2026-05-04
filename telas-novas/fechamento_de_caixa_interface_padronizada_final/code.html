@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fechamento de Caixa - Ethereal Harvest POS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "brand-green": "#8FB996",
+                        "error": "#a83836",
+                        "tertiary-fixed": "#e7f4e8",
+                        "outline-variant": "#acb3b1",
+                        "on-secondary": "#eaffe4",
+                        "on-tertiary": "#effcf0",
+                        "secondary": "#4e654c",
+                        "on-primary-fixed-variant": "#366700",
+                        "tertiary-fixed-dim": "#d9e6da",
+                        "secondary-container": "#cfeaca",
+                        "on-surface": "#2d3432",
+                        "primary-dim": "#305e00",
+                        "surface-tint": "#386b02",
+                        "on-secondary-fixed-variant": "#4a6148",
+                        "tertiary": "#566259",
+                        "outline": "#757c7a",
+                        "on-secondary-fixed": "#2e452e",
+                        "primary-fixed-dim": "#a9e575",
+                        "on-background": "#2d3432",
+                        "on-primary": "#edffd8",
+                        "on-error-container": "#6e0a12",
+                        "secondary-dim": "#425941",
+                        "inverse-primary": "#bffd89",
+                        "surface": "#f8faf8",
+                        "surface-container-low": "#f1f4f2",
+                        "error-dim": "#67040d",
+                        "tertiary-container": "#e7f4e8",
+                        "background": "#f8faf8",
+                        "surface-variant": "#dde4e1",
+                        "surface-container-high": "#e4e9e7",
+                        "surface-bright": "#f8faf8",
+                        "error-container": "#fa746f",
+                        "surface-container-highest": "#dde4e1",
+                        "primary-container": "#b7f481",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#515d54",
+                        "tertiary-dim": "#4a564d",
+                        "on-tertiary-fixed-variant": "#5b675e",
+                        "on-primary-container": "#2f5c00",
+                        "inverse-on-surface": "#9b9d9c",
+                        "on-surface-variant": "#59615f",
+                        "surface-container": "#eaefec",
+                        "primary": "#386b02",
+                        "on-primary-fixed": "#244800",
+                        "on-secondary-container": "#40573f",
+                        "on-error": "#fff7f6",
+                        "surface-dim": "#d4dcd9",
+                        "secondary-fixed-dim": "#c1dcbc",
+                        "inverse-surface": "#0b0f0e",
+                        "secondary-fixed": "#cfeaca",
+                        "primary-fixed": "#b7f481",
+                        "on-tertiary-fixed": "#3f4b42"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "display": ["Manrope"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .shadow-botanical {
+            box-shadow: 0 0 40px 0 rgba(45, 52, 50, 0.04);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex font-body min-h-screen overflow-x-hidden">
+<!-- SideNavBar -->
+<aside class="fixed md:flex flex-col h-full py-8 px-4 gap-6 bg-[#f1f4f2] dark:bg-[#232927] h-screen w-64 left-0 font-['Manrope'] font-medium text-sm z-40">
+<div class="flex items-center gap-3 px-2">
+<div class="w-10 h-10 rounded-xl bg-surface-container-lowest flex items-center justify-center overflow-hidden">
+<img alt="Store Logo" class="w-full h-full object-cover" data-alt="minimalist botanical logo design of a single green leaf on a clean white background, high-end editorial style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFJa8IhNiIT4alxHDuFaR6hnGFfhYJ5BMT-IeJ_Eqc8ov2SmVkomqqSgErzr7uZYIIhVMeeeIR1wgyblAvOnfpOjP0SCZpoq2T5gtvZuoJGZjGk70CNAc6k4RRIuhuLEJGfU3SRP2l--Sv-PdmI0DKUj6s8kxjWMdN1X0cGQirhbGSlI49D_j3XLd4Xu1673kOEgrLgKf-sWlB5wYXpcgfwRurBQyhYdlmywl6Ie3xxrR0CzFrZRrkZC5n_b9XvVe_QD000EpGCqRu" style=""/>
+</div>
+<div>
+<p class="text-lg font-medium text-[#2d3432]">BonsFrutos</p>
+<p class="text-xs font-light text-on-surface-variant">Caixa 01</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-4 py-3 text-[#2d3432] dark:text-[#acb3b1] font-light hover:bg-[#dde4e1] dark:hover:bg-[#2d3432] rounded-lg transition-all duration-300" href="#" style="">
+<span class="material-symbols-outlined" data-icon="point_of_sale" style="">point_of_sale</span>
+<span class="" style="">Caixa</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#2d3432] dark:text-[#acb3b1] font-light hover:bg-[#dde4e1] dark:hover:bg-[#2d3432] rounded-lg transition-all duration-300" href="#" style="">
+<span class="material-symbols-outlined" data-icon="settings" style="">settings</span>
+<span class="" style="">Configurações</span>
+</a>
+</nav>
+<div class="flex flex-col gap-2 border-t border-outline-variant/10 pt-4">
+<a class="flex items-center gap-3 px-4 py-2 text-[#2d3432] dark:text-[#acb3b1] font-light hover:bg-[#dde4e1] dark:hover:bg-[#2d3432] rounded-lg transition-all duration-300" href="#" style="">
+<span class="material-symbols-outlined" data-icon="help" style="">help</span>
+<span class="" style="">Suporte</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-[#386b02] dark:text-[#b7f481] font-medium hover:bg-[#dde4e1] dark:hover:bg-[#2d3432] rounded-lg transition-all duration-300" href="#" style="">
+<span class="material-symbols-outlined" data-icon="lock" style="">lock</span>
+<span class="" style="">Fechamento</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-64 flex flex-col min-h-screen bg-surface relative">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center px-8 py-4 w-full bg-[#f8faf8] dark:bg-[#1a1c1a] font-['Manrope'] font-light top-0 border-b-0 sticky z-30">
+<div class="flex items-center gap-8">
+<h1 class="text-2xl font-medium text-[#2d3432] dark:text-[#f1f4f2]" style="">PDV Ethereal Harvest</h1>
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-[#2d3432] dark:text-[#acb3b1] hover:bg-[#dde4e1] dark:hover:bg-[#3e4a46] transition-colors" href="#" style="">F1: Caixa</a>
+<a class="text-[#2d3432] dark:text-[#acb3b1] hover:bg-[#dde4e1] dark:hover:bg-[#3e4a46] transition-colors" href="#" style="">F2: Configurações</a>
+<a class="text-[#2d3432] dark:text-[#acb3b1] hover:bg-[#dde4e1] dark:hover:bg-[#3e4a46] transition-colors" href="#" style="">F3: Cancelar Venda</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#386b02] cursor-pointer" data-icon="wifi" style="">wifi</span>
+<span class="material-symbols-outlined text-[#2d3432] cursor-pointer" data-icon="notifications" style="">notifications</span>
+<span class="text-sm font-medium text-on-surface ml-2" style="">João Silva</span>
+<img alt="Manager Avatar" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBB6a1KQ2aKVT5E-I4a1g6X18UdTr0oaFSpiNB0WeglOShp0BnLirknShkMKPErKi755edoTCplMvDgBbhJ7x2vA8wQbdmfVIC9Iu9KtizRD-cSgRWALqby21P3ztFa46MxSFAeVB-WwOnIXL4KGofHzAuQyItt1DIDACHmVjC5HL__-9PKlmpEnM8DJ9PCWV34lO7la_TrR-rnToUhY4HCM1uiOw6UJyKkj7lsZ0NiU58palib5riaXckwQXbML-3iP7sqAKBd7_T8" style=""/>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="flex-1 p-12 overflow-y-auto">
+<div class="mb-12">
+<h2 class="text-4xl font-light text-on-surface mb-2">Fechamento de Caixa</h2>
+<p class="text-on-surface-variant font-light text-lg">Confira os valores antes de encerrar o turno de trabalho.</p>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-12 max-w-7xl">
+<!-- Card Esquerdo: Conferência de Valores -->
+<div class="xl:col-span-7 bg-surface-container-lowest rounded-xl p-10 lg:p-14 shadow-botanical flex flex-col h-fit">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-12 pb-8 border-b border-surface-container-high/30">
+<h3 class="text-2xl font-medium text-on-surface">Conferência de Valores</h3>
+</div>
+<div class="flex-1 space-y-2">
+<!-- Money -->
+<div class="flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-low/50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<span class="text-lg font-light text-on-surface">Dinheiro</span>
+</div>
+<span class="text-xl font-medium text-on-surface">R$ 850,00</span>
+</div>
+<!-- Credit Card -->
+<div class="flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-low/50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">credit_card</span>
+</div>
+<span class="text-lg font-light text-on-surface">Cartão de Crédito</span>
+</div>
+<span class="text-xl font-medium text-on-surface">R$ 1.200,00</span>
+</div>
+<!-- Debit Card -->
+<div class="flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-low/50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">credit_card_heart</span>
+</div>
+<span class="text-lg font-light text-on-surface">Cartão de Débito</span>
+</div>
+<span class="text-xl font-medium text-on-surface">R$ 900,00</span>
+</div>
+<!-- Pix -->
+<div class="flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-low/50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+</div>
+<span class="text-lg font-light text-on-surface">Pix</span>
+</div>
+<span class="text-xl font-medium text-on-surface">R$ 1.150,00</span>
+</div>
+<!-- Vale Alimentação -->
+<div class="flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-low/50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">restaurant</span>
+</div>
+<span class="text-lg font-light text-on-surface">Vale Alimentação</span>
+</div>
+<span class="text-xl font-medium text-on-surface">R$ 80,00</span>
+</div>
+<!-- Ticket Refeição -->
+<div class="flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-low/50 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">confirmation_number</span>
+</div>
+<span class="text-lg font-light text-on-surface">Ticket Refeição</span>
+</div>
+<span class="text-xl font-medium text-on-surface">R$ 70,00</span>
+</div>
+</div>
+<!-- Featured Totals Section Moved to bottom of card -->
+<div class="mt-16 pt-12 border-t border-surface-container-highest/30 flex flex-col items-center text-center">
+<div class="mb-8">
+<p class="text-[10px] font-semibold text-on-surface-variant uppercase tracking-[0.2em] mb-2">Total Esperado</p>
+<p class="text-3xl md:text-4xl lg:text-5xl font-light text-on-surface tracking-tighter">R$ 4.250,00</p>
+</div>
+<div class="mb-8">
+<p class="text-[10px] font-semibold text-on-surface-variant uppercase tracking-[0.2em] mb-2">Total Apurado</p>
+<p class="text-4xl md:text-5xl lg:text-6xl font-semibold text-primary tracking-tighter">R$ 4.250,00</p>
+</div>
+<div class="mt-2 flex flex-col items-center">
+<div class="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-base">check_circle</span>
+<span class="text-sm font-medium tracking-wide">Caixa Batido (R$ 0,00)</span>
+</div>
+<p class="mt-4 text-xs font-light text-on-surface-variant italic">Nenhuma divergência calculada para este turno</p>
+</div>
+</div>
+</div>
+<!-- Coluna Direita -->
+<div class="xl:col-span-5 flex flex-col gap-12">
+<!-- Performance -->
+<div class="bg-surface-container-low rounded-xl p-10 flex flex-col relative overflow-hidden h-fit">
+<div class="absolute -right-20 -bottom-20 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+<h3 class="text-2xl font-medium text-on-surface mb-8">Performance do Turno</h3>
+<div class="grid grid-cols-2 gap-8 mb-12">
+<div>
+<p class="text-on-surface-variant font-light mb-1">Atendimentos</p>
+<p class="text-4xl font-light text-primary">142</p>
+</div>
+<div>
+<p class="text-on-surface-variant font-light mb-1">Ticket Médio</p>
+<p class="text-4xl font-light text-primary">R$ 29,90</p>
+</div>
+</div>
+<h4 class="font-medium text-lg mb-6">Volume por Hora</h4>
+<div class="flex items-end gap-4 h-48 pb-4 border-b border-surface-container-highest">
+<div class="flex-1 flex flex-col items-center justify-end gap-2 group relative">
+<div class="w-full bg-surface-container-highest rounded-t-sm h-[20%] group-hover:bg-primary-container transition-colors"></div>
+<span class="text-xs text-on-surface-variant">08h</span>
+</div>
+<div class="flex-1 flex flex-col items-center justify-end gap-2 group relative">
+<div class="w-full bg-surface-container-highest rounded-t-sm h-[45%] group-hover:bg-primary-container transition-colors"></div>
+<span class="text-xs text-on-surface-variant">09h</span>
+</div>
+<div class="flex-1 flex flex-col items-center justify-end gap-2 group relative">
+<div class="w-full bg-surface-container-highest rounded-t-sm h-[85%] bg-primary/20 group-hover:bg-primary-container transition-colors"></div>
+<span class="text-xs text-on-surface-variant">10h</span>
+</div>
+<div class="flex-1 flex flex-col items-center justify-end gap-2 group relative">
+<div class="w-full bg-surface-container-highest rounded-t-sm h-[100%] bg-primary/40 group-hover:bg-primary-container transition-colors"></div>
+<span class="text-xs text-on-surface-variant">11h</span>
+</div>
+<div class="flex-1 flex flex-col items-center justify-end gap-2 group relative">
+<div class="w-full bg-surface-container-highest rounded-t-sm h-[70%] group-hover:bg-primary-container transition-colors"></div>
+<span class="text-xs text-on-surface-variant">12h</span>
+</div>
+<div class="flex-1 flex flex-col items-center justify-end gap-2 group relative">
+<div class="w-full bg-surface-container-highest rounded-t-sm h-[55%] group-hover:bg-primary-container transition-colors"></div>
+<span class="text-xs text-on-surface-variant">13h</span>
+</div>
+<div class="flex-1 flex flex-col items-center justify-end gap-2 group relative">
+<div class="w-full bg-surface-container-highest rounded-t-sm h-[30%] group-hover:bg-primary-container transition-colors"></div>
+<span class="text-xs text-on-surface-variant">14h</span>
+</div>
+</div>
+<div class="mt-8 flex items-center gap-3 text-sm text-on-surface-variant font-light bg-surface/50 p-4 rounded-lg">
+<span class="material-symbols-outlined text-primary">local_florist</span>
+<p>Pico de vendas atingido às 11h. Foco em produtos frescos.</p>
+</div>
+</div>
+<!-- Receipt Preview -->
+<div class="flex justify-center xl:justify-end">
+<div class="w-full max-w-[380px] bg-surface-container-lowest rounded-sm shadow-botanical p-8 relative before:content-[''] before:absolute before:top-0 before:left-4 before:right-4 before:h-1 before:bg-surface-container-high">
+<div class="text-center mb-8">
+<h3 class="text-xl font-medium text-on-surface mb-1 uppercase tracking-widest">Hortifruti Premium</h3>
+<p class="text-sm font-light text-on-surface-variant">CNPJ: 00.000.000/0001-00</p>
+<p class="text-sm font-light text-on-surface-variant mt-2">Fechamento de Caixa</p>
+<p class="text-xs font-light text-on-surface-variant mt-1">24/10/2023 - 18:45</p>
+</div>
+<div class="w-full h-4 bg-surface-container-low rounded-full mb-8"></div>
+<div class="space-y-4 mb-8">
+<div class="flex justify-between text-sm font-light text-on-surface">
+<span>Operador:</span>
+<span class="font-medium">Terminal 01</span>
+</div>
+<div class="flex justify-between text-sm font-light text-on-surface">
+<span>Abertura:</span>
+<span>08:00</span>
+</div>
+<div class="flex justify-between text-sm font-light text-on-surface">
+<span>Fundo de Troco:</span>
+<span>R$ 100,00</span>
+</div>
+</div>
+<div class="w-full h-4 bg-surface-container-low rounded-full mb-8"></div>
+<div class="space-y-3 mb-8">
+<h4 class="text-xs font-medium text-on-surface uppercase tracking-wider mb-4">Meios de Pagamento</h4>
+<div class="flex justify-between text-sm font-light text-on-surface">
+<span>Dinheiro</span>
+<span>R$ 850,00</span>
+</div>
+<div class="flex justify-between text-sm font-light text-on-surface">
+<span>Cartão Crédito</span>
+<span>R$ 1.200,00</span>
+</div>
+<div class="flex justify-between text-sm font-light text-on-surface">
+<span>Cartão Débito</span>
+<span>R$ 900,00</span>
+</div>
+<div class="flex justify-between text-sm font-light text-on-surface">
+<span>Pix</span>
+<span>R$ 1.150,00</span>
+</div>
+<div class="flex justify-between text-sm font-light text-on-surface">
+<span>V. Alimentação</span>
+<span>R$ 80,00</span>
+</div>
+<div class="flex justify-between text-sm font-light text-on-surface">
+<span>T. Refeição</span>
+<span>R$ 70,00</span>
+</div>
+</div>
+<div class="w-full h-4 bg-surface-container-low rounded-full mb-8"></div>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<span class="text-sm font-medium text-on-surface">Total Recebido</span>
+<span class="text-lg font-medium text-on-surface">R$ 4.250,00</span>
+</div>
+<div class="flex justify-between items-center text-primary">
+<span class="text-sm font-medium">Diferença</span>
+<span class="text-sm font-medium">R$ 0,00</span>
+</div>
+</div>
+<div class="mt-12 text-center text-xs font-light text-on-surface-variant">
+<p>Ethereal Harvest POS</p>
+<p class="mt-1">Assinatura do Operador</p>
+<div class="mt-6 mx-auto w-3/4 h-8 bg-surface-container rounded-sm"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Action Button Area -->
+<div class="sticky bottom-12 right-12 z-50 flex justify-end px-12 pb-12 pointer-events-none">
+<button class="pointer-events-auto bg-gradient-to-br from-primary to-primary-container text-white rounded-xl py-4 px-8 font-medium text-lg shadow-[0_20px_40px_-15px_rgba(56,107,2,0.3)] hover:-translate-y-1 hover:shadow-[0_25px_50px_-15px_rgba(56,107,2,0.4)] transition-all flex items-center gap-3">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+            Encerrar Turno e Gerar Comprovante
+        </button>
+</div>
+</main>
+</body></html>

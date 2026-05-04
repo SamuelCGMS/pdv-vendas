@@ -1,16 +1,23 @@
-# React + Vite
+# Gravity PDV
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Projeto desktop para operacao de PDV em Windows, dividido em dois aplicativos:
 
-Currently, two official plugins are available:
+- `sales`: app do caixa, com abertura de turno, venda, pagamento e fechamento.
+- `management`: app de gerenciamento, com estoque e relatorios.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Nesta fase, os dois apps usam dados mockados. Backend, banco de dados, rede local e integracoes reais entram depois que os fluxos de tela estiverem fechados.
 
-## React Compiler
+## Scripts
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm run dev:sales
+npm run dev:management
+npm run dev:web:sales
+npm run dev:web:management
+npm test
+npm run build
+```
 
-## Expanding the ESLint configuration
+## Fonte Visual
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+As telas em `../telas-novas` sao a referencia visual para a nova UI. O objetivo e manter alta fidelidade ao design original, convertendo HTML estatico em React com assets locais e sem dependencia de CDN.

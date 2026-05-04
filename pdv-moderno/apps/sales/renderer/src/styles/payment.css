@@ -1,0 +1,336 @@
+/* === Payment Screen === */
+
+/* HTML: body h-screen w-screen overflow-hidden flex */
+.payment-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: var(--color-surface);
+}
+
+/* HTML: fixed top-0 w-full z-40 bg-surface/70 backdrop-blur-xl flex justify-between items-center px-12 py-6 */
+.payment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 48px;
+  background: rgba(248, 250, 248, 0.7);
+  z-index: 40;
+}
+
+/* HTML: text-2xl font-medium */
+.payment-header strong {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--color-on-surface);
+}
+
+/* HTML: flex items-center gap-6 */
+.payment-header nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+/* HTML: text-on-surface/50 p-2 rounded-full */
+.payment-header nav button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(45, 52, 50, 0.5);
+  background: transparent;
+  padding: 8px;
+  border-radius: 9999px;
+  transition: all 200ms;
+}
+
+.payment-header nav button:hover {
+  background: var(--color-surface-low);
+}
+
+/* HTML: font-medium text-sm */
+.payment-header nav button span:not(.material-symbols-outlined) {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+/* HTML: w-full h-full pt-24 px-12 pb-12 flex gap-12 */
+.payment-grid {
+  flex: 1;
+  display: flex;
+  gap: 48px;
+  padding: 0 48px 48px;
+  overflow: hidden;
+}
+
+/* HTML: flex-1 flex flex-col justify-center items-start bg-surface-container-low rounded-xl p-16 relative overflow-hidden */
+.payment-hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 64px;
+  background: var(--color-surface-low);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative blur */
+.payment-hero::before {
+  content: "";
+  position: absolute;
+  top: -80px;
+  left: -80px;
+  width: 256px;
+  height: 256px;
+  background: rgba(56, 107, 2, 0.05);
+  border-radius: 50%;
+  filter: blur(24px);
+}
+
+/* HTML: text-on-surface-variant font-medium text-2xl mb-4 z-10 */
+.payment-hero > span {
+  position: relative;
+  z-index: 10;
+  display: block;
+  margin-bottom: 16px;
+  color: var(--color-on-surface-variant);
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 500;
+}
+
+/* HTML: text-[6rem] leading-none font-light text-primary z-10 mb-8 tracking-tight */
+.payment-hero > strong {
+  position: relative;
+  z-index: 10;
+  display: block;
+  margin-bottom: 32px;
+  color: var(--color-primary);
+  font-size: 96px;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+
+/* HTML: z-10 flex gap-4 */
+.payment-hero > div {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  gap: 16px;
+}
+
+/* HTML: bg-surface-container-lowest px-4 py-2 rounded-full text-sm font-medium */
+.payment-hero small {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-size: 14px;
+  line-height: 20px;
+  min-height: 44px;
+  font-weight: 500;
+  color: var(--color-on-surface-variant);
+  background: #ffffff;
+}
+
+/* HTML: bg-secondary-container text-on-secondary-container */
+.payment-hero small.loyalty {
+  color: var(--color-on-secondary-container);
+  background: var(--color-secondary-container);
+}
+
+/* HTML: w-[35rem] flex flex-col bg-surface-container-lowest rounded-xl p-8 shadow */
+.payment-form {
+  width: 560px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px -10px rgba(45, 52, 50, 0.04);
+}
+
+/* HTML: flex justify-between items-end mb-10 pb-6 */
+.payment-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+}
+
+/* HTML: text-3xl font-medium */
+.payment-title-row h1 {
+  margin: 0;
+  font-size: 30px;
+  line-height: 36px;
+  font-weight: 500;
+  color: var(--color-on-surface);
+}
+
+/* HTML: text-on-surface-variant text-sm font-medium */
+.payment-title-row span {
+  color: var(--color-on-surface-variant);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+/* HTML: flex flex-col gap-4 mb-10 */
+.payment-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+/* HTML: text-on-surface-variant text-lg */
+.payment-lines dt {
+  font-size: 18px;
+  line-height: 28px;
+}
+
+/* HTML: font-medium text-on-surface text-lg */
+.payment-lines dd {
+  font-size: 18px;
+  line-height: 28px;
+  color: var(--color-on-surface);
+}
+
+/* HTML: text-primary text-lg */
+.payment-lines .green dt,
+.payment-lines .green dd {
+  color: var(--color-primary);
+}
+
+/* Divider: h-px bg-surface-container w-full my-2 */
+.payment-lines .final {
+  padding-top: 24px;
+  margin-top: 8px;
+  border-top: 1px solid var(--color-surface-container);
+}
+
+/* HTML: text-on-surface text-xl font-medium */
+.payment-lines .final dt,
+.payment-lines .final dd {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 500;
+  color: var(--color-on-surface);
+}
+
+/* HTML: text-on-surface-variant font-medium mb-4 */
+.payment-form h2 {
+  margin: 0 0 16px;
+  color: var(--color-on-surface-variant);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+}
+
+/* HTML: grid grid-cols-2 gap-4 mb-auto */
+.method-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: auto;
+}
+
+/* HTML: bg-surface rounded-xl p-6 flex flex-col items-center justify-center gap-3 */
+.method-grid button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  color: var(--color-on-surface-variant);
+  background: var(--color-surface);
+  border-radius: 12px;
+  font-weight: 500;
+  transition: background 200ms;
+}
+
+.method-grid button:hover {
+  background: var(--color-surface-container);
+}
+
+/* HTML: bg-surface-container-low border-2 border-primary/40 text-primary */
+.method-grid button.selected {
+  color: var(--color-primary);
+  background: var(--color-surface-low);
+  position: relative;
+}
+
+.method-grid button.selected::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(56, 107, 2, 0.4);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+/* HTML: flex flex-col gap-4 mt-8 pt-6 */
+.payment-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 32px;
+  padding-top: 24px;
+}
+
+.confirm-payment,
+.back-payment {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* HTML: py-5 rounded-xl bg-gradient-to-br from-primary to-primary-container text-on-primary-container text-xl font-medium */
+.confirm-payment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 20px;
+  background: linear-gradient(to bottom right, var(--color-primary), var(--color-primary-container));
+  color: var(--color-on-primary-container);
+  border-radius: 12px;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: opacity 200ms;
+}
+
+.confirm-payment:hover {
+  opacity: 0.9;
+}
+
+/* HTML: py-4 rounded-xl text-primary text-lg font-medium */
+.back-payment {
+  padding: 16px;
+  color: var(--color-primary);
+  background: transparent;
+  border-radius: 12px;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background 200ms;
+}
+
+.back-payment:hover {
+  background: var(--color-surface-low);
+}

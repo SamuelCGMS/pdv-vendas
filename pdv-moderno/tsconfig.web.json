@@ -1,26 +1,31 @@
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "allowImportingTsExtensions": true,
-    "allowJs": true,
-    "checkJs": false,
     "composite": true,
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
     "jsx": "react-jsx",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "types": ["vite/client"],
+    "types": ["vite/client", "node"],
+    "allowImportingTsExtensions": true,
     "paths": {
-      "@/*": ["./src/renderer/src/*"],
-      "@shared/*": ["./src/shared/*"]
+      "@shared/*": ["./src/shared/*"],
+      "@sales/*": ["./apps/sales/renderer/src/*"],
+      "@management/*": ["./apps/management/renderer/src/*"]
     }
   },
   "include": [
-    "src/renderer/**/*",
-    "src/shared/**/*.ts",
-    "src/preload/index.d.ts"
-  ],
-  "exclude": [
-    "src/renderer/dist",
-    "out",
-    "src/renderer/**/*.test.ts"
+    "apps/*/renderer/src",
+    "src/shared"
   ]
 }

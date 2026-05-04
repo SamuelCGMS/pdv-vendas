@@ -1,0 +1,194 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Linen &amp; Leaf - Abertura de Caixa</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#366700",
+                        "surface": "#f8faf8",
+                        "on-error": "#fff7f6",
+                        "secondary": "#4e654c",
+                        "surface-container-highest": "#dde4e1",
+                        "surface-container-high": "#e4e9e7",
+                        "on-tertiary-fixed-variant": "#5b675e",
+                        "on-background": "#2d3432",
+                        "outline-variant": "#acb3b1",
+                        "surface-bright": "#f8faf8",
+                        "primary-container": "#b7f481",
+                        "secondary-container": "#cfeaca",
+                        "on-error-container": "#6e0a12",
+                        "surface-container": "#eaefec",
+                        "on-tertiary-fixed": "#3f4b42",
+                        "tertiary-dim": "#4a564d",
+                        "inverse-surface": "#0b0f0e",
+                        "on-secondary-fixed": "#2e452e",
+                        "background": "#f8faf8",
+                        "on-primary-fixed": "#244800",
+                        "on-tertiary-container": "#515d54",
+                        "primary-fixed": "#b7f481",
+                        "tertiary": "#566259",
+                        "on-secondary-fixed-variant": "#4a6148",
+                        "tertiary-fixed-dim": "#d9e6da",
+                        "secondary-dim": "#425941",
+                        "surface-variant": "#dde4e1",
+                        "surface-tint": "#386b02",
+                        "secondary-fixed-dim": "#c1dcbc",
+                        "primary-dim": "#305e00",
+                        "surface-dim": "#d4dcd9",
+                        "inverse-primary": "#bffd89",
+                        "tertiary-container": "#e7f4e8",
+                        "surface-container-low": "#f1f4f2",
+                        "tertiary-fixed": "#e7f4e8",
+                        "error-container": "#fa746f",
+                        "on-surface-variant": "#59615f",
+                        "on-surface": "#2d3432",
+                        "secondary-fixed": "#cfeaca",
+                        "on-tertiary": "#effcf0",
+                        "error": "#a83836",
+                        "on-secondary": "#eaffe4",
+                        "primary": "#386b02",
+                        "primary-fixed-dim": "#a9e575",
+                        "on-primary-container": "#2f5c00",
+                        "inverse-on-surface": "#9b9d9c",
+                        "error-dim": "#67040d",
+                        "outline": "#757c7a",
+                        "on-secondary-container": "#40573f",
+                        "on-primary": "#edffd8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "display": ["Manrope"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .botanical-shadow {
+            box-shadow: 0 10px 40px 0 rgba(45, 52, 50, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-surface-container-lowest via-surface-container-low to-tertiary-container/50 text-on-surface min-h-screen flex flex-col items-center justify-center p-6 md:p-12 overflow-hidden">
+<!-- Top Navigation Anchor (Manual suppression of full shell, only branding) -->
+<header class="fixed top-0 left-0 w-full flex justify-between items-center px-8 py-8 z-50">
+<div class="text-2xl font-light text-on-surface tracking-widest uppercase" style="">
+            Bonsfrutos</div>
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined" style="">schedule</span>
+<span class="font-body font-light text-sm tracking-tight" style="">08:42 AM</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="w-full max-w-6xl flex flex-col items-center space-y-16 z-10 relative">
+<!-- Welcome Section -->
+<section class="text-center space-y-4">
+<h1 class="text-5xl md:text-6xl font-display font-light text-on-surface tracking-tighter" style="">
+                Entrada de Turno
+            </h1>
+<p class="text-lg font-body font-light text-on-surface-variant max-w-md mx-auto" style="">
+                Selecione o operador responsável para iniciar as atividades do dia na Estação 01.
+            </p>
+</section>
+<!-- Employee Selection Grid -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
+<!-- Operator Card 1 (Active/Selected) -->
+<button class="group flex flex-col items-center p-8 space-y-6 rounded-xl transition-all duration-500 bg-surface-container-lowest shadow-lg shadow-primary/10 border-2 border-primary ring-4 ring-primary/5" style="">
+<div class="relative w-32 h-32 rounded-full overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500">
+<img class="w-full h-full object-cover" data-alt="portrait of a professional female employee in a minimal botanical shop setting, soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5YVqOO4lHC85saZCo9VrCr9yU7yM3Q6cNq_luASivuSuxXv-jaI4A5Cxzfa4AinCyi48-FutNg4xPiOW1Xkc02qOqY_jvNFaeSNLZfFzOHoBOw9ImIkBRsjt8QCVJt1W24udWcQa17pvyfHgfbAX6bF_ut9B1iKOyVg967pte2I6_miSxeTV5qlnBgX_TeR-5hVCNljDgM-seFGzw8KMioG5sLyDBK8P0yXMPZcwAIFHK8tyan0EKr5euHlkG4fl4O1EXorfLNuNJ" style="">
+</div>
+<div class="text-center">
+<p class="font-display font-medium text-lg text-on-surface" style="">Elena Rocha</p>
+<p class="font-body font-light text-sm text-on-surface-variant" style="">Gerente Sênior</p>
+</div>
+<div class="h-1.5 w-1.5 rounded-full bg-primary ring-8 ring-primary/10"></div>
+</button>
+<!-- Operator Card 2 -->
+<button class="group flex flex-col items-center p-8 space-y-6 rounded-xl transition-all duration-500 hover:bg-surface-container-lowest hover:shadow-md hover:border-primary/30 border-2 border-transparent" style="">
+<div class="relative w-32 h-32 rounded-full overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500">
+<img class="w-full h-full object-cover" data-alt="professional man smiling in a bright natural light environment, clean aesthetics, portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCp-YrIFVe2_-2wl3Qt_FB70PHo-PK22_VPBtZQiYD-130-ve8JJCyeqdCkWDSztZNMslBwFDmQvW2SvmWNpPaLbIukccQbCrKYc18D3qU23FHeiNlob2GFE3lo9HeZ3igkvzPmBtu9OmsSLcLVnA3qZ28tF3ofymMD-cS_FXyEqcUVHnt3WSbmlzJMDhB-qxTyoFyMPL-mzQ2WDj8JwvMwlXh99WdKyCnDRFq4U1x-crltq4tltYei6R5YjQWr8bgny6u8lZLaAAg0" style="">
+</div>
+<div class="text-center">
+<p class="font-display font-medium text-lg text-on-surface" style="">Lucas Mendes</p>
+<p class="font-body font-light text-sm text-on-surface-variant" style="">Atendente</p>
+</div>
+<div class="h-1.5 w-1.5 rounded-full bg-outline-variant/30 transition-colors group-hover:bg-primary/40"></div>
+</button>
+<!-- Operator Card 3 -->
+<button class="group flex flex-col items-center p-8 space-y-6 rounded-xl transition-all duration-500 hover:bg-surface-container-lowest hover:shadow-md hover:border-primary/30 border-2 border-transparent" style="">
+<div class="relative w-32 h-32 rounded-full overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500">
+<img class="w-full h-full object-cover" data-alt="professional woman looking at the camera with a calm expression, airy greenhouse background, light tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDU9gC1pU3z7gUuncZlbSFVjD2L1Nl7-Sst1R1rdOGkSCa5pkZ-tZODfHu_yXQYTKuH0mNHTpE1sJFEsFwcQdoITi97oFyaW_IMgyMmmJr5POuGPzniWn_isjCdlwevsNd05VYNW0TY3C8jqvENyc7sAk6P2IpPyPBbVwEdgmoR-qq65xuAV6dQGVt8mVrhVGkodaqP4qb6ou7lpV-xjJ4WAun-P_mHIhudWGQyOETCE457YTcmne1niNsNkpn8uBRbK7XKNK-LkWUT" style="">
+</div>
+<div class="text-center">
+<p class="font-display font-medium text-lg text-on-surface" style="">Beatriz Lima</p>
+<p class="font-body font-light text-sm text-on-surface-variant" style="">Supervisor de Inventário</p>
+</div>
+<div class="h-1.5 w-1.5 rounded-full bg-outline-variant/30 transition-colors group-hover:bg-primary/40"></div>
+</button>
+<!-- Operator Card 4 -->
+<button class="group flex flex-col items-center p-8 space-y-6 rounded-xl transition-all duration-500 hover:bg-surface-container-lowest hover:shadow-md hover:border-primary/30 border-2 border-transparent" style="">
+<div class="relative w-32 h-32 rounded-full overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500">
+<img class="w-full h-full object-cover" data-alt="young male florist in a clean linen shirt, bright editorial style lighting, professional headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVCNvOkeklB6eAZ22ElO7Wtn7VR7bivKpzlBTjeJ8Vne9ontS3c8Acv43rzTt9IhYaxLk0f3cnZLIZ7pAMQZTAPAddU7G46jqZatAsSvuLWqiFlEEGwGnN6cBTMy3KJmUw1XzvYnlVlccedv0_EHWAuViULGhEToUoKLMqZJZMV_i3yTei7oHF30vW_lMhhO6NXgdu1I0YDkpiqD52ej1bSDG9Hvk4Xce6vhsT6ADjFixfCK1FfiPIGbB1OX2cHHGKe7KLXuBYKSly" style="">
+</div>
+<div class="text-center">
+<p class="font-display font-medium text-lg text-on-surface" style="">Thiago Silva</p>
+<p class="font-body font-light text-sm text-on-surface-variant" style="">Atendente</p>
+</div>
+<div class="h-1.5 w-1.5 rounded-full bg-outline-variant/30 transition-colors group-hover:bg-primary/40"></div>
+</button>
+</section>
+<!-- Transactional Section -->
+<section class="w-full max-w-xl flex flex-col space-y-10">
+<div class="space-y-4">
+<label class="block text-center text-xs font-medium uppercase tracking-widest text-on-surface-variant" for="fundo-troco" style="">
+                    Fundo de Troco Inicial (R$)
+                </label>
+<div class="relative group">
+<div class="absolute left-8 top-1/2 -translate-y-1/2 text-2xl font-light text-on-surface-variant group-focus-within:text-primary transition-colors" style="">
+                        R$
+                    </div>
+<input class="w-full bg-surface-container-lowest/80 border-none rounded-xl py-8 pl-20 pr-8 text-5xl font-display font-light text-on-surface placeholder:text-surface-container-highest focus:ring-2 focus:ring-primary/30 focus:bg-surface-container-lowest transition-all text-center backdrop-blur-sm shadow-sm" id="fundo-troco" placeholder="0,00" type="text">
+</div>
+</div>
+<!-- Action Button -->
+<button class="w-full py-6 rounded-xl bg-gradient-to-r from-primary to-[#4e9204] text-on-primary font-body font-medium text-lg tracking-wide shadow-xl shadow-primary/30 hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3" style="">
+<span class="material-symbols-outlined" style="">lock_open</span>
+                Abrir Caixa
+            </button>
+</section>
+</main>
+<!-- Footer Decorative Element -->
+<footer class="fixed bottom-0 left-0 w-full p-8 flex justify-between items-end pointer-events-none opacity-40">
+<div class="max-w-xs space-y-1">
+<p class="text-[10px] font-medium uppercase tracking-tighter text-on-surface-variant" style="">Ambiente Seguro</p>
+<p class="text-[10px] font-light text-on-surface-variant/60 uppercase tracking-widest" style="">Acesso Restrito a Colaboradores</p>
+</div>
+<div class="text-[10px] font-light text-on-surface-variant/60 uppercase tracking-widest" style="">
+            POS Terminal v4.2.0
+        </div>
+</footer>
+<!-- Abstract Floral Graphic Background (Subtle UI Texture) -->
+<div class="fixed top-[-10%] right-[-5%] w-[40vw] h-[40vw] rounded-full bg-primary/10 blur-[120px] pointer-events-none -z-10"></div>
+<div class="fixed bottom-[-10%] left-[-5%] w-[30vw] h-[30vw] rounded-full bg-secondary/10 blur-[100px] pointer-events-none -z-10"></div>
+</body></html>

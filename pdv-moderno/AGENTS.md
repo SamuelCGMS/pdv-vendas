@@ -6,7 +6,12 @@ This file complements any global instructions in `~/.codex/AGENTS.md`. Apply the
 
 ## Project
 
-`pdv-moderno` is an Electron + React desktop POS focused on grocery stores and produce markets.
+`pdv-moderno` is an Electron + React desktop POS suite focused on grocery stores and produce markets.
+
+The product is split into two desktop apps:
+
+- `sales`: app do PDV de vendas, focused on cashier operation, opening shift, checkout, payment, and closing shift.
+- `management`: app de gerenciamento, focused on inventory, reports, suppliers, and administrative flows.
 
 The current focus is frontend. Do not connect backend, database, printer, TEF/payment terminal, or real integrations unless an approved issue explicitly asks for it.
 

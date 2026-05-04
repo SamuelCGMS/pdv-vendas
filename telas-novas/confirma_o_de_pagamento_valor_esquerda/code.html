@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Confirmação de Pagamento - Linen &amp; Leaf</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-dim": "#425941",
+                        "error-container": "#fa746f",
+                        "on-primary": "#edffd8",
+                        "inverse-on-surface": "#9b9d9c",
+                        "tertiary-fixed-dim": "#d9e6da",
+                        "primary-dim": "#305e00",
+                        "on-tertiary": "#effcf0",
+                        "error": "#a83836",
+                        "primary": "#386b02",
+                        "on-secondary-container": "#40573f",
+                        "background": "#f8faf8",
+                        "surface": "#f8faf8",
+                        "tertiary-container": "#e7f4e8",
+                        "surface-container-high": "#e4e9e7",
+                        "surface-container-highest": "#dde4e1",
+                        "surface-bright": "#f8faf8",
+                        "on-secondary": "#eaffe4",
+                        "surface-tint": "#386b02",
+                        "on-tertiary-fixed": "#3f4b42",
+                        "tertiary-fixed": "#e7f4e8",
+                        "tertiary": "#566259",
+                        "secondary-fixed-dim": "#c1dcbc",
+                        "on-surface": "#2d3432",
+                        "on-primary-container": "#2f5c00",
+                        "surface-container-low": "#f1f4f2",
+                        "on-surface-variant": "#59615f",
+                        "surface-container": "#eaefec",
+                        "on-secondary-fixed": "#2e452e",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#a9e575",
+                        "outline": "#757c7a",
+                        "inverse-surface": "#0b0f0e",
+                        "surface-variant": "#dde4e1",
+                        "outline-variant": "#acb3b1",
+                        "on-primary-fixed": "#244800",
+                        "primary-fixed": "#b7f481",
+                        "on-tertiary-container": "#515d54",
+                        "on-error": "#fff7f6",
+                        "error-dim": "#67040d",
+                        "primary-container": "#b7f481",
+                        "on-error-container": "#6e0a12",
+                        "on-background": "#2d3432",
+                        "inverse-primary": "#bffd89",
+                        "on-tertiary-fixed-variant": "#5b675e",
+                        "on-primary-fixed-variant": "#366700",
+                        "tertiary-dim": "#4a564d",
+                        "secondary-container": "#cfeaca",
+                        "secondary-fixed": "#cfeaca",
+                        "surface-dim": "#d4dcd9",
+                        "secondary": "#4e654c",
+                        "on-secondary-fixed-variant": "#4a6148"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["Manrope"],
+                        display: ["Manrope"],
+                        body: ["Manrope"],
+                        label: ["Manrope"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface h-screen w-screen overflow-hidden flex font-body">
+<!-- Transactional Screen: Top Nav ONLY, no Side Nav -->
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-full z-40 bg-surface/70 backdrop-blur-xl flex justify-between items-center px-12 py-6">
+<div class="flex items-center gap-4">
+<span class="text-2xl font-medium text-on-surface" style="">BonsFrutos</span>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface/50 hover:bg-surface-container-low rounded-full p-2 transition-all" style="">
+<span class="material-symbols-outlined" style="">help</span>
+</button>
+<button class="text-on-surface/50 hover:bg-surface-container-low rounded-full p-2 transition-all flex items-center gap-2" style="">
+<span class="material-symbols-outlined" style="">close</span>
+<span class="font-medium text-sm" style="">Cancelar Venda</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="w-full h-full pt-24 px-12 pb-12 flex gap-12">
+<!-- Left Side: Total Display -->
+<div class="flex-1 flex flex-col justify-center items-start bg-surface-container-low rounded-xl p-16 relative overflow-hidden">
+<!-- Decorative blur -->
+<div class="absolute -top-20 -left-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+<h2 class="text-on-surface-variant font-medium text-2xl mb-4 z-10" style="">Total a Pagar</h2>
+<div class="text-[6rem] leading-none font-light text-primary z-10 mb-8 tracking-tight" style="">R$ 342,50</div>
+<div class="z-10 flex gap-4">
+<div class="bg-surface-container-lowest px-4 py-2 rounded-full text-sm text-on-surface-variant font-medium flex items-center gap-2" style="">
+<span class="material-symbols-outlined text-lg" style="">receipt</span>
+                     5 Itens
+                 </div>
+<div class="bg-secondary-container text-on-secondary-container px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2" style="">
+<span class="material-symbols-outlined text-lg" style="">local_florist</span>
+                     Cliente Fidelidade
+                 </div>
+</div>
+</div>
+<!-- Center/Right Side: Payment Details & Actions -->
+<div class="w-[35rem] flex flex-col h-full bg-surface-container-lowest rounded-xl p-8 relative shadow-[0_10px_40px_-10px_rgba(45,52,50,0.04)]">
+<!-- Summary Header -->
+<div class="flex justify-between items-end mb-10 pb-6">
+<h1 class="text-3xl font-medium text-on-surface" style="">Pagamento</h1>
+<span class="text-on-surface-variant text-sm font-medium" style="">Pedido #4092</span>
+</div>
+<!-- Resumo -->
+<div class="flex flex-col gap-4 mb-10">
+<div class="flex justify-between items-center text-on-surface-variant text-lg">
+<span class="" style="">Subtotal</span>
+<span class="font-medium text-on-surface" style="">R$ 360,00</span>
+</div>
+<div class="flex justify-between items-center text-primary text-lg">
+<span class="" style="">Desconto (5%)</span>
+<span class="font-medium" style="">- R$ 17,50</span>
+</div>
+<div class="h-px bg-surface-container w-full my-2"></div>
+<div class="flex justify-between items-center text-on-surface text-xl font-medium">
+<span class="" style="">Total Final</span>
+<span class="" style="">R$ 342,50</span>
+</div>
+</div>
+<!-- Payment Methods -->
+<h3 class="text-on-surface-variant font-medium mb-4" style="">Método de Pagamento</h3>
+<div class="grid grid-cols-2 gap-4 mb-auto">
+<!-- Active Method -->
+<button class="bg-surface-container-low rounded-xl p-6 flex flex-col items-center justify-center gap-3 relative overflow-hidden group" style="">
+<!-- Focus Glow simulation -->
+<div class="absolute inset-0 border-2 border-primary/40 rounded-xl pointer-events-none"></div>
+<span class="material-symbols-outlined text-3xl text-primary" data-weight="fill" style='font-variation-settings: "FILL" 1;'>credit_card</span>
+<span class="font-medium text-primary" style="">Cartão</span>
+</button>
+<!-- Inactive Methods -->
+<button class="bg-surface rounded-xl p-6 flex flex-col items-center justify-center gap-3 hover:bg-surface-container transition-colors" style="">
+<span class="material-symbols-outlined text-3xl text-on-surface-variant" style="">qr_code_2</span>
+<span class="font-medium text-on-surface-variant" style="">Pix</span>
+</button>
+<button class="bg-surface rounded-xl p-6 flex flex-col items-center justify-center gap-3 hover:bg-surface-container transition-colors" style="">
+<span class="material-symbols-outlined text-3xl text-on-surface-variant" style="">payments</span>
+<span class="font-medium text-on-surface-variant" style="">Dinheiro</span>
+</button>
+<button class="bg-surface rounded-xl p-6 flex flex-col items-center justify-center gap-3 hover:bg-surface-container transition-colors" style="">
+<span class="material-symbols-outlined text-3xl text-on-surface-variant" style="">confirmation_number</span>
+<span class="font-medium text-on-surface-variant" style="">Ticket</span>
+</button>
+</div>
+<!-- Actions -->
+<div class="flex flex-col gap-4 mt-8 pt-6">
+<button class="w-full py-5 rounded-xl bg-gradient-to-br from-primary to-primary-container text-on-primary-container text-xl font-medium flex items-center justify-center gap-2 hover:opacity-90 transition-opacity" style="">
+                     Confirmar Pagamento
+                     <span class="material-symbols-outlined" style="">arrow_forward</span>
+</button>
+<button class="w-full py-4 rounded-xl bg-transparent text-primary text-lg font-medium hover:bg-surface-container-low transition-colors" style="">
+                     Voltar ao Caixa
+                 </button>
+</div>
+</div>
+</main>
+</body></html>

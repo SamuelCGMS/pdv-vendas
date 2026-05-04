@@ -1,0 +1,114 @@
+/* === Discount Modal === */
+
+/* HTML: fixed inset-0 bg-black/40 z-[60] flex items-center justify-center */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* HTML: bg-white rounded-xl p-8 w-[32rem] flex flex-col gap-8 shadow-xl border border-outline-variant/20 */
+.discount-modal {
+  width: 512px;
+  padding: 32px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid rgba(172, 179, 177, 0.2);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* HTML: flex justify-between items-center */
+.discount-modal header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* HTML: text-2xl font-medium */
+.discount-modal h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--color-on-surface);
+}
+
+/* HTML: text-on-surface-variant hover:text-on-surface rounded-full p-2 */
+.discount-modal header button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  color: var(--color-on-surface-variant);
+  background: transparent;
+  border-radius: 50%;
+  transition: color 200ms;
+}
+
+.discount-modal header button:hover {
+  color: var(--color-on-surface);
+}
+
+/* HTML: font-light text-on-surface-variant text-lg */
+.discount-modal > p {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--color-on-surface-variant);
+}
+
+/* HTML: flex gap-6 */
+.discount-modal > div {
+  display: flex;
+  gap: 24px;
+}
+
+/* HTML: flex-1 py-10 rounded-xl bg-white border-2 border-primary flex-col items-center gap-4 shadow-sm */
+.discount-modal > div > button {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 40px 16px;
+  background: #ffffff;
+  border: 1px solid rgba(172, 179, 177, 0.3);
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-on-surface);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 200ms;
+}
+
+.discount-modal > div > button:hover {
+  border-color: rgba(56, 107, 2, 0.5);
+  background: rgba(56, 107, 2, 0.05);
+}
+
+/* HTML: border-2 border-primary */
+.discount-modal > div > button.selected {
+  border: 2px solid var(--color-primary);
+}
+
+.discount-modal > div > button.selected svg {
+  color: var(--color-primary);
+}
+
+.discount-modal > div > button svg {
+  color: var(--color-on-surface-variant);
+}
+
+/* === Shared Utility === */
+
+.gradient-action {
+  color: var(--color-on-primary);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-container));
+}

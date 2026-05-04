@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#3f4b42",
+                        "tertiary": "#566259",
+                        "surface-container-low": "#f1f4f2",
+                        "on-secondary-fixed-variant": "#4a6148",
+                        "on-secondary-container": "#40573f",
+                        "primary": "#386b02",
+                        "on-tertiary-fixed-variant": "#5b675e",
+                        "error-container": "#fa746f",
+                        "on-surface": "#2d3432",
+                        "outline": "#757c7a",
+                        "surface-container-highest": "#dde4e1",
+                        "error-dim": "#67040d",
+                        "primary-fixed-dim": "#a9e575",
+                        "inverse-on-surface": "#9b9d9c",
+                        "surface-container": "#eaefec",
+                        "inverse-surface": "#0b0f0e",
+                        "outline-variant": "#acb3b1",
+                        "on-primary-fixed": "#244800",
+                        "surface-dim": "#d4dcd9",
+                        "error": "#a83836",
+                        "on-tertiary-container": "#515d54",
+                        "tertiary-dim": "#4a564d",
+                        "tertiary-fixed": "#e7f4e8",
+                        "secondary-fixed": "#cfeaca",
+                        "surface-variant": "#dde4e1",
+                        "on-surface-variant": "#59615f",
+                        "on-primary-fixed-variant": "#366700",
+                        "primary-container": "#b7f481",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e4e9e7",
+                        "background": "#f8faf8",
+                        "on-secondary": "#eaffe4",
+                        "tertiary-fixed-dim": "#d9e6da",
+                        "on-background": "#2d3432",
+                        "on-primary": "#edffd8",
+                        "on-secondary-fixed": "#2e452e",
+                        "inverse-primary": "#bffd89",
+                        "on-error-container": "#6e0a12",
+                        "secondary-fixed-dim": "#c1dcbc",
+                        "secondary-container": "#cfeaca",
+                        "primary-fixed": "#b7f481",
+                        "surface-bright": "#f8faf8",
+                        "secondary": "#4e654c",
+                        "secondary-dim": "#425941",
+                        "on-error": "#fff7f6",
+                        "on-tertiary": "#effcf0",
+                        "surface-tint": "#386b02",
+                        "on-primary-container": "#2f5c00",
+                        "surface": "#f8faf8",
+                        "tertiary-container": "#e7f4e8",
+                        "primary-dim": "#305e00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; font-weight: 300; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+        .botanical-shadow {
+            box-shadow: 0 10px 40px 0 rgba(45, 52, 50, 0.04);
+        }
+        .editorial-shadow {
+            box-shadow: 0 10px 40px -10px rgba(45, 52, 50, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-72 bg-[#f1f4f2] dark:bg-[#1a1c1a] flex flex-col py-8 z-50">
+<div class="px-10 mb-12"><div class="flex items-center gap-3 mb-1">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<div>
+<h1 class="text-xl font-medium text-[#2d3432]">BonsFrutos</h1>
+<p class="text-[10px] uppercase tracking-widest opacity-50 font-light">Premium Editorial</p>
+</div>
+</div></div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-4 text-[#2d3432] dark:text-[#e2e3e1] opacity-70 px-4 py-3 mx-2 hover:bg-[#ffffff] hover:opacity-100 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="text-sm font-medium">Vendas</span>
+</a>
+<a class="flex items-center gap-4 text-[#386b02] dark:text-[#b7f481] font-medium bg-[#ffffff] dark:bg-[#2d3432] rounded-xl px-4 py-3 mx-2" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="text-sm font-medium">Estoque</span>
+</a>
+<a class="flex items-center gap-4 text-[#2d3432] dark:text-[#e2e3e1] opacity-70 px-4 py-3 mx-2 hover:bg-[#ffffff] hover:opacity-100 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard">assessment</span>
+<span class="text-sm font-medium">Análise</span>
+</a>
+<a class="flex items-center gap-4 text-[#2d3432] dark:text-[#e2e3e1] opacity-70 px-4 py-3 mx-2 hover:bg-[#ffffff] hover:opacity-100 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="text-sm font-medium">Fornecedores</span>
+</a>
+<a class="flex items-center gap-4 text-[#2d3432] dark:text-[#e2e3e1] opacity-70 px-4 py-3 mx-2 hover:bg-[#ffffff] hover:opacity-100 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-sm font-medium">Configurações</span>
+</a>
+</nav>
+<div class="mt-auto px-2">
+<a class="flex items-center gap-4 text-[#2d3432] dark:text-[#e2e3e1] opacity-70 px-4 py-3 mx-2 hover:bg-[#ffffff] hover:opacity-100 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="text-sm font-medium">Sair</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 ml-72">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-8 h-20 bg-[#f8faf8] dark:bg-[#1a1c1a] sticky top-0 z-40">
+<div class="flex items-center gap-8 flex-1">
+<h1 class="text-2xl font-medium text-[#2d3432]" style="">Linen &amp; Leaf</h1>
+<div class="relative w-full max-w-xl">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline text-sm" style="">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-3 pl-12 pr-4 text-sm font-light focus:ring-1 focus:ring-primary/20 placeholder:text-outline-variant" placeholder="Buscar no estoque..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6 ml-8">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" style="">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" style="">settings</button>
+<div class="w-10 h-10 rounded-full overflow-hidden ml-2 bg-surface-container-high">
+<img alt="Manager Profile" class="w-full h-full object-cover" data-alt="professional portrait of a store manager in a clean green apron, soft natural indoor lighting, minimalist background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrPv8Tyd601n5kNJuV8u9fChdqj4hNqYglLgrpT1jaUd1L08ta49m_Na3LoakvQ846D80fwm3QKJMsK0BjwPMeEk5a7hXrVcNtKKwjrNCxiMJS8usV5OL00lmDUacI6dwinJ_d7KVwjHifWp0X--lKXtDie64F56hoA_nQK7ufPwhbzhbs8gbrCccCK1zGHlJAYZM6lOOiIU53nxoGPG3dJ5s85W_widmvN7qFMR_vXHW4gVgkkt3L6zFfZXUC_V1tFcQXs32lxPE_" style=""/>
+</div>
+</div>
+</header>
+<section class="p-10">
+<div class="flex justify-between items-end mb-12">
+<div>
+<h2 class="text-4xl font-light text-on-surface tracking-tight mb-2" style="">Gestão de Estoque</h2>
+<p class="text-on-surface-variant text-sm font-light" style="">Visão geral e controle de suprimentos Linen &amp; Leaf</p>
+</div>
+<div class="flex gap-4 items-center">
+<button class="p-2 rounded-xl bg-surface-container-low text-on-surface hover:bg-surface-container-high transition-colors" style="">
+<span class="material-symbols-outlined text-lg" style="">visibility</span>
+</button>
+<button class="px-6 py-3 rounded-xl bg-surface-container-high text-on-surface text-sm font-medium hover:bg-surface-container-highest transition-colors flex items-center gap-2" style="">
+<span class="material-symbols-outlined text-sm" data-icon="file_download" style="">file_download</span>
+                        Exportar
+                    </button>
+<button class="px-8 py-3 bg-gradient-to-br from-primary to-primary-container text-on-primary-container rounded-xl text-sm font-medium editorial-shadow active:opacity-80 transition-opacity flex items-center gap-2" style="">
+<span class="material-symbols-outlined text-sm" data-icon="add" style="">add</span>
+                        Novo Produto
+                    </button>
+</div>
+</div>
+<!-- Summary Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<div class="bg-surface-container-low p-8 rounded-xl relative overflow-hidden group">
+<span class="text-[11px] font-medium uppercase tracking-[0.15em] text-on-surface-variant block mb-4" style="">Total de Itens</span>
+<span class="text-5xl font-light text-primary tracking-tighter" style="">1,284</span>
+<div class="absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform duration-700">
+<span class="material-symbols-outlined text-8xl" data-icon="inventory" style="">inventory</span>
+</div>
+</div>
+<div class="bg-error-container/10 p-8 rounded-xl relative overflow-hidden group">
+<span class="text-[11px] font-medium uppercase tracking-[0.15em] text-error block mb-4" style="">Alerta de Estoque Baixo</span>
+<div class="flex items-baseline gap-2">
+<span class="text-5xl font-light text-error tracking-tighter" style="">12</span>
+<span class="text-sm text-error/80" style="">produtos</span>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-700 text-error">
+<span class="material-symbols-outlined text-8xl" data-icon="warning" style="">warning</span>
+</div>
+</div>
+<div class="bg-primary-container/20 p-8 rounded-xl relative overflow-hidden group">
+<span class="text-[11px] font-medium uppercase tracking-[0.15em] text-primary block mb-4" style="">Valor Total em Estoque</span>
+<span class="text-5xl font-light text-on-primary-container tracking-tighter" style="">R$ 42.190</span>
+<div class="absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform duration-700">
+<span class="material-symbols-outlined text-8xl" data-icon="payments" style="">payments</span>
+</div>
+</div>
+</div>
+<!-- Inventory Table Controls -->
+<div class="flex justify-end mb-4">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-low rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-colors text-sm" style="">
+<span class="material-symbols-outlined text-sm" style="">filter_list</span>
+                    Filtrar
+                </button>
+</div>
+<!-- Detailed Product Table -->
+<div class="bg-surface-container-lowest rounded-xl botanical-shadow overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container text-on-surface-variant text-[11px] uppercase tracking-[0.15em] font-medium">
+<th class="px-8 py-5 border-none" style="">Produto</th>
+<th class="px-8 py-5 border-none" style="">Categoria</th>
+<th class="px-8 py-5 w-64 border-none" style="">Estoque</th>
+<th class="px-8 py-5 text-right border-none" style="">Preço</th>
+<th class="px-8 py-5 text-right border-none" style="">Ações</th>
+</tr>
+</thead>
+<tbody class="divide-y-0">
+<!-- Item 1 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors cursor-pointer group">
+<td class="px-8 py-6" style="">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-xl bg-surface-container-low overflow-hidden">
+<img alt="Couve Orgânica" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfFBgogjxzfcJNErMH3i4VRj9rAR_H0eiTxTOnxx3vr9W9hj7-LlSQ_DDu-DTOwTWUES6f2HHbnmh0wryIt9lY-kshdXzvXyHK3Vy1Kmzs7-YS1TZpgAlRyZa4mt4n2whVmarHipn37Q8BmjMc7i7GzL0O6s6XLAV0VYgmjCi42U9YugLhq5NeZD8evKldjMjezqXSWXGVzTsTEJo8oUrRcCIeN1nJgMXBpmdazD8-_i4-2GC8shckTSCo_rt9vVrcpZnUVy6sQqUm" style=""/>
+</div>
+<div>
+<div class="font-medium text-on-surface" style="">Couve Orgânica</div>
+<div class="text-[10px] text-on-surface-variant uppercase tracking-widest font-light" style="">LL-VG-001</div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6" style="">
+<span class="bg-secondary-container px-3 py-1 rounded-full text-xs font-medium text-on-secondary-container" style="">Vegetais</span>
+</td>
+<td class="px-8 py-6" style="">
+<div class="flex flex-col gap-1.5">
+<span class="text-xs font-medium text-on-surface" style="">142 un.</span>
+<div class="w-full h-1 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 85%;"></div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6 text-right font-light text-xl text-on-surface" style="">R$ 5,90</td>
+<td class="px-8 py-6 text-right" style="">
+<button class="material-symbols-outlined text-outline-variant hover:text-primary transition-colors" style="">more_vert</button>
+</td>
+</tr>
+<!-- Item 2 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors cursor-pointer group">
+<td class="px-8 py-6" style="">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-xl bg-surface-container-low overflow-hidden">
+<img alt="Tomate Heirloom" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJ7UXrsJ-aW1O_l3oxrxPjWaGlWqDjqmBQn8Zp9bhLH_KBhEl0Vo6mcO8eDRBocSgcoqJ5ie8EW1xN8V1_z_VnwzwvDVLc5KvYz-1fejAsqLVygPnigGFnV3btrZYi18hLOJ2YOiMXngfoR8b7WrKobpSuJQcLNjt4ekjgycxtf0-9W5BRCkWCGqs6uQFEiL1TLbMha389uKWcvA6wUmk3oyZ0WT_h9xk0Cx-eR4F4i6b2mpXEhTzAKRNbwi6dFoo-SfjpLSm2Wv0o" style=""/>
+</div>
+<div>
+<div class="font-medium text-on-surface" style="">Tomate Heirloom</div>
+<div class="text-[10px] text-on-surface-variant uppercase tracking-widest font-light" style="">LL-VG-042</div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6" style="">
+<span class="bg-secondary-container px-3 py-1 rounded-full text-xs font-medium text-on-secondary-container" style="">Vegetais</span>
+</td>
+<td class="px-8 py-6" style="">
+<div class="flex flex-col gap-1.5">
+<span class="text-xs font-medium text-error" style="">8 kg</span>
+<div class="w-full h-1 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-error rounded-full" style="width: 12%;"></div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6 text-right font-light text-xl text-on-surface" style="">R$ 18,40</td>
+<td class="px-8 py-6 text-right" style="">
+<button class="material-symbols-outlined text-outline-variant hover:text-primary transition-colors" style="">more_vert</button>
+</td>
+</tr>
+<!-- Item 3 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors cursor-pointer group">
+<td class="px-8 py-6" style="">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-xl bg-surface-container-low overflow-hidden">
+<img alt="Mel de Manuka" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHKZSR8Ot6cAeqjrPBO4z9SWIrCKbFxceLk8monpS4sXhfmw_yqS-rw_tOUWM_rVhYuaf9hT_5nbyI8u2Gu7gsx7SvKD77JZSl7HBUh7F3Htd-70EeDPk7Oxa_c8jieqEYZi8YiLeQmappNSvGBtpvbZ37hT5m2FbrIO5UJvrRboFK-7ILt5wtJO1AGXXuiSSfswFTMTBE0FqeoIunEMYWGg28H16xX8-Q6dpOOOqf5jP4P_YIhuz3Dcdis-Bu4SMs5cUtajmKHC1m" style=""/>
+</div>
+<div>
+<div class="font-medium text-on-surface" style="">Mel de Manuka Floral</div>
+<div class="text-[10px] text-on-surface-variant uppercase tracking-widest font-light" style="">LL-PN-210</div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6" style="">
+<span class="bg-tertiary-container px-3 py-1 rounded-full text-xs font-medium text-on-tertiary-container" style="">Despensa</span>
+</td>
+<td class="px-8 py-6" style="">
+<div class="flex flex-col gap-1.5">
+<span class="text-xs font-medium text-on-surface" style="">24 un.</span>
+<div class="w-full h-1 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 45%;"></div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6 text-right font-light text-xl text-on-surface" style="">R$ 112,00</td>
+<td class="px-8 py-6 text-right" style="">
+<button class="material-symbols-outlined text-outline-variant hover:text-primary transition-colors" style="">more_vert</button>
+</td>
+</tr>
+<!-- Item 4 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors cursor-pointer group">
+<td class="px-8 py-6" style="">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-xl bg-surface-container-low overflow-hidden">
+<img alt="Mix de Folhas" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBH9c6pPeaiD9oFXbSIgXy8tzFo09ua-vUCM8aEMHUfD2E-wVmHmS_eEgj16LZeUbh_1D58y-W12x2JXthM5rOVph6R7TdJmshU3eeOABaB1UkTxZAKn2hl_64Oop0alYoJGULX_tRWNNYD-LUp-axdq6vJLcrUINuFjC3KNQW7Lzfl_QKlS_qscOL67Jbbor_jeOfvoGhIVxIx1tAxUlputDTBHFFS4VSfdCZKH3PhIPYDu77_4morpHyu4wb4QjBisl5ahlM4_CoG" style=""/>
+</div>
+<div>
+<div class="font-medium text-on-surface" style="">Mix de Folhas Baby</div>
+<div class="text-[10px] text-on-surface-variant uppercase tracking-widest font-light" style="">LL-VG-015</div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6" style="">
+<span class="bg-secondary-container px-3 py-1 rounded-full text-xs font-medium text-on-secondary-container" style="">Vegetais</span>
+</td>
+<td class="px-8 py-6" style="">
+<div class="flex flex-col gap-1.5">
+<span class="text-xs font-medium text-on-surface" style="">56 pct.</span>
+<div class="w-full h-1 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 68%;"></div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6 text-right font-light text-xl text-on-surface" style="">R$ 12,90</td>
+<td class="px-8 py-6 text-right" style="">
+<button class="material-symbols-outlined text-outline-variant hover:text-primary transition-colors" style="">more_vert</button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="flex items-center justify-between px-8 py-10 border-t border-surface-container-high bg-surface-container-lowest">
+<p class="text-xs text-on-surface-variant font-light" style="">Exibindo 1-4 de 1.284 produtos</p>
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-low hover:bg-surface-container-high transition-colors" style="">
+<span class="material-symbols-outlined text-sm" style="">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-high font-medium text-xs" style="">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-low hover:bg-surface-container-high transition-colors font-light text-xs" style="">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-low hover:bg-surface-container-high transition-colors font-light text-xs" style="">3</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-low hover:bg-surface-container-high transition-colors" style="">
+<span class="material-symbols-outlined text-sm" style="">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+</body></html>

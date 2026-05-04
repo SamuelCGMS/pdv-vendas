@@ -1,19 +1,4 @@
 {
-  "compilerOptions": {
-    "baseUrl": ".",
-    "strict": true,
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "ignoreDeprecations": "6.0",
-    "isolatedModules": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "useDefineForClassFields": true
-  },
   "files": [],
   "references": [
     { "path": "./tsconfig.node.json" },
