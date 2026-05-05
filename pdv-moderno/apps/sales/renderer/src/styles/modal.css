@@ -106,9 +106,238 @@
   color: var(--color-on-surface-variant);
 }
 
+/* ─── Discount Input (Step 2) ─── */
+
+.discount-input-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.discount-input-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--color-surface-container-low, #f5f8f5);
+  border: 1px solid rgba(172, 179, 177, 0.3);
+  border-radius: 10px;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.discount-input-field span {
+  color: var(--color-primary);
+  font-weight: 600;
+  min-width: 32px;
+  text-align: center;
+}
+
+.discount-input-field input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--color-on-surface);
+}
+
+.discount-input-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.discount-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid rgba(172, 179, 177, 0.3);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-on-surface-variant);
+  transition: all 200ms;
+}
+
+.discount-back:hover {
+  border-color: var(--color-on-surface-variant);
+}
+
+.discount-apply {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+}
+
+/* ─── Parked Sales Drawer ─── */
+
+.parked-drawer {
+  width: 480px;
+  max-height: 80vh;
+  padding: 28px 32px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid rgba(172, 179, 177, 0.2);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow: hidden;
+}
+
+.parked-drawer header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.parked-drawer h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--color-on-surface);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.parked-drawer header button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  color: var(--color-on-surface-variant);
+  background: transparent;
+  border-radius: 50%;
+  transition: color 200ms;
+}
+
+.parked-drawer header button:hover {
+  color: var(--color-on-surface);
+}
+
+.parked-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px 0;
+  color: var(--color-on-surface-variant);
+  font-size: 14px;
+  font-weight: 300;
+  text-align: center;
+}
+
+.parked-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
+.parked-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background: var(--color-surface-container-low, #f5f8f5);
+  border: 1px solid rgba(172, 179, 177, 0.15);
+  border-radius: 10px;
+  transition: border-color 200ms;
+}
+
+.parked-card:hover {
+  border-color: rgba(56, 107, 2, 0.3);
+}
+
+.parked-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.parked-card-info strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-on-surface);
+}
+
+.parked-card-info span {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--color-on-surface-variant);
+}
+
+.parked-card-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.parked-resume {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary);
+  transition: all 200ms;
+}
+
+.parked-resume:hover {
+  background: rgba(56, 107, 2, 0.08);
+}
+
+.parked-discard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  background: transparent;
+  border: 1px solid rgba(172, 179, 177, 0.3);
+  border-radius: 6px;
+  color: var(--color-on-surface-variant);
+  transition: all 200ms;
+}
+
+.parked-discard:hover {
+  border-color: #c62828;
+  color: #c62828;
+}
+
+/* ─── Scale weigh button ─── */
+
+.weigh-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  color: var(--color-primary);
+  transition: color 200ms;
+}
+
+.weigh-btn:hover {
+  color: var(--color-on-surface);
+}
+
 /* === Shared Utility === */
 
 .gradient-action {
   color: var(--color-on-primary);
   background: linear-gradient(135deg, var(--color-primary), var(--color-primary-container));
 }
+
