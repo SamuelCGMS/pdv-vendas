@@ -257,8 +257,37 @@
   background: #ffffff;
 }
 
+.cash-input.has-error input {
+  background: #fffdfb;
+  box-shadow: 0 0 0 2px rgba(168, 56, 54, 0.22), 0 0 0 8px rgba(168, 56, 54, 0.05);
+}
+
+.cash-input.has-error span {
+  color: var(--color-error);
+}
+
 .cash-input input::placeholder {
   color: var(--color-surface-highest);
+}
+
+.cash-input-error,
+.cash-input-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 24px;
+  margin: -24px 0 -12px;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+.cash-input-error {
+  color: var(--color-error);
+}
+
+.cash-input-hint {
+  color: rgba(89, 97, 95, 0.72);
 }
 
 /* HTML: w-full py-6 rounded-xl text-lg font-medium tracking-wide */
@@ -284,6 +313,14 @@
 
 .open-register:active {
   transform: scale(0.98);
+}
+
+.open-register:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  transform: none;
+  box-shadow: none;
+  filter: grayscale(0.2);
 }
 
 /* HTML: fixed bottom-0 left-0 w-full p-8 flex justify-between items-end opacity-40 */

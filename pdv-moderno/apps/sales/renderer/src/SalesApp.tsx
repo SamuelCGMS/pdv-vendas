@@ -3,14 +3,29 @@ import type { ReactElement, ReactNode } from "react";
 import { PanelLeft } from "lucide-react";
 
 import { MaterialIcon } from "@shared/components/MaterialIcon";
-import { filterProducts, formatCurrency } from "@shared/domain/pos";
+import {
+  calculateHourlySalesVolume,
+  createSessionHourLabels,
+  filterProducts,
+  formatCurrency,
+  parseCashFund,
+  sanitizeCashFundInput,
+} from "@shared/domain/pos";
 import { operators, products } from "@shared/mocks/pos";
 import { SalesProvider, useClock, useSales } from "@shared/store/sales-store";
 import type { PaymentMethod } from "@shared/store/sales-store";
 import { useScale } from "@shared/hooks/use-scale";
 import type { ScaleStatus } from "@shared/hooks/use-scale";
+import {
+  BAUD_RATES,
+  DEFAULT_CONFIG,
+  isWebSerialSupported,
+  loadScaleConfig,
+  saveScaleConfig,
+} from "@shared/services/scale-serial";
+import type { ScaleConfig, ScaleProtocol } from "@shared/services/scale-serial";
 
-type SalesScreen = "opening" | "sales" | "payment" | "closing";
+type SalesScreen = "opening" | "sales" | "payment" | "closing" | "settings";
 
 export function SalesApp(): ReactElement {
   return (
@@ -32,6 +47,11 @@ function SalesAppContent(): ReactElement {
 
   const handleConfirmPayment = useCallback(() => {
     dispatch({ type: "COMPLETE_SALE" });
+    setScreen("sales");
+  }, [dispatch]);
+
+  const handleCancelPayment = useCallback(() => {
+    dispatch({ type: "CLEAR_CART" });
     setScreen("sales");
   }, [dispatch]);
 
@@ -62,6 +82,10 @@ function SalesAppContent(): ReactElement {
         case "F1":
           event.preventDefault();
           setScreen("sales");
+          break;
+        case "F2":
+          event.preventDefault();
+          setScreen("settings");
           break;
         case "F3":
           event.preventDefault();
@@ -113,6 +137,7 @@ function SalesAppContent(): ReactElement {
     return (
       <PaymentScreen
         onBack={() => setScreen("sales")}
+        onCancel={handleCancelPayment}
         onConfirm={handleConfirmPayment}
       />
     );
@@ -122,11 +147,47 @@ function SalesAppContent(): ReactElement {
     return <ClosingScreen onBack={() => setScreen("sales")} onCloseSession={handleCloseSession} />;
   }
 
+  if (screen === "settings") {
+    return (
+      <div className="sales-shell app-shell">
+        <SalesSidebar
+          isCollapsed={isSidebarCollapsed}
+          active="settings"
+          onGoSales={() => setScreen("sales")}
+          onClose={() => setScreen("closing")}
+          onNewSale={handleNewSale}
+          onSettings={() => setScreen("settings")}
+        />
+        <main className="sales-main">
+          <SalesTopbar
+            activeShortcut="settings"
+            onToggleSidebar={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            onGoSales={() => setScreen("sales")}
+            onSettings={() => setScreen("settings")}
+          />
+          <ScaleSettingsPage scale={scale} onGoSales={() => setScreen("sales")} />
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="sales-shell app-shell">
-      <SalesSidebar isCollapsed={isSidebarCollapsed} onClose={() => setScreen("closing")} onNewSale={handleNewSale} />
+      <SalesSidebar
+        isCollapsed={isSidebarCollapsed}
+        active="sales"
+        onGoSales={() => setScreen("sales")}
+        onClose={() => setScreen("closing")}
+        onNewSale={handleNewSale}
+        onSettings={() => setScreen("settings")}
+      />
       <main className="sales-main">
-        <SalesTopbar onToggleSidebar={() => setIsSidebarCollapsed(!isSidebarCollapsed)} />
+        <SalesTopbar
+          activeShortcut="sales"
+          onToggleSidebar={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+          onGoSales={() => setScreen("sales")}
+          onSettings={() => setScreen("settings")}
+        />
         <section className="checkout-stage">
           <div className="scan-panel">
             {/* HTML: w-20 h-20 rounded-full bg-primary-container → barcode_scanner text-4xl */}
@@ -168,7 +229,7 @@ function getInitialSalesScreen(): SalesScreen {
   const searchParams = new URLSearchParams(window.location.search);
   const screen = searchParams.get("screen");
 
-  if (screen === "sales" || screen === "payment" || screen === "closing") {
+  if (screen === "sales" || screen === "payment" || screen === "closing" || screen === "settings") {
     return screen;
   }
 
@@ -183,14 +244,26 @@ function shouldOpenDiscountModal(): boolean {
 function OpeningScreen({ onOpen }: { onOpen: () => void }): ReactElement {
   const [selectedOperator, setSelectedOperator] = useState(operators[0].id);
   const [cashFund, setCashFund] = useState("");
+  const [cashFundError, setCashFundError] = useState<string | null>(null);
   const { dispatch } = useSales();
   const clock = useClock();
+  const parsedCashFund = parseCashFund(cashFund);
+  const visibleCashFundError = cashFundError ?? (cashFund && parsedCashFund === null ? "Informe um valor positivo para abrir o caixa." : null);
+
+  const handleCashFundChange = (value: string): void => {
+    const result = sanitizeCashFundInput(value);
+    setCashFund(result.value);
+    setCashFundError(result.error);
+  };
 
   const handleOpen = (): void => {
     const operator = operators.find((op) => op.id === selectedOperator);
     if (!operator) return;
-    const fundValue = parseFloat(cashFund.replace(",", ".")) || 0;
-    dispatch({ type: "OPEN_SESSION", operator: { id: operator.id, name: operator.name }, cashFund: fundValue });
+    if (parsedCashFund === null) {
+      setCashFundError("Informe um valor positivo para abrir o caixa.");
+      return;
+    }
+    dispatch({ type: "OPEN_SESSION", operator: { id: operator.id, name: operator.name }, cashFund: parsedCashFund });
     onOpen();
   };
 
@@ -225,11 +298,30 @@ function OpeningScreen({ onOpen }: { onOpen: () => void }): ReactElement {
         </section>
         <section className="opening-cash">
           <label htmlFor="cash-fund">FUNDO DE TROCO INICIAL (R$)</label>
-          <div className="cash-input">
+          <div className={`cash-input ${visibleCashFundError ? "has-error" : ""}`}>
             <span>R$</span>
-            <input id="cash-fund" value={cashFund} onChange={(e) => setCashFund(e.target.value)} placeholder="0,00" inputMode="decimal" />
+            <input
+              id="cash-fund"
+              value={cashFund}
+              onChange={(e) => handleCashFundChange(e.target.value)}
+              onBlur={() => {
+                if (cashFund && parsedCashFund === null) setCashFundError("Informe um valor positivo para abrir o caixa.");
+              }}
+              placeholder="0,00"
+              inputMode="decimal"
+              aria-invalid={visibleCashFundError ? "true" : "false"}
+              aria-describedby={visibleCashFundError ? "cash-fund-error" : undefined}
+            />
           </div>
-          <button className="open-register gradient-action" onClick={handleOpen}>
+          {visibleCashFundError ? (
+            <p className="cash-input-error" id="cash-fund-error">
+              <MaterialIcon name="info" size={18} />
+              {visibleCashFundError}
+            </p>
+          ) : (
+            <p className="cash-input-hint">Use apenas numeros e centavos positivos, como 150,00.</p>
+          )}
+          <button className="open-register gradient-action" onClick={handleOpen} disabled={parsedCashFund === null}>
             {/* HTML: lock_open_right */}
             <MaterialIcon name="lock_open_right" size={24} />
             Abrir Caixa
@@ -248,7 +340,21 @@ function OpeningScreen({ onOpen }: { onOpen: () => void }): ReactElement {
 }
 
 /* HTML sidebar: aside w-64 py-8 px-4 gap-6 bg-[#f1f4f2] font-medium text-sm */
-function SalesSidebar({ onClose, onNewSale, active = "sales", isCollapsed = false }: { onClose: () => void; onNewSale?: () => void; active?: "sales" | "closing"; isCollapsed?: boolean }): ReactElement {
+function SalesSidebar({
+  onClose,
+  onGoSales,
+  onNewSale,
+  onSettings,
+  active = "sales",
+  isCollapsed = false,
+}: {
+  onClose: () => void;
+  onGoSales?: () => void;
+  onNewSale?: () => void;
+  onSettings?: () => void;
+  active?: "sales" | "closing" | "settings";
+  isCollapsed?: boolean;
+}): ReactElement {
   return (
     <aside className={`sales-sidebar ${isCollapsed ? 'collapsed' : ''}`}>
       <div className="sidebar-header-row">
@@ -264,12 +370,12 @@ function SalesSidebar({ onClose, onNewSale, active = "sales", isCollapsed = fals
       </div>
       <nav className="side-nav">
         {/* HTML: point_of_sale icon for Caixa */}
-        <button className={active === "sales" ? "active" : ""}>
+        <button className={active === "sales" ? "active" : ""} onClick={onGoSales}>
           <MaterialIcon name="point_of_sale" />
           <span className="nav-label">Caixa</span>
         </button>
         {/* HTML: settings icon */}
-        <button>
+        <button className={active === "settings" ? "active" : ""} onClick={onSettings}>
           <MaterialIcon name="settings" />
           <span className="nav-label">Configurações</span>
         </button>
@@ -294,7 +400,17 @@ function SalesSidebar({ onClose, onNewSale, active = "sales", isCollapsed = fals
 }
 
 /* HTML topbar: flex justify-between items-center px-8 py-4 bg-[#f8faf8] font-light */
-function SalesTopbar({ onToggleSidebar }: { onToggleSidebar?: () => void }): ReactElement {
+function SalesTopbar({
+  onToggleSidebar,
+  onGoSales,
+  onSettings,
+  activeShortcut = "sales",
+}: {
+  onToggleSidebar?: () => void;
+  onGoSales?: () => void;
+  onSettings?: () => void;
+  activeShortcut?: "sales" | "settings";
+}): ReactElement {
   const { state } = useSales();
   const operatorName = state.session?.operatorName ?? "Operador";
 
@@ -309,8 +425,8 @@ function SalesTopbar({ onToggleSidebar }: { onToggleSidebar?: () => void }): Rea
         <h1>PDV Ethereal Harvest</h1>
       </div>
       <nav aria-label="Atalhos principais">
-        <button className="active">F1: Caixa</button>
-        <button>F2: Configurações</button>
+        <button className={activeShortcut === "sales" ? "active" : ""} onClick={onGoSales}>F1: Caixa</button>
+        <button className={activeShortcut === "settings" ? "active" : ""} onClick={onSettings}>F2: Configurações</button>
         <button>F3: Cancelar Venda</button>
       </nav>
       <div className="topbar-status">
@@ -527,9 +643,11 @@ function CheckoutPanel({ onPayment, onDiscount, onClearCart, onParkSale, onShowP
 
 function PaymentScreen({
   onBack,
+  onCancel,
   onConfirm,
 }: {
   onBack: () => void;
+  onCancel: () => void;
   onConfirm: () => void;
 }): ReactElement {
   const { state, dispatch, cartSummary, cartTotal } = useSales();
@@ -553,7 +671,7 @@ function PaymentScreen({
           <button>
             <MaterialIcon name="help" size={22} />
           </button>
-          <button onClick={onBack}>
+          <button onClick={onCancel}>
             <MaterialIcon name="close" />
             <span>Cancelar Venda</span>
           </button>
@@ -627,6 +745,13 @@ function ClosingScreen({ onBack, onCloseSession }: { onBack: () => void; onClose
     ? sessionStats.paymentBreakdown
     : [{ label: "Nenhuma venda", value: 0 }];
   const expectedTotal = sessionStats.totalRevenue;
+  const sessionHourLabels = state.session
+    ? createSessionHourLabels(state.session.openedAt, new Date())
+    : ["08h", "09h", "10h", "11h", "12h", "13h", "14h"];
+  const hourlyVolume = calculateHourlySalesVolume(
+    state.completedSales,
+    sessionHourLabels,
+  );
 
   return (
     <div className="closing-shell app-shell">
@@ -696,8 +821,8 @@ function ClosingScreen({ onBack, onCloseSession }: { onBack: () => void; onClose
             <div className="hour-volume">
               <span>Volume por Hora</span>
               <div>
-                {["08h", "09h", "10h", "11h", "12h", "13h", "14h"].map((hour, index) => (
-                  <i style={{ height: `${22 + index * 8}%` }} data-hour={hour} key={hour} />
+                {hourlyVolume.map((hour) => (
+                  <i style={{ height: `${hour.heightPercent}%` }} data-hour={hour.hour} key={hour.hour} />
                 ))}
               </div>
               <small>
@@ -914,6 +1039,128 @@ function ParkedSalesDrawer({ onClose, onResume, onDiscard }: {
         )}
       </section>
     </div>
+  );
+}
+
+function ScaleSettingsPage({ scale, onGoSales }: { scale: ReturnType<typeof useScale>; onGoSales: () => void }): ReactElement {
+  const [config, setConfig] = useState<ScaleConfig>(() => loadScaleConfig());
+  const [feedback, setFeedback] = useState<string | null>(null);
+  const isSupported = isWebSerialSupported();
+  const scaleFeedback = feedback ?? scale.lastReading?.error ?? null;
+  const hasScaleError = !feedback && Boolean(scale.lastReading?.error);
+
+  const updateConfig = <K extends keyof ScaleConfig>(key: K, value: ScaleConfig[K]): void => {
+    setConfig((current) => ({ ...current, [key]: value }));
+    setFeedback(null);
+  };
+
+  const handleSave = (): void => {
+    saveScaleConfig(config);
+    setFeedback("Configuracao salva para a proxima leitura da balanca.");
+  };
+
+  const handleReset = (): void => {
+    setConfig(DEFAULT_CONFIG);
+    saveScaleConfig(DEFAULT_CONFIG);
+    setFeedback("Configuracao padrao restaurada.");
+  };
+
+  const handleConnect = async (): Promise<void> => {
+    saveScaleConfig(config);
+    await scale.connect();
+    setFeedback(isSupported ? "Solicitacao enviada. Selecione a porta serial da balanca." : "Web Serial nao esta disponivel neste ambiente.");
+  };
+
+  return (
+    <section className="scale-settings-page" aria-label="Configuracoes da balanca">
+      <div className="scale-settings-modal">
+        <header>
+          <div>
+            <span className="scale-settings-kicker">Configuracoes</span>
+            <h2>Balanca Serial</h2>
+            <p>Configure a comunicacao Toledo via Web Serial sem acoplar a balanca ao fluxo principal.</p>
+          </div>
+          <button className="scale-secondary-action scale-settings-back-button" onClick={onGoSales} aria-label="Voltar ao caixa">
+            <MaterialIcon name="arrow_back" size={20} />
+            Voltar ao caixa
+          </button>
+        </header>
+
+        <div className="scale-status-card">
+          <div>
+            <MaterialIcon name="scale" size={28} />
+            <span>
+              <strong>{isSupported ? "Web Serial disponivel" : "Web Serial indisponivel"}</strong>
+              <small>Status da conexao: {scale.status}</small>
+            </span>
+          </div>
+          <em>{config.protocol}</em>
+        </div>
+
+        <div className="scale-settings-grid">
+          <label>
+            <span>Baud rate</span>
+            <select value={config.baudRate} onChange={(e) => updateConfig("baudRate", Number(e.target.value))}>
+              {BAUD_RATES.map((rate) => <option key={rate} value={rate}>{rate}</option>)}
+            </select>
+          </label>
+          <label>
+            <span>Protocolo</span>
+            <select value={config.protocol} onChange={(e) => updateConfig("protocol", e.target.value as ScaleProtocol)}>
+              <option value="PRT2">PRT2</option>
+              <option value="PRT3">PRT3</option>
+            </select>
+          </label>
+          <label>
+            <span>Bits de dados</span>
+            <select value={config.dataBits} onChange={(e) => updateConfig("dataBits", Number(e.target.value))}>
+              <option value={7}>7</option>
+              <option value={8}>8</option>
+            </select>
+          </label>
+          <label>
+            <span>Bits de parada</span>
+            <select value={config.stopBits} onChange={(e) => updateConfig("stopBits", Number(e.target.value))}>
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+            </select>
+          </label>
+          <label>
+            <span>Paridade</span>
+            <select value={config.parity} onChange={(e) => updateConfig("parity", e.target.value as ScaleConfig["parity"])}>
+              <option value="none">Nenhuma</option>
+              <option value="even">Par</option>
+              <option value="odd">Impar</option>
+            </select>
+          </label>
+          <label>
+            <span>Controle de fluxo</span>
+            <select value={config.flowControl} onChange={(e) => updateConfig("flowControl", e.target.value as ScaleConfig["flowControl"])}>
+              <option value="none">Nenhum</option>
+              <option value="hardware">Hardware</option>
+            </select>
+          </label>
+        </div>
+
+        {scaleFeedback ? (
+          <p className={`scale-settings-feedback ${hasScaleError ? "has-error" : ""}`}>
+            <MaterialIcon name={hasScaleError ? "info" : "check_circle"} size={18} />
+            {scaleFeedback}
+          </p>
+        ) : null}
+
+        <footer>
+          <button className="scale-secondary-action" onClick={handleReset}>Restaurar padrao</button>
+          <div>
+            <button className="scale-secondary-action" onClick={handleSave}>Salvar</button>
+            <button className="scale-primary-action gradient-action" onClick={handleConnect} disabled={!isSupported || scale.status === "connecting"}>
+              <MaterialIcon name="usb" size={20} />
+              Testar conexao
+            </button>
+          </div>
+        </footer>
+      </div>
+    </section>
   );
 }
 

@@ -15,8 +15,8 @@ export type ScaleConfig = {
   baudRate: number;
   dataBits: number;
   stopBits: number;
-  parity: ParityType;
-  flowControl: FlowControlType;
+  parity: SerialParity;
+  flowControl: SerialFlowControl;
   protocol: ScaleProtocol;
 };
 
@@ -71,7 +71,7 @@ export function saveScaleConfig(config: ScaleConfig): void {
 // ─── Web Serial API Check ────────────────────────────────────────────
 
 export function isWebSerialSupported(): boolean {
-  return "serial" in navigator;
+  return typeof navigator.serial !== "undefined";
 }
 
 // ─── Scale Connection ────────────────────────────────────────────────
@@ -95,7 +95,12 @@ export class ScaleConnection {
       throw new Error("Web Serial API não suportada neste navegador.");
     }
 
-    const port = await navigator.serial.requestPort();
+    const serial = navigator.serial;
+    if (!serial) {
+      throw new Error("Web Serial API nao suportada neste navegador.");
+    }
+
+    const port = await serial.requestPort();
     await port.open({
       baudRate: this.config.baudRate,
       dataBits: this.config.dataBits,
@@ -127,7 +132,13 @@ export class ScaleConnection {
 
     try {
       // Send ENQ
-      const writer = this.port.writable.getWriter();
+      const writable = this.port.writable;
+      const readable = this.port.readable;
+      if (!writable || !readable) {
+        return { weightKg: 0, stable: false, error: "BalanÃ§a nÃ£o conectada." };
+      }
+
+      const writer = writable.getWriter();
       await writer.write(new Uint8Array([ENQ]));
       writer.releaseLock();
 
@@ -152,9 +163,10 @@ export class ScaleConnection {
   // ─── Private ─────────────────────────────────────────────────────
 
   private async readUntilETX(): Promise<Uint8Array | null> {
-    if (!this.port?.readable) return null;
+    const readable = this.port?.readable;
+    if (!readable) return null;
 
-    this.reader = this.port.readable.getReader();
+    this.reader = readable.getReader();
     const chunks: number[] = [];
     const deadline = Date.now() + READ_TIMEOUT_MS;
 
@@ -171,7 +183,7 @@ export class ScaleConnection {
         }
       }
     } finally {
-      this.reader.releaseLock();
+      this.reader?.releaseLock();
       this.reader = null;
     }
 

@@ -341,3 +341,227 @@
   background: linear-gradient(135deg, var(--color-primary), var(--color-primary-container));
 }
 
+/* --- Scale Settings --- */
+
+.scale-settings-page {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 28px;
+  background: var(--color-surface);
+}
+
+.scale-settings-modal {
+  width: min(980px, 100%);
+  margin: 0 auto;
+  padding: 34px;
+  background: var(--color-surface-white);
+  border-radius: 24px;
+  box-shadow: 0 40px 80px rgba(45, 52, 50, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.scale-settings-modal header,
+.scale-settings-modal footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.scale-settings-kicker {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.scale-settings-modal h2 {
+  margin: 0;
+  color: var(--color-on-surface);
+  font-size: 36px;
+  font-weight: 300;
+  letter-spacing: -0.05em;
+}
+
+.scale-settings-modal header p {
+  max-width: 520px;
+  margin: 10px 0 0;
+  color: var(--color-on-surface-variant);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.scale-status-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px;
+  background: var(--color-surface-low);
+  border-radius: 24px;
+}
+
+.scale-status-card > div {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.scale-status-card .material-symbols-outlined {
+  color: var(--color-primary);
+}
+
+.scale-status-card span {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.scale-status-card strong {
+  color: var(--color-on-surface);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.scale-status-card small {
+  color: var(--color-on-surface-variant);
+  font-size: 13px;
+  font-weight: 300;
+}
+
+.scale-status-card em {
+  padding: 8px 14px;
+  color: var(--color-on-secondary-container);
+  background: var(--color-secondary-container);
+  border-radius: 9999px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.scale-settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.scale-settings-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: var(--color-surface-low);
+  border-radius: 18px;
+}
+
+.scale-settings-grid label span {
+  color: var(--color-on-surface-variant);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.scale-settings-grid select {
+  width: 100%;
+  padding: 12px 14px;
+  color: var(--color-on-surface);
+  background: var(--color-surface-white);
+  border: 0;
+  border-radius: 12px;
+  outline: none;
+  font-size: 16px;
+  font-weight: 300;
+  box-shadow: 0 0 0 1px rgba(172, 179, 177, 0.15);
+}
+
+.scale-settings-grid select:focus {
+  box-shadow: 0 0 0 2px rgba(56, 107, 2, 0.28), 0 0 0 6px rgba(56, 107, 2, 0.06);
+}
+
+.scale-settings-feedback {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 14px 16px;
+  color: var(--color-primary);
+  background: rgba(183, 244, 129, 0.16);
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.scale-settings-feedback.has-error {
+  color: var(--color-error);
+  background: var(--color-error-container);
+}
+
+.scale-settings-modal footer {
+  align-items: center;
+}
+
+.scale-settings-modal footer > div {
+  display: flex;
+  gap: 12px;
+}
+
+.scale-secondary-action,
+.scale-primary-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 12px 18px;
+  border-radius: 18px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.scale-secondary-action {
+  color: var(--color-on-surface-variant);
+  background: var(--color-surface-high);
+}
+
+.scale-settings-back-button {
+  flex-shrink: 0;
+}
+
+.scale-primary-action {
+  color: var(--color-on-primary);
+}
+
+.scale-primary-action:disabled {
+  cursor: not-allowed;
+  opacity: 0.46;
+  box-shadow: none;
+}
+
+@media (max-width: 720px) {
+  .scale-settings-page {
+    padding: 16px;
+  }
+
+  .scale-settings-modal {
+    padding: 24px;
+  }
+
+  .scale-settings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .scale-settings-modal footer,
+  .scale-settings-modal footer > div {
+    align-items: stretch;
+    flex-direction: column;
+    width: 100%;
+  }
+}
