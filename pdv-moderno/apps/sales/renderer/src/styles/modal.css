@@ -8,17 +8,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(248, 250, 248, 0.72);
+  backdrop-filter: blur(24px);
 }
 
 /* HTML: bg-white rounded-xl p-8 w-[32rem] flex flex-col gap-8 shadow-xl border border-outline-variant/20 */
 .discount-modal {
   width: 512px;
   padding: 32px;
-  background: #ffffff;
-  border-radius: 12px;
-  border: 1px solid rgba(172, 179, 177, 0.2);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  background: var(--color-surface-white);
+  border-radius: 24px;
+  box-shadow: 0 40px 80px rgba(45, 52, 50, 0.04);
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -78,24 +78,24 @@
   justify-content: center;
   gap: 16px;
   padding: 40px 16px;
-  background: #ffffff;
-  border: 1px solid rgba(172, 179, 177, 0.3);
-  border-radius: 12px;
+  background: var(--color-surface-low);
+  border: none;
+  border-radius: 16px;
   font-size: 18px;
   font-weight: 500;
   color: var(--color-on-surface);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(172, 179, 177, 0.12);
   transition: all 200ms;
 }
 
 .discount-modal > div > button:hover {
-  border-color: rgba(56, 107, 2, 0.5);
-  background: rgba(56, 107, 2, 0.05);
+  background: var(--color-surface-container);
 }
 
-/* HTML: border-2 border-primary */
+/* HTML: selected state */
 .discount-modal > div > button.selected {
-  border: 2px solid var(--color-primary);
+  background: rgba(183, 244, 129, 0.22);
+  box-shadow: inset 0 0 0 2px rgba(56, 107, 2, 0.22);
 }
 
 .discount-modal > div > button.selected svg {
@@ -120,15 +120,20 @@
   gap: 12px;
   padding: 12px 16px;
   background: var(--color-surface-container-low, #f5f8f5);
-  border: 1px solid rgba(172, 179, 177, 0.3);
+  border: none;
+  box-shadow: inset 0 0 0 1px rgba(172, 179, 177, 0.15);
   border-radius: 10px;
   font-size: 22px;
   font-weight: 500;
 }
 
+.discount-input-field:focus-within {
+  box-shadow: inset 0 0 0 2px rgba(56, 107, 2, 0.35), 0 0 0 4px rgba(56, 107, 2, 0.08);
+}
+
 .discount-input-field span {
   color: var(--color-primary);
-  font-weight: 600;
+  font-weight: 500;
   min-width: 32px;
   text-align: center;
 }
@@ -154,8 +159,8 @@
   align-items: center;
   gap: 6px;
   padding: 10px 20px;
-  background: transparent;
-  border: 1px solid rgba(172, 179, 177, 0.3);
+  background: var(--color-surface-high);
+  border: none;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
@@ -164,7 +169,7 @@
 }
 
 .discount-back:hover {
-  border-color: var(--color-on-surface-variant);
+  background: var(--color-surface-highest);
 }
 
 .discount-apply {
@@ -174,7 +179,7 @@
   padding: 10px 24px;
   border-radius: 8px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   border: none;
 }
 
